@@ -21,6 +21,7 @@
 * Admin dashboard (see [here](http://zwei.converia.de/#dashboard))
 * graphical conference planner (see [here](http://zwei.converia.de/#vsb)
 * connect to reservation tool
+* Hashtags for events/sessions
 * campus lists: who takes part, who is next, topic ideas
  
 ### NICE TO HAVE
