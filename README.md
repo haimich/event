@@ -47,3 +47,9 @@
 * https://www.converia.de/konferenz_und_event_management_software/prm/68/0/index.html / http://zwei.converia.de/
 * https://www.eventbrite.de
 * https://www.eventora.com/
+
+## Technologies
+* [NodeJS](https://nodejs.org/en/)
+* [Semantic UI](http://semantic-ui.com/) CSS Framework
+* [SASS](http://sass-lang.com/)
+* [npm](http://npmjs.org/) (dependencies and automation)
