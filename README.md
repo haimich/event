@@ -53,3 +53,4 @@
 * [Semantic UI](http://semantic-ui.com/) CSS Framework
 * [SASS](http://sass-lang.com/)
 * [npm](http://npmjs.org/) (dependencies and automation)
+* [Typescript](http://www.typescriptlang.org/)
