@@ -1,3 +1,5 @@
+![documentation/logo/Event_Logo.png]
+
 ## Feature Ideas
 ### MUST
 * Create/View Session
