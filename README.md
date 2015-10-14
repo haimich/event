@@ -1,5 +1,7 @@
 ![logo](documentation/logo/Event_Logo.png)
 
+[![Join the chat at https://gitter.im/haimich/event](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/haimich/event)
+
 ## Feature Ideas
 ### MUST
 * Create/View Session
