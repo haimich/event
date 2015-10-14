@@ -1,4 +1,4 @@
-![documentation/logo/Event_Logo.png]
+![logo](documentation/logo/Event_Logo.png)
 
 ## Feature Ideas
 ### MUST
