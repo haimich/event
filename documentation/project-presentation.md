@@ -1,5 +1,6 @@
 ## Was ist das Ziel des Projektes?
 Bitte beschreibt kurz was ihr vorhabt und ggf. welche Motivation dahinter steckt. Warum macht ihr das? Welche Probleme werden gelöst?
+* simplify campus / talk administation
 
 ## Wie sieht das Ergebnis/das Artefakt am Ende ganz konkret aus?
 * we will create a web application that let's you share presentations held at the Campus in ONE
@@ -15,6 +16,9 @@ Bitte beschreibt kurz was ihr vorhabt und ggf. welche Motivation dahinter steckt
 ### Vorgehen
 Wie sieht euer Plan aus? Wie teilt ihr Arbeit auf? Macht ihr Mini-Iterationen?
 
+* using github issues
+* daily meeting upon need 
+
 ### Gefahren und Risiken
 Wo seht ihr Potential für Fehlschläge? Was könnte schief gehen? Was passiert dann?
 
@@ -27,7 +31,8 @@ Wo seht ihr Potential für Fehlschläge? Was könnte schief gehen? Was passiert 
 
 Features:
 * Create Session
-* Upload video and slide
+* Upload video 
+* Upload slide
 * Convert video to web formats
 * Share in ONE
 
