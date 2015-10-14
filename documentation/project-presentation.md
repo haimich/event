@@ -26,7 +26,7 @@ Wo seht ihr Potential für Fehlschläge? Was könnte schief gehen? Was passiert 
 * no authentication
 
 Features:
-* Create/View Session
+* Create Session
 * Upload video and slide
 * Convert video to web formats
 * Share in ONE
