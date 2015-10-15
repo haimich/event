@@ -10,7 +10,7 @@ Bitte beschreibt kurz was ihr vorhabt und ggf. welche Motivation dahinter steckt
 * Andreas
 
 ## Team Location
-* tbd
+* possibly room 1205
 
 ## Nice To Haves
 ### Vorgehen
