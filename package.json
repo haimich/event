@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/haimich/event/issues"
   },
-  "homepage": "https://github.com/haimich/event#readme"
+  "homepage": "https://github.com/haimich/event#readme",
+  "dependencies": {
+    "bootstrap": "twbs/bootstrap#v4.0.0-alpha"
+  }
 }
