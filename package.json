@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/haimich/event#readme",
   "dependencies": {
-    "bootstrap": "twbs/bootstrap#v4.0.0-alpha"
+    "bootstrap": "twbs/bootstrap#v4.0.0-alpha",
+    "express": "^4.13.3"
   }
 }
