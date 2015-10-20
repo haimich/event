@@ -1,0 +1,24 @@
+{
+  "name": "event-session-api",
+  "version": "0.0.1",
+  "description": "A RESTful API for creating sessions.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/haimich/event.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haimich/event/issues"
+  },
+  "homepage": "https://github.com/haimich/event#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "js-yaml": "^3.4.3",
+    "mysql": "^2.9.0"
+  }
+}
