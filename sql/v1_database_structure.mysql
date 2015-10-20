@@ -1,27 +1,39 @@
 CREATE DATABASE `event`;
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `external_id` int(11) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `firstname` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `external_id` BIGINT DEFAULT NULL,
+  `username` VARCHAR(255) DEFAULT NULL,
+  `firstname` VARCHAR(255) DEFAULT NULL,
+  `name` VARCHAR(255) DEFAULT NULL,
+  `email` VARCHAR(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `modified_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `session_type` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `session_state` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `session` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) DEFAULT NULL,
+  `description` VARCHAR(255) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `start_time` time DEFAULT NULL,
-  `duration` int(11) DEFAULT NULL,
-  `state_id` int(11) DEFAULT NULL,
-  `speaker_id` int(11) DEFAULT NULL,
-  `session_type_id` int(11) DEFAULT NULL,
+  `duration` BIGINT DEFAULT NULL,
+  `state_id` BIGINT DEFAULT NULL,
+  `speaker_id` BIGINT DEFAULT NULL,
+  `session_type_id` BIGINT DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `modified_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -31,29 +43,21 @@ CREATE TABLE `session` (
   CONSTRAINT `session_session_state_FK` FOREIGN KEY (`state_id`) REFERENCES `session_state` (`id`),
   CONSTRAINT `session_session_type_FK` FOREIGN KEY (`session_type_id`) REFERENCES `session_type` (`id`),
   CONSTRAINT `session_user_FK` FOREIGN KEY (`speaker_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `attachment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `url` varchar(255) DEFAULT NULL,
-  `mime_type` varchar(255) DEFAULT NULL,
-  `session_id` int(11) DEFAULT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `url` VARCHAR(255) DEFAULT NULL,
+  `mime_type` VARCHAR(255) DEFAULT NULL,
+  `session_id` BIGINT DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `modified_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `attachment_session_FK` (`session_id`),
   CONSTRAINT `attachment_session_FK` FOREIGN KEY (`session_id`) REFERENCES `session` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `session_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-CREATE TABLE `session_state` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
+INSERT INTO session_type(`name`) VALUES('presentation');
+INSERT INTO session_state(`name`) VALUES('in progress');
+INSERT INTO session_state(`name`) VALUES('published');
+INSERT INTO user(`external_id`, `username`, `firstname`, `name`, `email`, `created_at`, `modified_at`) VALUES('1234', 'eventman', 'Event', 'Man', 'eventman@1und1.de', '2015-10-20 08:45:00', '2015-10-20 08:45:00');
