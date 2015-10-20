@@ -1,15 +1,15 @@
 var mysql  = require('mysql');
-var config = require('./config').readConfig();
+var config = require('./config').readConfig().database;
 
-module.exports = function(){
+exports.createPool = function(){
 	var pool = mysql.createPool({
-		connectionLimit: config.database.connectionLimit,
-		host     : config.database.host,
-		user     : config.database.user,
-		password : config.database.password,
-		database : config.database.database,
-		debug    : config.database.debug
-		});
+		connectionLimit: config.connectionLimit,
+		host:            config.host,
+		user:            config.user,
+		password:        config.password,
+		database:        config.database,
+		debug:           config.debug
+	});
   
 	// change query format from "?" to ":variable" syntax	
 	pool.config.connectionConfig.queryFormat = function (query, values) {

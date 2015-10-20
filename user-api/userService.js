@@ -1,5 +1,5 @@
 var userRepo = require('./userRepo');
 
-exports.searchUser = function (name, callback){
-	userRepo.searchUser(name, callback);
+exports.searchUser = function (name, dbPool, callback){
+	userRepo.searchUser(name, dbPool, callback);
 }
