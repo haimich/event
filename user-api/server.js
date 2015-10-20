@@ -4,6 +4,9 @@ var userService = require('./userService');
 var mysql = require('./mysql');
 
 var dbPool = mysql.createPool();
+
+var cors = require('cors');
+app.use(cors());
  
 app.get('/user', function(request, response) {
 	var filter = request.query.filter || '';

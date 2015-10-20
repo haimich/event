@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/haimich/event#readme",
   "dependencies": {
+    "cors": "^2.7.1",
     "express": "^4.13.3",
     "js-yaml": "^3.4.3",
     "mysql": "^2.9.0"
