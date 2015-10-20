@@ -1,18 +1,19 @@
-var express = require('express');
-var app = express();
 var userService = require('./userService');
-var mysql = require('./mysql');
 
+var mysql = require('./mysql');
 var dbPool = mysql.createPool();
 
+var express = require('express');
 var cors = require('cors');
+
+var app = express();
 app.use(cors());
  
 app.get('/user', function(request, response) {
 	var filter = request.query.filter || '';
   
-	userService.searchUser(filter, dbPool, function(result){
-		response.json(result)
+	userService.searchUser(filter, dbPool, function(userList){
+		response.json(userList)
 	});
 });
 

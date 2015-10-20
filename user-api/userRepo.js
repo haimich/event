@@ -1,6 +1,6 @@
 var mysql = require('./mysql');
 
-exports.searchUser = function (name, dbPool, callback) {
+exports.searchUser = function (name, dbPool, success) {
 	var nameWithWildcards = ("%" + name + "%").toUpperCase();
   
 	dbPool.query(
@@ -8,6 +8,6 @@ exports.searchUser = function (name, dbPool, callback) {
 		{ name: nameWithWildcards }
 	, function(err, rows, fields) {
 		if (err) throw err;		
-    callback(rows);
+    success(rows);
 	});
 }
