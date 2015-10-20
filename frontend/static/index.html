@@ -24,48 +24,58 @@
           <h1>Vortrag anlegen</h1>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <form method="post" action="/create">
+      <form method="post" action="/create">
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
             <fieldset class="form-group">
-              <label for="sessionSpeaker">Sprecher</label>
-              <input type="text" class="form-control autocomplete speaker" id="sessionSpeaker" data-hidden-field-id="speakerId" placeholder="Name">
+              <input type="text" class="form-control" id="sessionTitle" placeholder="Titel des Vortrags">
+            </fieldset>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <fieldset class="form-group">
+              <input type="text" class="form-control autocomplete speaker" id="sessionSpeaker" data-hidden-field-id="speakerId" placeholder="Name des Sprechers">
               <input type="hidden" name="speakerId" id="speakerId" value="">
             </fieldset>
+          </div>
+          <div class="col-xs-12 col-md-6">
             <fieldset class="form-group">
-              <label for="sessionTitle">Titel des Vortrags</label>
-              <input type="text" class="form-control" id="sessionTitle" placeholder="Titel">
+              <textarea class="form-control" id="sessionDescription" rows="3" placeholder="Beschreibung"></textarea>
             </fieldset>
+          </div>
+          <div class="col-xs-12 col-md-6">
             <fieldset class="form-group">
-              <label for="sessionDescription">Beschreibung</label>
-              <textarea class="form-control" id="sessionDescription" rows="3"></textarea>
-            </fieldset>
-            <fieldset class="form-group">
-              <label for="sessionDate">Datum</label>
               <div class="input-append date" id="sessionDate">
-                <input class="datepicker" maxlength="10" type="text" value="" id="datepickerSessionDate">
+                <input class="datepicker" maxlength="10" type="text" value="" id="datepickerSessionDate" placeholder="Datum">
                 <i class="fa fa-calendar pointer" data-datepicker-id="datepickerSessionDate"></i>
               </div>
             </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
             <fieldset class="form-group">
               <label for="sessionSlides">Präsentation</label>
               <input type="file" class="form-control-file" id="sessionSlides">
               <small class="text-muted">Die Präsentation muss im PDF- oder PowerPoint-Format vorliegen.</small>
             </fieldset>
-            <fieldset class="form-group">
-              <label for="sessionVideo">Video</label>
-              <input type="file" class="form-control-file" id="sessionVideo">
-              <small class="text-muted">Folgende Videoformate werden unterstützt: ...</small>
-            </fieldset>
+          </div>
+          <div class="col-xs-12 col-md-6">
             <fieldset class="form-group">
               <label for="sessionScreenshot">Screenshot</label>
               <input type="file" class="form-control-file" id="sessionScreenshot">
               <small class="text-muted">Am besten eignet sich ein Screenshot der Titelfolie oder aus dem Video.</small>
             </fieldset>
+          </div>
+          <div class="col-xs-12">
+            <fieldset class="form-group">
+              <label for="sessionVideo">Video</label>
+              <input type="file" class="form-control-file" id="sessionVideo">
+              <small class="text-muted">Folgende Videoformate werden unterstützt: ...</small>
+            </fieldset>
             <button type="submit" class="btn btn-primary">Speichern</button>
-          </form>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
 
     <!-- jQuery first, then Bootstrap JS. -->
