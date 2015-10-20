@@ -4,9 +4,8 @@
   "description": "Event helps you discover conferences and other interesting events around you. It also makes life easier for people organizing events by offering support for the different stages.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-css": "node-sass --include-path scss scss/main.scss static/css/main.css",
-    "watch-css": "nodemon -e scss -x \"npm run build-css\""
+    "build:css": "node-sass --include-path scss scss/main.scss static/css/main.css",
+    "watch:css": "nodemon -e scss -x 'npm run build:css'"
   },
   "repository": {
     "type": "git",
