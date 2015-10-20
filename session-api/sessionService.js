@@ -1,5 +1,9 @@
 var sessionRepo = require('./sessionRepo');
 
-exports.createSession = function (userModel, dbPool, callback) {
-	sessionRepo.createSession(userModel, dbPool, callback);
+exports.getSessions = function(dbPool, success) {
+  sessionRepo.getSessions(dbPool, success);
+}
+
+exports.createSession = function (userModel, dbPool, success) {
+	sessionRepo.createSession(userModel, dbPool, success);
 }
