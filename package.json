@@ -19,7 +19,8 @@
   "homepage": "https://github.com/haimich/event#readme",
   "dependencies": {
     "bootstrap": "twbs/bootstrap#v4.0.0-alpha",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "typeahead.js": "^0.11.1"
   },
   "devDependencies": {
     "node-sass": "^3.3.3"
