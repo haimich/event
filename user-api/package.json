@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/haimich/event#readme",
   "dependencies": {
-    "mysql": "felixge/node-mysql",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "js-yaml": "^3.4.3",
+    "mysql": "^2.9.0"
   }
 }

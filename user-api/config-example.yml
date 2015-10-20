@@ -1,0 +1,7 @@
+database:
+  host: localhost
+  user: 
+  password: 
+  database: 
+  connectionLimit: 30
+  debug: false
