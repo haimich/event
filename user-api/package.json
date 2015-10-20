@@ -1,0 +1,23 @@
+{
+  "name": "event-user-api",
+  "version": "0.0.1",
+  "description": "A RESTful API for creating and querying event users.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/haimich/event.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haimich/event/issues"
+  },
+  "homepage": "https://github.com/haimich/event#readme",
+  "dependencies": {
+    "mysql": "felixge/node-mysql",
+    "express": "^4.13.3"
+  }
+}
