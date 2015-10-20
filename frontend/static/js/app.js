@@ -4,18 +4,18 @@ $(document).ready(function() {
   $('.autocomplete.speaker')
     .autocomplete({
       source: [{
-        url: 'localhost:3001/user?find=%QUERY%',
+        url: 'http://localhost:3001/user?find=%QUERY%',
         type:'remote'
       }],
       limit: 5,
       minLength: 1,
-      titleKey: 'displayName',
+      titleKey: 'displayname',
       valueKey: 'id',
       getTitle: function(speaker) {
-        return speaker.firstname + ' ' + speaker.lastname;
+        return speaker.firstname + ' ' + speaker.name;
       },
       getValue: function(speaker) {
-        return speaker.firstname + ' ' + speaker.lastname;
+        return speaker.firstname + ' ' + speaker.name;
       }
     })
     .on('selected.xdsoft',function(e, speaker) {
