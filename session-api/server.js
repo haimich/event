@@ -14,7 +14,7 @@ app.get('/session', function(request, response) {
     response.json(res);
   });
 });
- 
+
 app.put('/session', function(request, response) {
   var userModel = new User(request.body);
 	sessionService.createSession(userModel, dbPool, function() {
