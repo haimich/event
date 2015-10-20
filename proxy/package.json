@@ -1,0 +1,22 @@
+{
+  "name": "event-proxy",
+  "version": "0.0.1",
+  "description": "A proxy to encapsulate calls to event's REST APIs.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/haimich/event.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haimich/event/issues"
+  },
+  "homepage": "https://github.com/haimich/event#readme",
+  "dependencies": {
+    "redbird": "^0.4.9"
+  }
+}
