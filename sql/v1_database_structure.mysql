@@ -1,4 +1,8 @@
-CREATE DATABASE `event`;
+DROP DATABASE IF EXISTS `event`;
+
+CREATE DATABASE IF NOT EXISTS `event`;
+
+USE `event`;
 
 CREATE TABLE `user` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -14,7 +18,7 @@ CREATE TABLE `user` (
 
 CREATE TABLE `session_type` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `type` VARCHAR(255) DEFAULT NULL,
+  `name` VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -33,16 +37,13 @@ CREATE TABLE `session` (
   `duration` BIGINT DEFAULT NULL,
   `state_id` BIGINT DEFAULT NULL,
   `speaker_id` BIGINT DEFAULT NULL,
-  `session_type_id` BIGINT DEFAULT NULL,
+  `session_type_id` BIGINT DEFAULT 0,
+  `session_state_id` BIGINT DEFAULT 0,
   `created_at` datetime DEFAULT NULL,
   `modified_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `session_user_FK` (`speaker_id`),
-  KEY `session_session_type_FK` (`session_type_id`),
-  KEY `session_session_state_FK` (`state_id`),
-  CONSTRAINT `session_session_state_FK` FOREIGN KEY (`state_id`) REFERENCES `session_state` (`id`),
-  CONSTRAINT `session_session_type_FK` FOREIGN KEY (`session_type_id`) REFERENCES `session_type` (`id`),
-  CONSTRAINT `session_user_FK` FOREIGN KEY (`speaker_id`) REFERENCES `user` (`id`)
+  FOREIGN KEY (`session_type_id`) REFERENCES session_type(`id`),
+  FOREIGN KEY (`session_state_id`) REFERENCES session_state(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `attachment` (
@@ -53,11 +54,12 @@ CREATE TABLE `attachment` (
   `created_at` datetime DEFAULT NULL,
   `modified_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `attachment_session_FK` (`session_id`),
-  CONSTRAINT `attachment_session_FK` FOREIGN KEY (`session_id`) REFERENCES `session` (`id`)
+  FOREIGN KEY (`session_id`) REFERENCES session(`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO session_type(`name`) VALUES('presentation');
 INSERT INTO session_state(`name`) VALUES('in progress');
 INSERT INTO session_state(`name`) VALUES('published');
 INSERT INTO user(`external_id`, `username`, `firstname`, `name`, `email`, `created_at`, `modified_at`) VALUES('1234', 'eventman', 'Event', 'Man', 'eventman@1und1.de', '2015-10-20 08:45:00', '2015-10-20 08:45:00');
+
+INSERT INTO attachment(`url`, `mime_type`, `session_id`) VALUES('internet', 'application/json', 12321);
