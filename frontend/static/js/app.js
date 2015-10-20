@@ -4,7 +4,7 @@ $(document).ready(function() {
   $('.autocomplete.speaker')
     .autocomplete({
       source: [{
-        url:"/search/user?q=%QUERY%",
+        url: 'localhost:3001/user?find=%QUERY%',
         type:'remote'
       }],
       limit: 5,
