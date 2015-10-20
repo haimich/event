@@ -1,10 +1,8 @@
 var mysql = require('./mysql');
 
-exports.searchUser = function (name, dbPool, callback) {
-	var nameWithWildcards = ("%" + name + "%").toUpperCase();
-  
-	dbPool.query(
-		"SELECT * FROM user WHERE upper(firstname) like :name OR upper(name) like :name OR upper(username) like :name OR upper(concat_ws(' ', firstname, name) like :name)",
+exports.createSession = function (title, description, date, speaker_id, dbPool, callback) {
+ 	dbPool.query(
+		"INSERT INTO session (title, description, date, start_time, speaker_id) VALUES (:title, :description, :date, start_time, speaker_id)",
 		{ name: nameWithWildcards }
 	, function(err, rows, fields) {
 		if (err) throw err;		

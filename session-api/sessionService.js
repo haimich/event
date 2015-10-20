@@ -1,5 +1,5 @@
-var userRepo = require('./userRepo');
+var sessionRepo = require('./sessionRepo');
 
-exports.searchUser = function (name, dbPool, callback){
-	userRepo.searchUser(name, dbPool, callback);
+exports.createSession = function (title, description, date, start_time, speaker_id, dbPool, callback) {
+	sessionRepo.createSession(title, description, date, start_time, speaker_id, dbPool, callback);
 }

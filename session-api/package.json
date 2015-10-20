@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/haimich/event#readme",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "js-yaml": "^3.4.3",
     "mysql": "^2.9.0"
