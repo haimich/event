@@ -2,7 +2,39 @@ $lightgrey: #f1f1f1;
 $darkgrey: #495252;
 
 body { 
-  margin: 0;
-  padding: 0;
   background-color: $lightgrey; 
+}
+
+.content {
+  background-color: #fff;
+  padding-top: 15px;
+  padding-bottom: 30px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+@media (min-width: 34em) {
+  .pull-right-sm {
+    float: right;
+  }
+}
+
+@media (min-width: 48em) {
+  .pull-right-md {
+    float: right;
+  }
+}
+
+@media (min-width: 62em) {
+  .pull-right-lg {
+    float: right;
+  }
+}
+
+@media (min-width: 75em) {
+  .pull-right-xl {
+    float: right;
+  }
 }
