@@ -4,7 +4,7 @@
   "description": "A RESTful API for creating and querying event users.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "echo '>> Use pm2 to start this service!'"
   },
   "repository": {
     "type": "git",

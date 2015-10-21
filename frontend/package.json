@@ -7,7 +7,7 @@
     "build:css": "node-sass --include-path scss scss/main.scss static/css/main.css && cp node_modules/bootstrap/dist/css/bootstrap.min.css static/css/ && cp node_modules/jquery-autocomplete/jquery.autocomplete.css static/css/ && cp node_modules/font-awesome/css/font-awesome.min.css static/css/ && cp -R node_modules/font-awesome/fonts static/",
     "watch:css": "nodemon -e scss -x 'npm run build:css'",
     "build:js": "cp node_modules/jquery/dist/jquery.min.js static/js/ && cp node_modules/bootstrap/dist/js/bootstrap.min.js static/js/ && cp node_modules/jquery-autocomplete/jquery.autocomplete.js static/js/",
-    "start": "nodemon server.js"
+    "start": "echo '>> Use pm2 to start this service!'"
   },
   "repository": {
     "type": "git",
