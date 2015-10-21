@@ -1,4 +1,4 @@
-var User = require('./userModel');
+var User = require('./sessionModel');
 var sessionService = require('./sessionService');
 var mysql = require('./mysql');
 var dbPool = mysql.createPool();
@@ -16,9 +16,9 @@ app.get('/session', function(request, response) {
 });
 
 app.put('/session', function(request, response) {
-  var userModel = new User(request.body);
-	sessionService.createSession(userModel, dbPool, function() {
-    response.sendStatus(201);
+  var sessionModel = new Session(request.body);
+  sessionService.createSession(sessionModel, dbPool, function() {
+  response.sendStatus(201);
   });
 });
 

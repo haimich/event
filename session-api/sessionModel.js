@@ -1,6 +1,6 @@
 var dateFormat = require('dateformat');
 
-function User(options) {
+function Session(options) {
   this.id = options.id
   this.title = options.title;
   this.description = options.description;
@@ -18,4 +18,4 @@ function getCurrentDatetime() {
   return dateFormat(now, "isoDateTime");
 }
 
-module.exports = User;
+module.exports.Session = Session;

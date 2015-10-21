@@ -18,8 +18,8 @@ app.put('/file', upload.single('presentation'), function (request, response, nex
     mime_type: uploadedFile.mimetype
   });
   
-  fileService.createAttachment(file, dbPool, function () {
-    response.sendStatus(201).json;
+  fileService.createAttachment(file, dbPool, function (id) {
+  	response.status(201).json({id: id});
   });
 });
 

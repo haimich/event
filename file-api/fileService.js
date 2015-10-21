@@ -7,7 +7,7 @@ exports.createAttachment = function(fileModel, dbPool, success) {
   var id = fileRepo.createAttachment(fileModel, dbPool, 
   	function (id) {
   	  sendUploadFinished(id);
-  	  success();	
+  	  success(id);	
   	});
 }
 
