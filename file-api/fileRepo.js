@@ -6,6 +6,6 @@ exports.createAttachment = function (fileModel, dbPool, success) {
 		fileModel
 	, function(err, rows) {
 		if (err) throw err;
-    success();
+    success(rows.insertId);
 	});
 }
