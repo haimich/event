@@ -23,6 +23,51 @@ body {
   margin-top: 15px;
 }
 
+.content .dropzone {
+  min-height: 30px;
+  padding: 10px;
+  border: 1px dashed #ccc;
+  border-radius: 5px;
+}
+
+.content .dropzone .dz-message, .content .dropzone .dz-preview {
+  margin: 0;
+  padding: 0;
+  min-height: auto;
+  min-width: 100%;
+}
+
+.content .dropzone .dz-preview .dz-details, .content .dropzone .dz-preview .dz-progress {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: auto;
+  left: auto;
+  display: inline;
+  text-align: left;
+  font-size: inherit;
+}
+
+.content .dropzone .dz-preview .dz-details > div {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.content .dropzone .dz-preview .dz-progress {
+  float: right;
+}
+
+.content .dropzone.dz-max-files-reached {
+  pointer-events: none;
+  cursor: default;
+}
+
+.content .datepicker {
+  border: 1px solid #ccc;
+  padding: .375rem .75rem;
+}
+
 @media (min-width: 34em) {
   .pull-right-sm {
     float: right;
