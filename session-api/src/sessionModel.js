@@ -19,4 +19,4 @@ function getCurrentDatetime() {
   return dateFormat(now, 'isoDateTime');
 }
 
-module.exports.Session = Session;
+module.exports = Session;

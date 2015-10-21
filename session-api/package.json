@@ -4,7 +4,8 @@
   "description": "A RESTful API for creating sessions.",
   "main": "server.js",
   "scripts": {
-    "start": "echo '>> Use pm2 to start this service!'"
+    "start": "echo '>> Use pm2 to start this service!'",
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,9 @@
     "http-status": "^0.2.0",
     "js-yaml": "^3.4.3",
     "mysql": "^2.9.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "mocha": "^2.3.3"
   }
 }

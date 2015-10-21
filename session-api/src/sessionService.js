@@ -8,7 +8,7 @@ exports.getSessions = function(dbPool, callback) {
 
 exports.createSession = function (sessionModel, dbPool, callback) {
 	sessionRepo.createSession(sessionModel, dbPool, function (err) {
-    waitForMessage();
+    //waitForMessage();
     callback();
   });
 }
