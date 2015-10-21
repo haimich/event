@@ -1,3 +1,5 @@
+var port = process.argv[2];
+
 var User = require('./sessionModel');
 var sessionService = require('./sessionService');
 var mysql = require('./mysql');
@@ -22,4 +24,4 @@ app.put('/session', function(request, response) {
   });
 });
 
-app.listen(3002);
+app.listen(port);

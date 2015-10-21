@@ -1,3 +1,5 @@
+var port = process.argv[2];
+
 var userService = require('./userService');
 
 var mysql = require('./mysql');
@@ -28,4 +30,4 @@ app.get('/user/:id', function(request, response) {
   });
 });
 
-app.listen(3001);
+app.listen(port);
