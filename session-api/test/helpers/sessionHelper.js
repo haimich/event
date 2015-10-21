@@ -22,4 +22,15 @@ function createSession(callback) {
   });
 }
 
+function getSessions(callback) {
+  request({
+    url: baseUrl,
+    method: 'GET'
+  }, function (error, response, body) {
+    if (error) { throw error; }
+    callback(response.statusCode, response.body);
+  });
+}
+
 exports.createSession = createSession;
+exports.getSessions = getSessions;
