@@ -11,3 +11,16 @@ exports.searchUser = function (name, dbPool, success) {
     success(rows);
 	});
 }
+
+exports.searchUserId = function (name, dbPool, callback) {
+  var gotId= name;
+  if (isNaN(gotId) == true) callback(gotId)
+  
+
+	dbPool.query(
+		"SELECT * FROM user WHERE id= :name;",
+		{ name: gotId }
+	, function(err, rows) {
+    callback(err, rows);
+  });
+}
