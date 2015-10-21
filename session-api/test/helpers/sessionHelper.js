@@ -1,7 +1,9 @@
 var request = require('request');
 
+var baseUrl = 'http://localhost:8080/event/api/session';
+
 function createSession(callback) {
-  var postData = {
+  var session = {
     title: 'Test title',
     description: 'Test description',
     date: '2015-10-22 15:15:55',
@@ -10,13 +12,13 @@ function createSession(callback) {
   };
   
   request({
-    url: 'http://localhost:8080/event/api/session',
+    url: baseUrl,
     method: 'PUT',
-    body: postData,
+    body: session,
     json: true
   }, function (error, response, body) {
     if (error) { throw error; }
-    callback(response.statusCode);
+    callback(response.statusCode, response.body);
   });
 }
 

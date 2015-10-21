@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "echo '>> Use pm2 to start this service!'",
-    "test": "mocha --reporter spec"
+    "test": "mocha",
+    "watch:test": "mocha -w"
   },
   "repository": {
     "type": "git",

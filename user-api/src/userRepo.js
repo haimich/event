@@ -13,7 +13,7 @@ exports.searchUser = function (name, dbPool, callback) {
 }
 
 exports.searchUserId = function (name, dbPool, callback) {
-  var gotId= name;
+  var gotId = name;
   if (isNaN(gotId) == true) {
     callback(gotId);
     return;

@@ -23,11 +23,11 @@ app.get('/session', function(request, response) {
 
 app.put('/session', function(request, response) {
   var sessionModel = new Session(request.body);
-  sessionService.createSession(sessionModel, dbPool, function(err) {
+  sessionService.createSession(sessionModel, dbPool, function(err, sessionId) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }
-    response.sendStatus(status.CREATED);
+    response.status(status.CREATED).json({ id: sessionId });
   });
 });
 
