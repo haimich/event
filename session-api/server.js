@@ -23,7 +23,12 @@ app.get('/session', function(request, response) {
 });
 
 app.put('/session', function(request, response) {
-  var sessionModel = new Session(request.body);
+  var session = request.body;
+  if (session === undefined || session === null) {
+    return response.status(status.PRECONDITION_FAILED).send('Bad boy');
+  }
+  
+  var sessionModel = new Session(session);
   sessionService.createSession(sessionModel, dbPool, function(err, sessionId) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
