@@ -1,4 +1,6 @@
-var proxy = require('redbird')({port: 8080});
+var port = process.argv[2];
+
+var proxy = require('redbird')({port: port});
 
 proxy.register('localhost/event',             'http://localhost:3000');
 proxy.register('localhost/event/api/user',    'http://localhost:3001/user');

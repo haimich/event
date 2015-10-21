@@ -1,3 +1,5 @@
+var port = process.argv[2];
+
 var fileService = require('./fileService');
 var File = require('./fileModel');
 var mysql = require('./mysql');
@@ -23,4 +25,4 @@ app.put('/file', upload.single('presentation'), function (request, response, nex
   });
 });
 
-app.listen(3003);
+app.listen(port);
