@@ -4,7 +4,9 @@
   "description": "A RESTful API for handling attachments.",
   "main": "server.js",
   "scripts": {
-    "start": "echo '>> Use pm2 to start this service!'"
+    "start": "echo '>> Use pm2 to start this service!'",
+    "test": "mocha",
+    "watch:test": "chokidar *.js src/**/*.js test/**/*.js test/*.js -c mocha"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,12 @@
     "js-yaml": "^3.4.3",
     "multer": "^1.0.6",
     "mysql": "^2.9.0",
-    "when": "^3.7.3"
+    "when": "^3.7.3",
+    "request": "^2.65.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "mocha": "^2.3.3",
+    "chokidar-cli": "^1.1.0"
   }
 }

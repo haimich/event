@@ -9,7 +9,7 @@ fs.readFile('services.json', 'utf8', function (error, data) {
       if (error !== null && error !== '') {
         throw new Error('An error occured: ' + error);
       }
-      console.log('Installed npm dependencies for ' + app.cwd);
+      console.log('Install npm dependencies for ' + app.cwd);
     });
   });
 });
