@@ -1,7 +1,7 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
 
-fs.readFile('processes.json', 'utf8', function (error, data) {
+fs.readFile('services.json', 'utf8', function (error, data) {
   var apps = (JSON.parse(data).apps);
   
   apps.forEach(function(app) {

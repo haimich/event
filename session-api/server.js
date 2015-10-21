@@ -1,6 +1,6 @@
 var port = process.argv[2];
 
-var User = require('./sessionModel');
+var Session = require('./sessionModel');
 var sessionService = require('./sessionService');
 var mysql = require('./mysql');
 var dbPool = mysql.createPool();
