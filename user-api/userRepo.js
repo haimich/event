@@ -14,7 +14,10 @@ exports.searchUser = function (name, dbPool, success) {
 
 exports.searchUserId = function (name, dbPool, callback) {
   var gotId= name;
-  if (isNaN(gotId) == true) callback(gotId)
+  if (isNaN(gotId) == true) {
+    callback(gotId);
+    return;
+  }
   
 
 	dbPool.query(
