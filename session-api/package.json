@@ -24,7 +24,8 @@
     "express": "^4.13.3",
     "http-status": "^0.2.0",
     "js-yaml": "^3.4.3",
-    "mysql": "^2.9.0"
+    "mysql": "^2.9.0",
+    "request": "^2.65.0"
   },
   "devDependencies": {
     "chai": "^3.4.0",
