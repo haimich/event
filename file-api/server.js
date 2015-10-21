@@ -20,7 +20,10 @@ app.put('/file', upload.single('file'), function (request, response, next) {
     mime_type: uploadedFile.mimetype
   });
   
-  fileService.createAttachment(file, dbPool, function (id) {
+  fileService.createAttachment(file, dbPool, function (err, id) {
+    if (err) {
+      return response.status(500).json({ error: err });
+    }
   	response.status(201).json({id: id});
   });
 });

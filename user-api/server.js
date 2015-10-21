@@ -14,8 +14,11 @@ app.use(cors());
 app.get('/user', function(request, response) {
 	var filter = request.query.filter || '';
   
-	userService.searchUser(filter, dbPool, function(userList){
-		response.json(userList)
+	userService.searchUser(filter, dbPool, function(err, result){
+    if (err) {
+      return response.status(500).json({ error: err });
+    }
+		response.json(result);
 	});
 });
 
@@ -24,9 +27,9 @@ app.get('/user/:id', function(request, response) {
 
   userService.searchUserId(filter, dbPool, function(err, result){
     if (err) {
-      return response.json({ error: err });
+      return response.status(500).json({ error: err });
     }
-    response.json(result);
+    response.status(200).json(result);
   });
 });
 
