@@ -9,7 +9,7 @@ var upload = multer({ dest: 'uploads', files: 5 });
 
 var app = express();
 
-app.put('/file', upload.single('presentation'), function (request, response, next) {
+app.put('/file', upload.single('file'), function (request, response, next) {
   var uploadedFile = request.file;
 
   var file = new File({
