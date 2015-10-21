@@ -1,0 +1,20 @@
+{
+  "name": "event",
+  "version": "0.0.1",
+  "description": "Event helps you discover conferences and other interesting events around you. It also makes life easier for people organizing events by offering support for the different stages.",
+  "scripts": {
+    "start": "node installDeps.js && pm2 start --watch processes.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/haimich/event.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haimich/event/issues"
+  },
+  "homepage": "https://github.com/haimich/event#readme",
+  "dependencies": {
+  }
+}

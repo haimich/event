@@ -1,0 +1,28 @@
+{
+  "apps" : [{
+    "name"        : "Event Proxy",
+    "script"      : "server.js",
+    "merge_logs"  : true,
+    "cwd"         : "proxy/"
+   },{
+    "name"        : "Event Frontend",
+    "script"      : "server.js",
+    "merge_logs"  : true,
+    "cwd"         : "frontend/"
+   },{
+    "name"        : "Event User API",
+    "script"      : "server.js",
+    "merge_logs"  : true,
+    "cwd"         : "user-api/"
+   },{
+    "name"        : "Event Session API",
+    "script"      : "server.js",
+    "merge_logs"  : true,
+    "cwd"         : "session-api/"
+   },{
+    "name"        : "Event File API",
+    "script"      : "server.js",
+    "merge_logs"  : true,
+    "cwd"         : "file-api/"
+   }]
+}
