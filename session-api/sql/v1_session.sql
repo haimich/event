@@ -1,3 +1,5 @@
+USE `event`;
+
 CREATE TABLE `session_type` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) DEFAULT NULL,
