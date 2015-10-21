@@ -35,5 +35,4 @@ parseArguments(function() {
   proxy.register('localhost/event/api/user',    'http://localhost:' + userPort + '/user');
   proxy.register('localhost/event/api/session', 'http://localhost:' + sessionPort + '/session');
   proxy.register('localhost/event/api/file',    'http://localhost:' + filePort + '/file');
-
 });

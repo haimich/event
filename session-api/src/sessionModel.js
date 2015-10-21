@@ -16,7 +16,7 @@ function Session(options) {
 
 function getCurrentDatetime() {
   var now = new Date();
-  return dateFormat(now, "isoDateTime");
+  return dateFormat(now, 'isoDateTime');
 }
 
 module.exports.Session = Session;
