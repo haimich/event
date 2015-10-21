@@ -5,6 +5,7 @@ var sessionService = require('./src/sessionService');
 var mysql = require('./src/mysql');
 var dbPool = mysql.createPool();
 
+
 var express = require('express');
 var status = require('http-status');
 var bodyParser = require('body-parser');

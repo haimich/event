@@ -6,7 +6,7 @@
   "scripts": {
     "start": "echo '>> Use pm2 to start this service!'",
     "test": "mocha",
-    "watch:test": "mocha -w"
+    "watch:test": "chokidar *.js src/**/*.js test/**/*.js test/*.js -c mocha"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "chai": "^3.4.0",
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "chokidar-cli": "^1.1.0"
   }
 }
