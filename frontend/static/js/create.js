@@ -107,6 +107,11 @@ $(document).ready(function() {
       }
     });
 
+    // Convert European date
+    if (formData.date && formData.date.match(/\d{2}(\.)\d{2}(\.)\d{4}/)) {
+      formData.date = formData.date.split('.').reverse().join('-');
+    }
+
     if (formErrors.length > 0) {
       return;
     }
@@ -126,7 +131,7 @@ $(document).ready(function() {
       title:       formData.title,
       speaker_id:  formData.speakerId,
       description: formData.description,
-      date:        formData.date,
+      date:        formData.date.split('.').reverse().join('-'),
       files:       files
     };
 

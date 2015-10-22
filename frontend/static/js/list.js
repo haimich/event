@@ -9,7 +9,7 @@ $(document).ready(function() {
       var html = sessionTemplate.clone();
       html.find('.title').text(session.title);
       html.find('.date').text(new Date(session.date).toLocaleDateString());
-      html.find('.speaker').text(session.speaker_id);
+      html.find('.speaker').text(session.speaker_name);
       html.find('.description').text(session.description);
       html.appendTo('.list-sessions').removeClass('hidden');
     });
