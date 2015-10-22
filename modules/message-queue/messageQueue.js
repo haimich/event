@@ -1,3 +1,7 @@
+var amqp = require('amqplib');
+var when = require('when');
+
+// jsonContent : message for the queue
 exports.sendMessage = function (jsonContent, queue, host){
   amqp.connect(host).then(function(conn) {
     return when(conn.createChannel().then(function(ch) {

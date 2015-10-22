@@ -5,8 +5,8 @@ database:
   database: event
   connectionLimit: 30
   debug: false
-  
+
 messageQueue:
   url: amqp://localhost
   port: 5672
-  emitToQueue: attachement
+  convertFinishedQueue: convert
