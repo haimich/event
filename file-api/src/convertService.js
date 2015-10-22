@@ -15,12 +15,15 @@ function createFile(file, dbPool, callback) {
     mime_type: file.mimetype
   });
   
-  console.log('Creating file');
-  
-  // fileService.createFile(file, dbPool, function(err, id){
-  //   
-  // });
-  callback(null, 1);
+  fileService.createFile(file, dbPool, callback);
+}
+
+function sendErrorMessage(err) {
+  var msg = {
+    convertStatus: 'failed',
+    error: err
+  };
+  messageService.sendConvertFinishedMessage(msg);
 }
 
 exports.convertFile = function(fileId, dbPool) {
@@ -28,22 +31,21 @@ exports.convertFile = function(fileId, dbPool) {
   
   fileService.getFileById(fileId, dbPool, function(err, fileModel) {
     if (err) {
-      throw err; //TODO handle error
+      sendErrorMessage(err);
+      return;
     }
     
     converter.start(fileModel.filesystem_location, config.outputPath, function(err, convertedFiles) {
       if (err) {
-        var msg = {
-          convertStatus: 'failed',
-          error: err
-        };
-        messageService.sendConvertFinishedMessage(msg);
+        sendErrorMessage(err);
+        return;
       } else {
         var convertedFilesIds = [];
         convertedFiles.forEach(function(file) {
           createFile(file, dbPool, function(err, fileId) {
             if (err !== null) {
-              throw err; //TODO handle error
+              sendErrorMessage(err);
+              return;
             }
             convertedFilesIds.push(fileId);
             
