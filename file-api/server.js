@@ -14,6 +14,9 @@ var upload = multer({ dest: 'uploads', files: 5 });
 var app = express();
 app.use('/file/download', express.static('public')); //downloadable files
 
+/**
+ *  Uploads a file to the server and creates a db entry.
+ */
 app.put('/file', upload.single('file'), function (request, response, next) {
   var uploadedFile = request.file;
 
@@ -22,7 +25,7 @@ app.put('/file', upload.single('file'), function (request, response, next) {
     url: uploadedFile.path,
     mime_type: uploadedFile.mimetype
   });
-    
+  
   fileService.createFile(file, dbPool, function (err, id) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
@@ -31,6 +34,9 @@ app.put('/file', upload.single('file'), function (request, response, next) {
   });
 });
 
+/**
+ * Converts a given file and sends a message to the session-api when done.
+ */
 app.patch('/file/:id/convert', function(request, response) {
   var fileId = request.params.id;
   
@@ -43,6 +49,9 @@ app.patch('/file/:id/convert', function(request, response) {
   response.sendStatus(status.ACCEPTED); //does not wait for convert to finish
 });
 
+/**
+ * Returns a file by id.
+ */
 app.get('/file/:id', function(request, response) {
   var fileId = request.params.id;
     
