@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
   var sessionTemplate = $('#eventTemplate');
-  console.log(sessionTemplate);
 
   // Load list of sessions
   $.get('/event/api/session', function(sessions) {
@@ -13,7 +12,6 @@ $(document).ready(function() {
       html.find('.speaker').text(session.speaker_id);
       html.find('.description').text(session.description);
       html.appendTo('.list-sessions').removeClass('hidden');
-      console.log(html.find('.title'), session);
     });
   });
 
