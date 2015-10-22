@@ -7,7 +7,7 @@ $(document).ready(function() {
   $('.autocomplete.speaker')
     .autocomplete({
       source: [{
-        url: 'http://localhost:3001/user?find=%QUERY%',
+        url: '/event/api/user?find=%QUERY%',
         type:'remote'
       }],
       limit: 5,
