@@ -3,7 +3,7 @@ var config = require('./config').readConfig().messageQueue;
 var messageQueue = require('../../modules/message-queue')
 
 exports.createFile = function(fileModel, dbPool, callback) {
-  var id = fileRepo.createFile(fileModel, dbPool, function (err, id) {
+  fileRepo.createFile(fileModel, dbPool, function (err, id) {
     if (err) {
       callback(err, null);
       return;
