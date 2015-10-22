@@ -33,6 +33,7 @@ CREATE TABLE `session` (
 INSERT INTO session_type(`name`) VALUES('presentation');
 INSERT INTO session_state(`name`) VALUES('in progress');
 INSERT INTO session_state(`name`) VALUES('published');
+INSERT INTO session_state(`name`) VALUES('deleted');
 
 CREATE TABLE `session_file` (
   `session_id` BIGINT NOT NULL,
