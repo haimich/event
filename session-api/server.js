@@ -24,8 +24,8 @@ app.get('/session', function(request, response) {
 
 app.put('/session', function(request, response) {
   var session = request.body;
-  if (session === undefined || session === null) {
-    return response.status(status.PRECONDITION_FAILED).send('Bad boy');
+  if (session === undefined || session === null || session === '') {
+    return response.status(status.PRECONDITION_FAILED).send('Bad body');
   }
   
   var sessionModel = new Session(session);
