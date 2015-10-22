@@ -10,9 +10,8 @@ var status = require('http-status');
 var multer  = require('multer');
 var upload = multer({ dest: 'uploads', files: 5 });
 
-app.use(express.static('public')); //downloadable files
-
 var app = express();
+app.use(express.static('public')); //downloadable files
 
 app.put('/file', upload.single('file'), function (request, response, next) {
   var uploadedFile = request.file;
@@ -22,7 +21,7 @@ app.put('/file', upload.single('file'), function (request, response, next) {
     url: uploadedFile.path,
     mime_type: uploadedFile.mimetype
   });
-  
+    
   fileService.createFile(file, dbPool, function (err, id) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
