@@ -34,9 +34,17 @@ function convertFile(fileId, dbPool) {
       throw err;
     }
     
-    converter.start(file.filesystem_location, config.convert.outputPath, function(err, response) {
-      console.log('DONE', err);
-      console.log(response);
+    converter.start(file.filesystem_location, config.convert.outputPath, function(err, convertedFiles) {
+      var msg = {};
+      if (err) {
+        msg.convertStatus = 'failed';
+        msg.error = err;
+      } else {
+        msg.originalFile = file;
+        msg.convertedFiles = convertedFiles;
+        msg.convertStatus = 'finished';
+      }
+      sendMessage(msg);
     });
   });
 }
