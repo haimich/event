@@ -1,7 +1,21 @@
 {
-  "name": "apidocs",
-  "version": "0.0.0",
-  "description": "EVENT api documentation",
+  "name": "event-apidocs",
+  "version": "0.0.1",
+  "description": "EVENT api documentation.",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/haimich/event.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haimich/event/issues"
+  },
+  "homepage": "https://github.com/haimich/event#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-watch": "^0.6.1",

@@ -29,5 +29,17 @@ app.put('/file', upload.single('file'), function (request, response, next) {
   });
 });
 
+app.patch('/file/:id/convert', function(request, response) {
+  var fileId = request.params.id;
+  
+  if (isNaN(fileId) == true) {
+    return response.status(status.PRECONDITION_FAILED).json({ error: 'No file id given' });
+  }
+  
+  fileService.convertFile(fileId, dbPool);
+  
+  response.sendStatus(status.OK); //does not wait for convert to finish
+});
+
 
 app.listen(port);

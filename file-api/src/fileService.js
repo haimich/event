@@ -14,6 +14,10 @@ exports.createAttachment = function(fileModel, dbPool, callback) {
   });
 }
 
+exports.convertFile = function(fileId, dbPool) {
+  console.log('Converting file with id ' + fileId);
+}
+
 function sendUploadFinished(attachementId){
   var mqueue = config.host + config.port;
   amqp.connect(mqueue).then(function(conn) {
