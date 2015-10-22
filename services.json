@@ -33,7 +33,7 @@
     "args"        : ["3030"],
     "merge_logs"  : true,
     "cwd"         : "file-api/",
-    "ignore_watch": ["uploads", "node_modules", "test"]
+    "ignore_watch": ["uploads", "public", "node_modules", "test"]
    },{
     "name"        : "apidocs",
     "script"      : "server.js",

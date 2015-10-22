@@ -26,10 +26,16 @@ if [ -z "$CONVERTER" ]; then
   exit 2
 fi
 
+OUTPUT_PATH=${3:-}
+if [ -z "$OUTPUT_PATH" ]; then
+  echo "*** Missing argument <output_path>"
+  exit 2
+fi
+
 base_name=$(basename "$video" ".flv")
 base_name=$(basename "$video" ".mkv")
 date=`date +%Y-%m-%d`
-output=$date-$base_name
+output=$OUTPUT_PATH/$date-$base_name
 
 # Run conversion
 if [ "$CONVERTER" == "ffmpeg" ]; then

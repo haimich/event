@@ -1,6 +1,7 @@
 var fileRepo = require('./fileRepo');
 var config = require('./config').readConfig();
-var messageQueue = require('../../modules/message-queue')
+var messageQueue = require('../../modules/message-queue');
+var converter = require('./convert/convertVideo');
 
 function createFile(fileModel, dbPool, callback) {
   fileRepo.createFile(fileModel, dbPool, function (err, id) {
@@ -21,7 +22,7 @@ function getFileById(fileId, dbPool, callback) {
     id: 4,
     url: null,
     mime_type: 'video/x-f4v',
-    filesystem_location: 'uploads/campus.f4v'
+    filesystem_location: '/home/juicebox/Code/event/file-api/uploads/campus.f4v'
   });
 }
 
@@ -33,7 +34,10 @@ function convertFile(fileId, dbPool) {
       throw err;
     }
     
-    console.log('Got file', fileModel)
+    converter.start(file.filesystem_location, config.convert.outputPath, function(err, response) {
+      console.log('DONE', err);
+      console.log(response);
+    });
   });
 }
 
