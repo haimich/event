@@ -1,7 +1,7 @@
 var dateFormat = require('dateformat');
 
 function Session(options) {
-  this.id = options.id
+  this.id = options.id;
   this.title = options.title;
   this.description = options.description;
   this.date = options.date;
@@ -9,7 +9,7 @@ function Session(options) {
   this.start_time = null;
   this.session_type_id = 1;
   this.session_state_id = 1;
-  this.attachments = options.attachments;
+  this.files = options.files;
   this.created_at = getCurrentDatetime();
   this.modified_at = this.created_at;
 }
