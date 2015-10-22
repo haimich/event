@@ -29,5 +29,9 @@ app.put('/file', upload.single('file'), function (request, response, next) {
   });
 });
 
+app.patch('/file/{id}/convert', function(request, response) {
+  response.sendStatus(status.OK);
+});
+
 
 app.listen(port);
