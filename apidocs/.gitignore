@@ -1,0 +1,32 @@
+# package managers
+node_modules
+npm-debug.log
+bower_components
+
+# Maven
+*.versionsBackup
+*.releaseBackup
+.version
+target
+release.properties
+build
+buildsteps
+
+# Python
+*.pyc
+
+#Bower
+bower_components
+
+#Grunt
+/node_modules
+/npm-debug.log
+src/main/webapp/generated
+
+#Composer
+vendor
+composer.lock
+.tmp
+
+src/main/xsl/layout.bower.inc.xsl
+

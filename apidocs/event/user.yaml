@@ -1,0 +1,106 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: EVENT API Doc
+# during dev, should point to your local machine
+host: localhost:8080
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /user:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: server
+    get:
+      description: Returns the queries of the given username, firstname or name
+      # used as the method name of the controller
+      operationId: user
+      parameters:
+        - name: filter
+          in: query
+          description: The username, firstname or name of the searched user
+          required: true
+          type: string
+      tags: [User]
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        "404":
+          description: No user could be found
+          schema:
+            $ref: "#/definitions/Error"
+  /user/{id}:
+     # binds a127 app logic to a route
+    x-swagger-router-controller: server
+    get:
+      description: Returns the queries of the given username, firstname or name
+      # used as the method name of the controller
+      operationId: user2
+      parameters:
+        - name: id
+          in: path
+          description: The username, firstname or name of the searched user
+          required: true
+          type: string
+      tags: [User]
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        "404":
+          description: No user could be found
+          schema:
+            $ref: "#/definitions/Error"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  User:
+    properties:
+      id:
+        description: The user id.
+        type: integer
+      external_id:
+        description: The user id.
+        type: integer
+      username:
+        description: The user's login name.
+        type: string
+      firstname:
+        description: The user's firstname.
+        type: string
+      name:
+        description: The user's last name.
+        type: string
+      email:
+        description: The user's email address.
+        type: string
+        format: email
+      created_at:
+        description: DateTime of users creation
+        type: string
+        format: dateTime
+      modified_at:
+        description: DateTime of users last modification
+        type: string
+        format: dateTime
+
+  Error:
+    properties:
+      '[]':
+          description: The answer is empty
+          type: string
