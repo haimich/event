@@ -5,13 +5,13 @@ var fileService = require('./fileService');
 var File = require('./fileModel');
 var fs = require('fs');
 
-var fileDownloadBasePath = 'http://localhost:8080/event/api/file/download/';
+var fileDownloadBasePath = 'http://localhost:8080/event/api/file/download';
 
 function createFile(file, dbPool, callback) {
   var loc = file.filesystemLocation.lastIndexOf('/');
   var filename = file.filesystemLocation.substr(loc + 1, loc.length);
   var file = new File({
-    url : fileDownloadBasePath + filename,
+    url : fileDownloadBasePath + '/' + filename,
     filesystem_location: file.filesystemLocation, 
     mime_type: file.mimetype
   });
@@ -42,19 +42,19 @@ function handleVideoFile(fileModel, dbPool) {
       sendErrorMessage(err);
       return;
     } else {
-      var convertedFilesIds = [];
+      var convertedFileIds = [];
       convertedFiles.forEach(function(file) {
         createFile(file, dbPool, function(err, fileId) {
           if (err !== null) {
             sendErrorMessage(err);
             return;
           }
-          convertedFilesIds.push(fileId);
+          convertedFileIds.push(fileId);
           
-          if (convertedFilesIds.length == convertedFiles.length) {
+          if (convertedFileIds.length == convertedFiles.length) {
             var msg = {
               originalFile: fileModel,
-              convertedFilesIds: convertedFilesIds,
+              convertedFileIds: convertedFileIds,
               convertStatus: 'finished'
             }
             messageService.sendConvertFinishedMessage(msg);
@@ -81,13 +81,13 @@ function handleNonVideoFile(fileModel, dbPool) {
   
   //move file to public folder
   fs.rename(currentLocation, newLocation, function(err) {
-    console.log(err);
     if (err) {
       sendErrorMessage(err);
       return;
     }
     
     fileModel.filesystem_location = newLocation;
+    fileModel.url = fileDownloadBasePath + '/' + filename;
     fileService.updateFile(fileModel, dbPool, function(err) {
       if (err) {
         sendErrorMessage(err);
@@ -97,7 +97,7 @@ function handleNonVideoFile(fileModel, dbPool) {
       //Success!
       messageService.sendConvertFinishedMessage({
         convertStatus: 'finished',
-        convertedFilesIds: [fileModel.id] 
+        convertedFileIds: [fileModel.id] 
       });
     });
   });  
