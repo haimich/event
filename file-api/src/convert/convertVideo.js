@@ -32,7 +32,7 @@ function getOutputFiles(stdout) {
       var split = element.split('=');
       outputFiles.push({
         mimetype: split[0],
-        filesystemLink: split[1]
+        filesystemLocation: split[1]
       });
     }
   });

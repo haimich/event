@@ -12,7 +12,7 @@ var multer  = require('multer');
 var upload = multer({ dest: 'uploads', files: 5 });
 
 var app = express();
-app.use(express.static('public')); //downloadable files
+app.use('/file/download', express.static('public')); //downloadable files
 
 app.put('/file', upload.single('file'), function (request, response, next) {
   var uploadedFile = request.file;

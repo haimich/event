@@ -5,7 +5,17 @@ var fileService = require('./fileService');
 var File = require('./fileModel');
 
 function createFile(file) {
-  
+  var loc = file.filesystemLocation.lastIndexOf('/');
+  var filename = file.filesystemLocation.substr(loc + 1, loc.length);
+  var file = new File({
+    url : 'http://localhost:8080/event/api/file/download/' + filename,
+    filesystem_location: file.filesystemLocation, 
+    mime_type: file.mimetype
+  });
+  console.log(file);
+  // fileRepo.createFile(file, dbPool, function(err, id){
+  //   
+  // });
 }
 
 exports.convertFile = function(fileId, dbPool) {
@@ -18,30 +28,21 @@ exports.convertFile = function(fileId, dbPool) {
     
     converter.start(fileModel.filesystem_location, config.outputPath, function(err, convertedFiles) {
       console.log(convertedFiles);
-      // var msg = {};
-      // if (err) {
-      //   msg.convertStatus = 'failed';
-      //   msg.error = err;
-      // } else {
-      //   for (var i in convertedFiles) {
-      //     var convertedFile = convertedFiles[i];
-      //     
-      //     var file = new File({
-      //       url : '', //TODO 
-      //       mime_type : convertedFile.substring(convertedFile.lastIndexOf(".")) // TODO
-      //     })
-      //     fileRepo.createFile(file, dbPool, function(err, id){
-      //       
-      //     });
-      //   }
-      //   // create file in db
-      //   convertedFiles.forEach(function(convertedFile) {
-      //     
-      //   }, this);
-      //   msg.originalFile = fileModel;
-      //   msg.convertedFiles = convertedFiles;
-      //   msg.convertStatus = 'finished';
-      // }
+      var msg = {};
+      if (err) {
+        msg.convertStatus = 'failed';
+        msg.error = err;
+      } else {
+        convertedFiles.forEach(createFile);
+          
+        // // create file in db
+        // convertedFiles.forEach(function(convertedFile) {
+        //   
+        // }, this);
+        // msg.originalFile = fileModel;
+        // msg.convertedFiles = convertedFiles;
+        // msg.convertStatus = 'finished';
+      }
       // messageService.sendConvertFinishedMessage(msg);
     });
   });
