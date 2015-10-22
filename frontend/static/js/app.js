@@ -112,17 +112,29 @@ $(document).ready(function() {
     }
     
     var session = {
-      title: formData.title,
-      speakerId: formData.speakerId,
+      title:       formData.title,
+      speaker_id:  formData.speakerId,
       description: formData.description,
-      date: formData.date,
-      slidesId: formData.sessionSlidesId,
-      screenshotId: formData.sessionScreenshotId,
-      videoId: formData.sessionVideoId
+      date:        formData.date,
+      files: {
+        slides_id:     formData.sessionSlidesId,
+        screenshot_id: formData.sessionScreenshotId,
+        video_id:      formData.sessionVideoId
+      }
     };
 
-    // TODO: post session object to API
-    console.log(session);
+    // Post session object to API
+    $.ajax({
+      url:  '/event/api/session',
+      method: 'put',
+      data: JSON.stringify(session),
+      contentType: 'application/json'
+    }).success(function(data, status, xhr) {
+      console.log('DONE', data);
+    }).error(function(xhr, status, error) {
+      console.log('ERROR', xhr, status, error);
+    });
+    
   });
 
 }); 
