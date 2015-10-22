@@ -4,7 +4,9 @@
   "description": "A RESTful API for creating sessions.",
   "main": "server.js",
   "scripts": {
-    "start": "echo '>> Use pm2 to start this service!'"
+    "start": "echo '>> Use pm2 to start this service!'",
+    "test": "mocha",
+    "watch:test": "chokidar *.js src/**/*.js test/**/*.js test/*.js -c mocha"
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,14 @@
     "body-parser": "^1.14.1",
     "dateformat": "^1.0.11",
     "express": "^4.13.3",
+    "http-status": "^0.2.0",
     "js-yaml": "^3.4.3",
-    "mysql": "^2.9.0"
+    "mysql": "^2.9.0",
+    "request": "^2.65.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "mocha": "^2.3.3",
+    "chokidar-cli": "^1.1.0"
   }
 }

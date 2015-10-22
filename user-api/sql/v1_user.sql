@@ -1,3 +1,5 @@
+USE `event`;
+
 CREATE TABLE `user` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `external_id` BIGINT DEFAULT NULL,

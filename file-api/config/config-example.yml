@@ -2,10 +2,11 @@ database:
   host: localhost
   user: 
   password: 
-  database: 
+  database: event
   connectionLimit: 30
   debug: false
+  
 messageQueue:
   url: amqp://localhost
   port: 5672
-  readFromQueue: attachement
+  emitToQueue: attachement

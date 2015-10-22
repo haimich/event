@@ -1,26 +1,25 @@
 var mysql = require('./mysql');
 
-exports.searchUser = function (name, dbPool, success) {
+exports.searchUser = function (name, dbPool, callback) {
 	var nameWithWildcards = ("%" + name + "%").toUpperCase();
   
 	dbPool.query(
 		"SELECT *, CONCAT(firstname, ' ', name) AS displayname FROM user WHERE upper(firstname) like :name OR upper(name) like :name OR upper(username) like :name OR upper(concat_ws(' ', firstname, name) like :name)",
 		{ name: nameWithWildcards }
-	, function(err, rows, fields) {
+	, function(err, rows) {
 		if (err) throw err;		
-    success(rows);
+    callback(err, rows);
 	});
 }
 
 exports.searchUserId = function (name, dbPool, callback) {
-  var gotId= name;
+  var gotId = name;
   if (isNaN(gotId) == true) {
     callback(gotId);
     return;
   }
   
-
-	dbPool.query(
+  dbPool.query(
 		"SELECT * FROM user WHERE id= :name;",
 		{ name: gotId }
 	, function(err, rows) {

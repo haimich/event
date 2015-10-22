@@ -1,32 +1,32 @@
 {
   "apps" : [{
-    "name"        : "Event Proxy",
+    "name"        : "proxy",
     "script"      : "server.js",
-    "args"        : ["8080"],
+    "args"        : ["--proxy=8080", "--frontend=3000", "--user=3010", "--session=3020", "--file=3030"],
     "merge_logs"  : true,
     "cwd"         : "proxy/"
    },{
-    "name"        : "Event Frontend",
+    "name"        : "frontend",
     "script"      : "server.js",
-    "args"        : ["3001"],
+    "args"        : ["3000"],
     "merge_logs"  : true,
     "cwd"         : "frontend/"
    },{
-    "name"        : "Event User API",
+    "name"        : "user-api",
     "script"      : "server.js",
-    "args"        : ["3002"],
+    "args"        : ["3010"],
     "merge_logs"  : true,
     "cwd"         : "user-api/"
    },{
-    "name"        : "Event Session API",
+    "name"        : "session-api",
     "script"      : "server.js",
-    "args"        : ["3003"],
+    "args"        : ["3020"],
     "merge_logs"  : true,
     "cwd"         : "session-api/"
    },{
-    "name"        : "Event File API",
+    "name"        : "file-api",
     "script"      : "server.js",
-    "args"        : ["3004"],
+    "args"        : ["3030"],
     "merge_logs"  : true,
     "cwd"         : "file-api/"
    }]

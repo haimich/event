@@ -2,16 +2,15 @@ var sessionRepo = require('./sessionRepo');
 var amqp = require('amqplib');
 var config = require('./config').readConfig().messageQueue;
 
-exports.getSessions = function(dbPool, success) {
-  sessionRepo.getSessions(dbPool, success);
+exports.getSessions = function(dbPool, callback) {
+  sessionRepo.getSessions(dbPool, callback);
 }
 
-exports.createSession = function (sessionModel, dbPool, success) {
-	sessionRepo.createSession(sessionModel, dbPool, 
-		function () {
-			waitForMessage();
-			success();
-		});
+exports.createSession = function (sessionModel, dbPool, callback) {
+	sessionRepo.createSession(sessionModel, dbPool, function (err, sessionId) {
+    //waitForMessage();
+    callback(err, sessionId);
+  });
 }
 
 function waitForMessage(){

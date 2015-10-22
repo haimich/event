@@ -1,11 +1,12 @@
 var port = process.argv[2];
 
-var fileService = require('./fileService');
-var File = require('./fileModel');
-var mysql = require('./mysql');
+var fileService = require('./src/fileService');
+var File = require('./src/fileModel');
+var mysql = require('./src/mysql');
 var dbPool = mysql.createPool();
 
 var express = require('express');
+var status = require('http-status');
 var multer  = require('multer');
 var upload = multer({ dest: 'uploads', files: 5 });
 
@@ -20,8 +21,11 @@ app.put('/file', upload.single('file'), function (request, response, next) {
     mime_type: uploadedFile.mimetype
   });
   
-  fileService.createAttachment(file, dbPool, function (id) {
-  	response.status(201).json({id: id});
+  fileService.createAttachment(file, dbPool, function (err, id) {
+    if (err) {
+      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    }
+  	response.status(status.CREATED).json({id: id});
   });
 });
 

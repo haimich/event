@@ -25,7 +25,8 @@
     "express": "^4.13.3",
     "font-awesome": "^4.4.0",
     "jquery": "^2.1.4",
-    "jquery-autocomplete": "^1.2.1"
+    "jquery-autocomplete": "^1.2.1",
+    "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
     "node-sass": "^3.3.3"

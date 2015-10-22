@@ -3,12 +3,14 @@ var amqp = require('amqplib');
 var when = require('when');
 var config = require('./config').readConfig().messageQueue;
 
-exports.createAttachment = function(fileModel, dbPool, success) {
-  var id = fileRepo.createAttachment(fileModel, dbPool, 
-  	function (id) {
-  	  sendUploadFinished(id);
-  	  success(id);	
-  	});
+exports.createAttachment = function(fileModel, dbPool, callback) {
+  var id = fileRepo.createAttachment(fileModel, dbPool, function (err, id) {
+    if (err) {
+      callback(err);
+    }
+    sendUploadFinished(id);
+    callback(id);	
+  });
 }
 
 function sendUploadFinished(attachementId){
