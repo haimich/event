@@ -13,7 +13,7 @@ describe('Session', function() {
       start_time: null,
       session_type_id: 1,
       session_state_id: 1,
-      attachments: null
+      files: null
   	}
   	var session = new Session(options);
 

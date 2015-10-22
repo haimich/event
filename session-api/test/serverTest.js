@@ -9,7 +9,7 @@ describe('PUT /session', function() {
       description: 'Test description',
       date: '2015-10-22 15:15:55',
       speaker_id: 1,
-      attachments: [1, 2]
+      files: [1, 2]
     };
     
     helper.createSession(session, function(response) {

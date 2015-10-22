@@ -7,7 +7,7 @@ describe('PATCH /session/{id}/convert', function() {
     var fileId = 1;
     
     helper.convertFile(fileId, function(response) {
-      response.statusCode.should.equal(status.OK);
+      response.statusCode.should.equal(status.ACCEPTED);
       done();
     });
   });

@@ -2,9 +2,10 @@ var port = process.argv[2];
 
 var Session = require('./src/sessionModel');
 var sessionService = require('./src/sessionService');
+var convertMessageConsumer = require('./src/convertMessageConsumer');
+
 var mysql = require('./src/mysql');
 var dbPool = mysql.createPool();
-
 
 var express = require('express');
 var status = require('http-status');
@@ -12,6 +13,9 @@ var bodyParser = require('body-parser');
 
 var app = express();
 app.use(bodyParser.json());
+
+//start listening for converted files messages
+convertMessageConsumer.listen(dbPool);
 
 app.get('/session', function(request, response) {
   sessionService.getSessions(dbPool, function(err, result) {
