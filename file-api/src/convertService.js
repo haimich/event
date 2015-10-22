@@ -26,41 +26,56 @@ function sendErrorMessage(err) {
   messageService.sendConvertFinishedMessage(msg);
 }
 
+function isVideo(fileModel) {
+  return fileModel.mime_type.startsWith('video');
+}
+
+/** 
+ * Converts the video and puts the output files in /public
+ * - creates file objects in the db for the converted videos
+ * - sends a RabbitMQ message when done (or when an error occurs)
+ */
+function handleVideo(fileModel, dbPool) {
+  converter.start(fileModel.filesystem_location, config.outputPath, function(err, convertedFiles) {
+    if (err) {
+      sendErrorMessage(err);
+      return;
+    } else {
+      var convertedFilesIds = [];
+      convertedFiles.forEach(function(file) {
+        createFile(file, dbPool, function(err, fileId) {
+          if (err !== null) {
+            sendErrorMessage(err);
+            return;
+          }
+          convertedFilesIds.push(fileId);
+          
+          if (convertedFilesIds.length == convertedFiles.length) {
+            var msg = {
+              originalFile: fileModel,
+              convertedFilesIds: convertedFilesIds,
+              convertStatus: 'finished'
+            }
+            messageService.sendConvertFinishedMessage(msg);
+          }
+        });
+      });
+      }
+  });
+}
+
 exports.convertFile = function(fileId, dbPool) {
-  console.log('Converting file with id ' + fileId); //TODO Filetyp unterscheiden
-  
   fileService.getFileById(fileId, dbPool, function(err, fileModel) {
     if (err) {
       sendErrorMessage(err);
       return;
     }
     
-    converter.start(fileModel.filesystem_location, config.outputPath, function(err, convertedFiles) {
-      if (err) {
-        sendErrorMessage(err);
-        return;
-      } else {
-        var convertedFilesIds = [];
-        convertedFiles.forEach(function(file) {
-          createFile(file, dbPool, function(err, fileId) {
-            if (err !== null) {
-              sendErrorMessage(err);
-              return;
-            }
-            convertedFilesIds.push(fileId);
-            
-            if (convertedFilesIds.length == convertedFiles.length) {
-              var msg = {
-                originalFile: fileModel,
-                convertedFilesIds: convertedFilesIds,
-                convertStatus: 'finished'
-              }
-              
-              messageService.sendConvertFinishedMessage(msg);
-            }
-          });
-        });
-       }
-    });
+    if (! isVideo(fileModel)) {
+      //we don't process images etc. at the moment
+      messageService.sendConvertFinishedMessage({ convertStatus: 'finished' });
+    } else {
+      handleVideo(fileModel, dbPool);      
+    }    
   });
 }
