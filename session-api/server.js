@@ -17,6 +17,9 @@ app.use(bodyParser.json());
 //start listening for converted files messages
 convertMessageConsumer.listen(dbPool);
 
+/**
+ * Get all sessions.
+ */
 app.get('/session', function(request, response) {
   sessionService.getSessions(dbPool, function(err, result) {
     if (err) {
@@ -26,6 +29,9 @@ app.get('/session', function(request, response) {
   });
 });
 
+/**
+ * Get a session by id.
+ */
 app.get('/session/:id', function(request, response) {
   var sessionId = request.params.id;
     
@@ -42,6 +48,9 @@ app.get('/session/:id', function(request, response) {
   });
 });
 
+/**
+ * Create a session.
+ */
 app.put('/session', function(request, response) {
   var session = request.body;
   if (session === undefined || session === null || session === '') {

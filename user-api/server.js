@@ -12,6 +12,9 @@ var cors = require('cors');
 var app = express();
 app.use(cors());
 
+/**
+ * Search for users.
+ */
 app.get('/user', function(request, response) {
 	var filter = request.query.filter || '';
   
@@ -23,6 +26,9 @@ app.get('/user', function(request, response) {
 	});
 });
 
+/**
+ * Get a specific user.
+ */
 app.get('/user/:id', function(request, response) {
   var userId = request.params.id;
     
