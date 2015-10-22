@@ -28,7 +28,8 @@
     "script"      : "server.js",
     "args"        : ["3030"],
     "merge_logs"  : true,
-    "cwd"         : "file-api/"
+    "cwd"         : "file-api/",
+    "ignore_watch": ["uploads/"]
    },{
     "name"        : "api-docs",
     "script"      : "server.js",
