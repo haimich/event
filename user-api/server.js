@@ -24,7 +24,12 @@ app.get('/user', function(request, response) {
 });
 
 app.get('/user/:id', function(request, response) {
-  var userId = request.params.id || '';
+  var userId = request.params.id;
+    
+  if (isNaN(userId) == true) {
+    return response.status(status.PRECONDITION_FAILED).json({ error: 'No user id given' });
+  }
+  
 
   userService.searchUserId(userId, dbPool, function(err, result){
     if (err) {
