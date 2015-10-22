@@ -11,4 +11,14 @@ describe('PATCH /session/{id}/convert', function() {
       done();
     });
   });
+  
+  it('should return an error when no id is given', function (done) {
+    var fileId = null;
+    
+    helper.convertFile(fileId, function(response) {
+      response.statusCode.should.equal(status.PRECONDITION_FAILED);
+      
+      done();
+    });
+  });
 });
