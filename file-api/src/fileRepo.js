@@ -1,4 +1,5 @@
 var mysql = require('./mysql');
+var dateHelper = require('./dateHelper');
 
 exports.createFile = function (fileModel, dbPool, callback) {
  	dbPool.query(
@@ -25,4 +26,10 @@ exports.getFileById = function (id, dbPool, callback) {
       callback(err, rows[0]);      
     }
   });
+}
+
+exports.updateFile = function(fileModel, dbPool, callback) {
+  fileModel.modified_at = dateHelper.getCurrentDatetime();
+  dbPool.query("UPDATE file SET url = :url, mime_type = :mime_type, filesystem_location = :filesystem_location, modified_at = :modified_at WHERE id = :id",
+    fileModel, callback);
 }

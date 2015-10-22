@@ -1,6 +1,6 @@
 var fileRepo = require('./fileRepo');
 
-function createFile(fileModel, dbPool, callback) {
+exports.createFile = function(fileModel, dbPool, callback) {
   fileRepo.createFile(fileModel, dbPool, function (err, id) {
     if (err) {
       callback(err, null);
@@ -10,9 +10,10 @@ function createFile(fileModel, dbPool, callback) {
   });
 }
 
-function getFileById(fileId, dbPool, callback) {
+exports.getFileById = function(fileId, dbPool, callback) {
   fileRepo.getFileById(fileId, dbPool, callback);
 }
 
-exports.getFileById =getFileById; 
-exports.createFile = createFile;
+exports.updateFile = function(fileModel, dbPool, callback) {
+  fileRepo.updateFile(fileModel, dbPool, callback);
+}

@@ -3,6 +3,7 @@ var converter = require('./convert/convertVideo');
 var messageService = require('./messageService');
 var fileService = require('./fileService');
 var File = require('./fileModel');
+var fs = require('fs');
 
 var fileDownloadBasePath = 'http://localhost:8080/event/api/file/download/';
 
@@ -33,9 +34,9 @@ function isVideo(fileModel) {
 /** 
  * Converts the video and puts the output files in /public
  * - creates file objects in the db for the converted videos
- * - sends a RabbitMQ message when done (or when an error occurs)
+ * - sends a message to the queue when done (or when an error occurs)
  */
-function handleVideo(fileModel, dbPool) {
+function handleVideoFile(fileModel, dbPool) {
   converter.start(fileModel.filesystem_location, config.outputPath, function(err, convertedFiles) {
     if (err) {
       sendErrorMessage(err);
@@ -64,6 +65,44 @@ function handleVideo(fileModel, dbPool) {
   });
 }
 
+/**
+ * At the moment only videos are converted, so here we only copy the file to the public
+ * folder and update the row in the database. Then a message is sent to the queue.
+ */
+function handleNonVideoFile(fileModel, dbPool) {
+  var currentLocation = fileModel.filesystem_location,                    //home/juicebox/Code/event/file-api/uploads/image.png
+      loc = currentLocation.lastIndexOf('/'),
+      filename = currentLocation.substr(loc + 1, currentLocation.length); //image.png
+  
+  var currentFolder = currentLocation.substr(0, loc - 1),                 //home/juicebox/Code/event/file-api/uploads
+      loc2 = currentFolder.lastIndexOf('/'),
+      basePath = currentFolder.substr(0, loc2),                           //home/juicebox/Code/event/file-api
+      newLocation = basePath + '/public/' + filename;                     //home/juicebox/Code/event/file-api/public/image.png
+  
+  //move file to public folder
+  fs.rename(currentLocation, newLocation, function(err) {
+    console.log(err);
+    if (err) {
+      sendErrorMessage(err);
+      return;
+    }
+    
+    fileModel.filesystem_location = newLocation;
+    fileService.updateFile(fileModel, dbPool, function(err) {
+      if (err) {
+        sendErrorMessage(err);
+        return;
+      }
+      
+      //Success!
+      messageService.sendConvertFinishedMessage({
+        convertStatus: 'finished',
+        convertedFilesIds: [fileModel.id] 
+      });
+    });
+  });  
+}
+
 exports.convertFile = function(fileId, dbPool) {
   fileService.getFileById(fileId, dbPool, function(err, fileModel) {
     if (err) {
@@ -72,10 +111,9 @@ exports.convertFile = function(fileId, dbPool) {
     }
     
     if (! isVideo(fileModel)) {
-      //we don't process images etc. at the moment
-      messageService.sendConvertFinishedMessage({ convertStatus: 'finished' });
+      handleNonVideoFile(fileModel, dbPool);
     } else {
-      handleVideo(fileModel, dbPool);      
+      handleVideoFile(fileModel, dbPool);      
     }    
   });
 }
