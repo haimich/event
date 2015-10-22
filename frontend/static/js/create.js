@@ -110,17 +110,24 @@ $(document).ready(function() {
     if (formErrors.length > 0) {
       return;
     }
+
+    var files = [];
+    if (formData.sessionSlidesId > 0) {
+      files.push({ id: formData.sessionSlidesId, type: 'slides' });
+    }
+    if (formData.sessionScreenshotId > 0) {
+      files.push({ id: formData.sessionScreenshotId, type: 'screenshot' });
+    }
+    if (formData.sessionVideoId > 0) {
+      files.push({ id: formData.sessionVideoId, type: 'video' });
+    }
     
     var session = {
       title:       formData.title,
       speaker_id:  formData.speakerId,
       description: formData.description,
       date:        formData.date,
-      files: {
-        slides_id:     formData.sessionSlidesId,
-        screenshot_id: formData.sessionScreenshotId,
-        video_id:      formData.sessionVideoId
-      }
+      files:       files
     };
 
     // Post session object to API
