@@ -4,6 +4,7 @@ var proxyPort    = null,
     userPort     = null,
     sessionPort  = null,
     filePort     = null;
+    docPort      = null;
 
 function parseArguments(callback) {
   process.argv.forEach(function (val, index, array) {
@@ -22,6 +23,8 @@ function parseArguments(callback) {
         sessionPort = value;
       case 'file':
         filePort = value;
+      case 'apidocs':
+        docPort = value;
     }
   });
   
@@ -35,4 +38,5 @@ parseArguments(function() {
   proxy.register('localhost/event/api/user',    'http://localhost:' + userPort + '/user');
   proxy.register('localhost/event/api/session', 'http://localhost:' + sessionPort + '/session');
   proxy.register('localhost/event/api/file',    'http://localhost:' + filePort + '/file');
+  proxy.register('localhost/event/apidocs',     'http://localhost:' + docPort + '/apidocs');
 });

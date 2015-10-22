@@ -30,6 +30,16 @@ CREATE TABLE `session` (
   FOREIGN KEY (`session_state_id`) REFERENCES session_state(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `session_file` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `session_id` BIGINT,
+  `file_id` BIGINT,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`session_id`) REFERENCES session(`id`),
+  FOREIGN KEY (`file_id`) REFERENCES file(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 INSERT INTO session_type(`name`) VALUES('presentation');
 INSERT INTO session_state(`name`) VALUES('in progress');
 INSERT INTO session_state(`name`) VALUES('published');
