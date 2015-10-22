@@ -33,3 +33,26 @@ describe('GET /session', function() {
     });
   });
 });
+
+describe('GET /session/{id}', function() {
+  it('should return a session by id', function (done) {
+    var sessionId = 1;
+
+    helper.getSessionId(sessionId, function(response) {
+      response.statusCode.should.equal(status.OK);
+      response.body.should.exist;
+      response.body.should.contain(sessionId);
+      done();
+    });
+  });
+
+  it('should return an error when no id is given', function (done) {
+    var sessionId = null;
+    
+    helper.getSessionId(sessionId, function(response) {
+      response.statusCode.should.equal(status.PRECONDITION_FAILED);
+      
+      done();
+    });
+  });
+});

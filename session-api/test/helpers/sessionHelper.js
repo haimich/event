@@ -24,5 +24,16 @@ function getSessions(callback) {
   });
 }
 
+function getSessionId(sessionid, callback) {
+   request({
+    url: baseUrl + '/' + sessionid,
+    method: 'GET'
+  }, function (error, response, body) {
+    if (error) { throw error; }
+    callback(response);
+  });
+}
+
+exports.getSessionId = getSessionId;
 exports.createSession = createSession;
 exports.getSessions = getSessions;
