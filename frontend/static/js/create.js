@@ -137,12 +137,10 @@ $(document).ready(function() {
       data: JSON.stringify(session),
       contentType: 'application/json'
     }).success(function(data, status, xhr) {
-      console.log('DONE', data);
-      // TODO: forward to /event/index.html
+      window.location.replace('/event/index.html');
     }).error(function(xhr, status, error) {
-      console.log('ERROR', xhr, status, error);
+      alert(error);
     });
-    
   });
 
 }); 
