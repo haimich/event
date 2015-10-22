@@ -36,7 +36,9 @@ app.patch('/file/:id/convert', function(request, response) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No file id given' });
   }
   
-  response.sendStatus(status.OK);
+  fileService.convertFile(fileId, dbPool);
+  
+  response.sendStatus(status.OK); //does not wait for convert to finish
 });
 
 
