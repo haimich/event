@@ -63,15 +63,15 @@ exports.createSessionFile = function (sessionFileModel, dbPool, callback) {
 	dbPool.query(
 		"INSERT INTO session_file (session_id, file_id, type) VALUES (:session_id, :file_id, :type)",
 		sessionFileModel, 
-		function(err, result){
-    		callback(err);
+		function(err, result) {
+      callback(err, result.insertId);
 		});
 }
 
 exports.searchSessionId = function (name, dbPool, callback) {
   var gotId = name;
   if (isNaN(gotId) == true) {
-    callback(gotId);
+    callback(name + ' is not a number');
     return;
   }
   

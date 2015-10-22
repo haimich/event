@@ -69,15 +69,15 @@ app.put('/session', function(request, response) {
     
     if (sessionModel.files === null || sessionModel.files === undefined || sessionModel.files.length === 0) {
       response.status(status.CREATED).json({ id: sessionId });
-    } else {    
+    } else {
       //create session files
-      sessionService.createSessionFiles(sessionId, sessionModel.files, dbPool, function(error, files){
+      sessionService.createSessionFiles(sessionId, sessionModel.files, dbPool, function(error, sessionFileIds){
         if (error) {
           return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
         }
         
         //start converting
-        startConvertProcess(files, function(err) {
+        startConvertProcess(sessionModel.files, function(err) {
           if (err) {
             return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });          
           }
@@ -92,6 +92,7 @@ function startConvertProcess(files, callback) {
   var gotError = false;
   
   files.forEach(function(file) {
+    console.log(file);
     request({
       url: baseUrl + '/file/' + file.id + '/convert',
       method: 'PATCH'

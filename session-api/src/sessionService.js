@@ -12,19 +12,23 @@ exports.createSession = function (sessionModel, dbPool, callback) {
 }
 
 exports.createSessionFiles = function (sessionId, files, dbPool, callback){
-  var createdFiles = [];
+  var createdSessionFiles = [];
+  var gotError = false;
   
   files.forEach(function(file) {
     var sessionFile = new SessionFile(sessionId, file.id, file.type);
-    sessionRepo.createSessionFile(sessionFile, dbPool, function(err, file) {
+    sessionRepo.createSessionFile(sessionFile, dbPool, function(err, sessionFileId) {
       if (err) {
         callback(err);
+        gotError = true;
+        return;
+      } else if (gotError) {
         return;
       }
-      createdFiles.push(createdFiles);
+      createdSessionFiles.push(sessionFileId);
       
-      if (createdFiles.length == files.length) {
-        callback(null, createdFiles);
+      if (createdSessionFiles.length == files.length) {
+        callback(null, createdSessionFiles);
       }
     });
   });
