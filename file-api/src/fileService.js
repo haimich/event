@@ -22,5 +22,5 @@ exports.sendMessage = function(fileId){
   content.fileId = fileId;
   content.convertStatus = 'finished';
 
-  messageQueue.sendMessage(content, config.convertFinishedQueue, host)
+  messageQueue.sendMessage(content, config.uploadFinishedQueue, host)
 }
