@@ -12,5 +12,8 @@ source ~/.bashrc
 pm2 install pm2-logrotate
 pm2 set pm2-logrotate:retain 7
 
-## Jasmine testing engine
+## Testing engine
 npm install -g mocha
+
+## Grunt (for apidocs only)
+npm install -g grunt-cli
