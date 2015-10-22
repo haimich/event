@@ -33,6 +33,11 @@ app.put('/session', function(request, response) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }
+    sessionService.createSessionFiles(sessionId, sessionModel.files, dbPool, function(error){
+      if (error) {
+        return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
+      }
+    });
     response.status(status.CREATED).json({ id: sessionId });
   });
 });
