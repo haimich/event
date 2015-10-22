@@ -13,4 +13,4 @@ pm2 install pm2-logrotate
 pm2 set pm2-logrotate:retain 7
 
 ## Jasmine testing engine
-npm install -g jasmine
+npm install -g mocha

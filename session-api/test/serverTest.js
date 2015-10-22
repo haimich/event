@@ -18,13 +18,6 @@ describe('PUT /session', function() {
       done();
     });
   });
-  
-  it('should return an error when no body is given', function (done) {    
-    helper.createSession(null, function(response) {
-      response.statusCode.should.equal(status.INTERNAL_SERVER_ERROR);      
-      done();
-    });
-  });
 });
 
 describe('GET /session', function() {
