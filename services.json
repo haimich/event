@@ -2,7 +2,7 @@
   "apps" : [{
     "name"        : "proxy",
     "script"      : "server.js",
-    "args"        : ["--proxy=8080", "--frontend=3000", "--user=3010", "--session=3020", "--file=3030"],
+    "args"        : ["--proxy=8080", "--frontend=3000", "--user=3010", "--session=3020", "--file=3030", "--apidocs=3040"],
     "merge_logs"  : true,
     "cwd"         : "proxy/"
    },{
@@ -29,5 +29,11 @@
     "args"        : ["3030"],
     "merge_logs"  : true,
     "cwd"         : "file-api/"
+   },{
+    "name"        : "api-docs",
+    "script"      : "server.js",
+    "args"        : ["3040"],
+    "merge_logs"  : true,
+    "cwd"         : "apidocs/"
    }]
 }
