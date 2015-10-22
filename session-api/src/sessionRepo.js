@@ -23,3 +23,18 @@ exports.createSessionFile = function (sessionFileModel, dbPool, callback) {
     		callback(err);
 		});
 }
+
+exports.searchSessionId = function (name, dbPool, callback) {
+  var gotId = name;
+  if (isNaN(gotId) == true) {
+    callback(gotId);
+    return;
+  }
+  
+  dbPool.query(
+    "SELECT * FROM session WHERE id= :name;",
+    { name: gotId }
+  , function(err, rows) {
+    callback(err, rows);
+  });
+}

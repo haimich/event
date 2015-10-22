@@ -17,3 +17,7 @@ exports.createSessionFiles = function (sessionId, files, dbPool, callback){
     sessionRepo.createSessionFile(sessionFile, dbPool, callback);
   });
 }
+
+exports.searchSessionId = function (id, dbPool, callback){
+  sessionRepo.searchSessionId(id, dbPool, callback);
+}
