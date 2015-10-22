@@ -31,7 +31,7 @@
     "cwd"         : "file-api/",
     "ignore_watch": ["uploads/"]
    },{
-    "name"        : "api-docs",
+    "name"        : "apidocs",
     "script"      : "server.js",
     "args"        : ["3040"],
     "merge_logs"  : true,
