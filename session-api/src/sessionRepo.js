@@ -1,7 +1,7 @@
 var mysql = require('./mysql');
 
 exports.getSessions = function(dbPool, callback) {
-  dbPool.query("SELECT * FROM session", function(err, result) {
+  dbPool.query("SELECT session.*, CONCAT(user.firstname, ' ', user.name) AS speaker_name FROM session LEFT JOIN user ON user.id = session.speaker_id", function(err, result) {
     callback(err, result);
   });
 }
