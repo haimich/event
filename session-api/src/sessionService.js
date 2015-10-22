@@ -21,3 +21,11 @@ exports.createSessionFiles = function (sessionId, files, dbPool, callback){
 exports.searchSessionId = function (id, dbPool, callback){
   sessionRepo.searchSessionId(id, dbPool, callback);
 }
+
+exports.getSessionByFileId = function (id, dbPool, callback){
+  sessionRepo.getSessionByFileId(id, dbPool, callback);
+}
+
+exports.createSessionFile = function (sessionFile, dbPool, callback){
+  sessionRepo.createSessionFile(sessionFile, dbPool, callback);
+}

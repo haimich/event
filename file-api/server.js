@@ -1,6 +1,7 @@
 var port = process.argv[2];
 
 var fileService = require('./src/fileService');
+var convertService = require('./src/convertService');
 var File = require('./src/fileModel');
 var mysql = require('./src/mysql');
 var dbPool = mysql.createPool();
@@ -37,7 +38,7 @@ app.patch('/file/:id/convert', function(request, response) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No file id given' });
   }
   
-  fileService.convertFile(fileId, dbPool);
+  convertService.convertFile(fileId, dbPool);
   
   response.sendStatus(status.ACCEPTED); //does not wait for convert to finish
 });

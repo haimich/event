@@ -58,5 +58,5 @@ else #use avconv
   test -f "$output.webm" || $CONVERTER -i "$video" -c:v libvpx -c:a libvorbis "$output.webm"
 fi
 
-echo "$output.mp4"
-echo "$output.webm"
+echo "video/mp4=$output.mp4"
+echo "video/webm=$output.webm"

@@ -17,18 +17,26 @@ function startConverting(converter, filename, outputPath, callback) {
   
   childProcess.exec(command, function(error, stdout, stderr) {
     if (error !== null) {
-      callback('Converting failed: ' + stderr, stdout);
+      callback('Converting failed: ' + stderr);
     } else {
-      var outputFiles = [];
-      //remove empty lines
-      stdout.split('\n').forEach(function(element) {
-        if (element !== '') {
-          outputFiles.push(element);
-        }
-      });
-      callback(null, outputFiles);
+      callback(null, getOutputFiles(stdout));
     }
   });
+}
+
+function getOutputFiles(stdout) {
+  var outputFiles = [];
+  //remove empty lines
+  stdout.split('\n').forEach(function(element) {
+    if (element !== '') {
+      var split = element.split('=');
+      outputFiles.push({
+        mimetype: split[0],
+        filesystemLink: split[1]
+      });
+    }
+  });
+  return outputFiles;
 }
 
 exports.start = function(filename, outputPath, callback) {

@@ -1,7 +1,4 @@
 var fileRepo = require('./fileRepo');
-var config = require('./config').readConfig();
-var messageQueue = require('../../modules/message-queue');
-var converter = require('./convert/convertVideo');
 
 function createFile(fileModel, dbPool, callback) {
   fileRepo.createFile(fileModel, dbPool, function (err, id) {
@@ -26,34 +23,5 @@ function getFileById(fileId, dbPool, callback) {
   });
 }
 
-function convertFile(fileId, dbPool) {
-  console.log('Converting file with id ' + fileId);
-  
-  getFileById(fileId, dbPool, function(err, fileModel) {
-    if (err) {
-      throw err;
-    }
-    
-    converter.start(file.filesystem_location, config.convert.outputPath, function(err, convertedFiles) {
-      var msg = {};
-      if (err) {
-        msg.convertStatus = 'failed';
-        msg.error = err;
-      } else {
-        msg.originalFile = file;
-        msg.convertedFiles = convertedFiles;
-        msg.convertStatus = 'finished';
-      }
-      sendMessage(msg);
-    });
-  });
-}
-
-exports.sendMessage = function(msg) {
-  var host = config.messageQueue.url + ':' + config.messageQueue.port;
-  messageQueue.sendMessage(msg, config.messageQueue.convertFinishedQueue, host)
-}
-
 exports.getFileById =getFileById; 
 exports.createFile = createFile;
-exports.convertFile = convertFile;
