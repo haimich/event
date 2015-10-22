@@ -23,7 +23,7 @@ app.put('/file', upload.single('file'), function (request, response, next) {
     mime_type: uploadedFile.mimetype
   });
   
-  fileService.createAttachment(file, dbPool, function (err, id) {
+  fileService.createFile(file, dbPool, function (err, id) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }
