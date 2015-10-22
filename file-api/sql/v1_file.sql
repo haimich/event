@@ -1,14 +1,13 @@
 USE `event`;
 
-CREATE TABLE `attachment` (
+CREATE TABLE `file` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `url` VARCHAR(255) DEFAULT NULL,
   `mime_type` VARCHAR(255) DEFAULT NULL,
-  `session_id` BIGINT DEFAULT NULL,
+  `filesystem_location` VARCHAR(255) DEFAULT NULL,
+  `url` VARCHAR(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `modified_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`session_id`) REFERENCES session(`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-#INSERT INTO attachment(`url`, `mime_type`, `session_id`) VALUES('internet', 'application/json', 12321);
+INSERT INTO file(`url`, `mime_type`, `filesystem_location`) VALUES('internet', 'application/json', '/tmp/myfile.png');
