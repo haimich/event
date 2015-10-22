@@ -10,6 +10,8 @@ var status = require('http-status');
 var multer  = require('multer');
 var upload = multer({ dest: 'uploads', files: 5 });
 
+app.use(express.static('public')); //downloadable files
+
 var app = express();
 
 app.put('/file', upload.single('file'), function (request, response, next) {
@@ -38,7 +40,7 @@ app.patch('/file/:id/convert', function(request, response) {
   
   fileService.convertFile(fileId, dbPool);
   
-  response.sendStatus(status.OK); //does not wait for convert to finish
+  response.sendStatus(status.ACCEPTED); //does not wait for convert to finish
 });
 
 app.get('/file/:id', function(request, response) {
