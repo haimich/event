@@ -66,6 +66,21 @@ body {
 .content .datepicker {
   border: 1px solid #ccc;
   padding: .375rem .75rem;
+  width: 200px;
+  display: inline;
+  margin-right: 5px;
+}
+
+.content .has-error .datepicker {
+  border-color: #d9534f;
+}
+
+.content .has-error .fa {
+  color: #d9534f;
+}
+
+.content fieldset .fa {
+  font-size: 24px;
 }
 
 @media (min-width: 34em) {

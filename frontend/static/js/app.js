@@ -61,7 +61,7 @@ $(document).ready(function() {
         $('input[name=' + this.options.targetId + ']').val(response.id);
       },
       error: function(file, message) {
-        alert(message);
+        alert(message.error);
         this.removeFile(file);
       },
       canceled: function(file) {
@@ -94,8 +94,35 @@ $(document).ready(function() {
       return;
     }
 
-    // TODO: check form data
+    // Check form data
+    var formData = {};
+    var formErrors = [];
+    $('.create-session input[name], .create-session textarea[name]').each(function() {
+      if (!$(this).hasClass('optional') && $(this).val() == '') {
+        $(this).closest('fieldset').addClass('has-error');
+        formErrors.push($(this));
+      } else {
+        $(this).closest('fieldset').removeClass('has-error');
+        formData[$(this).attr('name')] = $(this).val();
+      }
+    });
+
+    if (formErrors.length > 0) {
+      return;
+    }
     
+    var session = {
+      title: formData.title,
+      speakerId: formData.speakerId,
+      description: formData.description,
+      date: formData.date,
+      slidesId: formData.sessionSlidesId,
+      screenshotId: formData.sessionScreenshotId,
+      videoId: formData.sessionVideoId
+    };
+
+    // TODO: post session object to API
+    console.log(session);
   });
 
 }); 

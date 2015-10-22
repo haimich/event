@@ -30,24 +30,24 @@
         <div class="row">
           <div class="col-xs-12 col-md-6">
             <fieldset class="form-group">
-              <input type="text" class="form-control" id="sessionTitle" placeholder="Titel des Vortrags">
+              <input type="text" name="title" class="form-control" id="sessionTitle" placeholder="Titel des Vortrags">
             </fieldset>
           </div>
           <div class="col-xs-12 col-md-6">
             <fieldset class="form-group">
-              <input type="text" class="form-control autocomplete speaker" id="sessionSpeaker" data-hidden-field-id="speakerId" placeholder="Name des Sprechers">
+              <input type="text" name="speaker" class="form-control autocomplete speaker" id="sessionSpeaker" data-hidden-field-id="speakerId" placeholder="Name des Sprechers">
               <input type="hidden" name="speakerId" id="speakerId" value="">
             </fieldset>
           </div>
           <div class="col-xs-12 col-md-6">
             <fieldset class="form-group">
-              <textarea class="form-control optional" id="sessionDescription" rows="3" placeholder="Beschreibung"></textarea>
+              <textarea name="description" class="form-control optional" id="sessionDescription" rows="3" placeholder="Beschreibung"></textarea>
             </fieldset>
           </div>
           <div class="col-xs-12 col-md-6">
             <fieldset class="form-group">
               <div class="input-append date" id="sessionDate">
-                <input class="datepicker" maxlength="10" type="text" value="" id="datepickerSessionDate" placeholder="Datum">
+                <input type="text" name="date" class="datepicker form-control" maxlength="10" value="" id="datepickerSessionDate" placeholder="Datum">
                 <i class="fa fa-calendar pointer" data-datepicker-id="datepickerSessionDate"></i>
               </div>
             </fieldset>
@@ -59,7 +59,7 @@
               <label for="sessionSlides">Präsentation</label>
               <form action="/event/api/file" class="dropzone" id="sessionSlides" data-id-target="sessionSlidesId"></form>
               <small class="text-muted">Die Präsentation muss im PDF- oder PowerPoint-Format vorliegen.</small>
-              <input type="hidden" name="sessionSlidesId" value="">
+              <input type="hidden" name="sessionSlidesId" class="optional" value="">
             </fieldset>
           </div>
           <div class="col-xs-12 col-md-6">
@@ -67,7 +67,7 @@
               <label for="sessionScreenshot">Screenshot</label>
               <form action="/event/api/file" class="dropzone" id="sessionScreenshot" data-id-target="sessionScreenshotId"></form>
               <small class="text-muted">Am besten eignet sich ein Screenshot der Titelfolie oder aus dem Video.</small>
-              <input type="hidden" name="sessionScreenshotId" value="">
+              <input type="hidden" name="sessionScreenshotId" class="optional" value="">
             </fieldset>
           </div>
           <div class="col-xs-12 col-md-6">
@@ -75,7 +75,7 @@
               <label for="sessionVideo">Video</label>
               <form action="/event/api/file" class="dropzone" id="sessionVideo" data-id-target="sessionVideoId"></form>
               <small class="text-muted">Folgende Videoformate werden unterstützt: ...</small>
-              <input type="hidden" name="sessionVideoId" value="">
+              <input type="hidden" name="sessionVideoId" class="optional" value="">
             </fieldset>
             <button type="submit" class="btn btn-primary save-session">Speichern</button>
           </div>
