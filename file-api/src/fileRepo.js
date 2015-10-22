@@ -8,3 +8,25 @@ exports.createAttachment = function (fileModel, dbPool, callback) {
     callback(err, rows.insertId);
 	});
 }
+
+exports.searchFileId = function (name, dbPool, callback) {
+  var gotId = name;
+  if (isNaN(gotId) == true) {
+    callback(gotId);
+    return;
+  }
+  
+  dbPool.query("SELECT * FROM file;",
+    function(err, rows) {
+    callback(err, rows);
+  });
+
+  /*
+  dbPool.query(
+    "SELECT * FROM file WHERE id= :name;",
+    { name: gotId }
+  , function(err, rows) {
+    callback(err, rows);
+  });
+  */
+}

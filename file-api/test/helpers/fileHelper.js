@@ -12,4 +12,15 @@ function convertFile(fileId, callback) {
   });
 }
 
+function getFileId(fileid, callback) {
+   request({
+    url: baseUrl + '/' + fileid,
+    method: 'GET'
+  }, function (error, response, body) {
+    if (error) { throw error; }
+    callback(response);
+  });
+}
+
+exports.getFileId = getFileId;
 exports.convertFile = convertFile;

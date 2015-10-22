@@ -16,11 +16,15 @@ exports.convertFile = function(fileId, dbPool) {
   console.log('Converting file with id ' + fileId);
 }
 
-exports.sendMessage = function(fileId){
+exports.sendMessage = function(fileId) {
   var host = config.url + ":" + config.port;
   var content = JSON.parse('{}');
   content.fileId = fileId;
   content.convertStatus = 'finished';
 
-  messageQueue.sendMessage(content, config.uploadFinishedQueue, host)
+  messageQueue.sendMessage(content, config.convertFinishedQueue, host)
+}
+
+exports.searchFileId = function(fileId, dbPool, callback) {
+  fileRepo.searchFileId(fileId, dbPool, callback);
 }

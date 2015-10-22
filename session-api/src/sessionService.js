@@ -13,7 +13,11 @@ exports.createSession = function (sessionModel, dbPool, callback) {
 
 exports.createSessionFiles = function (sessionId, files, dbPool, callback){
   files.forEach(function(file){
-    sessionFile = new SessionFile(sessionId, file.file.id, file.file.type);
+    sessionFile = new SessionFile(sessionId, file.id, file.type);
     sessionRepo.createSessionFile(sessionFile, dbPool, callback);
   });
+}
+
+exports.searchSessionId = function (id, dbPool, callback){
+  sessionRepo.searchSessionId(id, dbPool, callback);
 }

@@ -41,5 +41,20 @@ app.patch('/file/:id/convert', function(request, response) {
   response.sendStatus(status.OK); //does not wait for convert to finish
 });
 
+app.get('/file/:id', function(request, response) {
+  var fileId = request.params.id;
+    
+  if (isNaN(fileId) == true) {
+    return response.status(status.PRECONDITION_FAILED).json({ error: 'No file id given' });
+  }
+  
+
+  fileService.searchFileId(fileId, dbPool, function(err, result){
+    if (err) {
+      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    }
+    response.json(result);
+  });
+});
 
 app.listen(port);

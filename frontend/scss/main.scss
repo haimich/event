@@ -1,12 +1,21 @@
+/* VARIABLES */
+
 $lightgrey: #f1f1f1;
-$darkgrey: #495252;
+$darkgrey: #aaaaaa;
+
+
+/* GENERAL LAYOUT */
 
 body { 
   background-color: $lightgrey; 
 }
 
 .header {
-  margin-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.actions {
+  margin-bottom: 30px;
 }
 
 .content {
@@ -15,6 +24,9 @@ body {
   padding-bottom: 30px;
 }
 
+
+/* COMMON STYLES */
+
 .pointer {
   cursor: pointer;
 }
@@ -22,6 +34,82 @@ body {
 .content h1 {
   margin-top: 15px;
 }
+
+.hidden {
+  display: none;
+}
+
+@media (min-width: 34em) {
+  .pull-right-sm {
+    float: right;
+  }
+}
+
+@media (min-width: 48em) {
+  .pull-right-md {
+    float: right;
+  }
+}
+
+@media (min-width: 62em) {
+  .pull-right-lg {
+    float: right;
+  }
+}
+
+@media (min-width: 75em) {
+  .pull-right-xl {
+    float: right;
+  }
+}
+
+
+/* LIST SESSIONS */
+
+.content .list-sessions .session {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px dotted $darkgrey;
+}
+
+.content .list-sessions .session-screenshot {
+  height: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin-bottom: 15px;
+}
+
+.content .list-sessions .session-screenshot.default {
+  background-image: url(../images/session-default.jpg);
+}
+
+@media (min-width: 34em) {
+  .content .list-sessions .session-screenshot {
+    margin-bottom: 0;
+  }
+}
+
+.content .list-sessions .session h2 {
+  font-size: 24px;
+}
+
+.content .list-sessions .session h3 {
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+.content .list-sessions .session p.description {
+  margin-bottom: 0;
+}
+
+.content .list-sessions .session .date, .content .list-sessions .session .speaker {
+  margin: 0 15px 0 5px;
+}
+
+
+/* CREATE SESSION */
 
 .content .dropzone {
   min-height: 30px;
@@ -81,28 +169,4 @@ body {
 
 .content fieldset .fa {
   font-size: 24px;
-}
-
-@media (min-width: 34em) {
-  .pull-right-sm {
-    float: right;
-  }
-}
-
-@media (min-width: 48em) {
-  .pull-right-md {
-    float: right;
-  }
-}
-
-@media (min-width: 62em) {
-  .pull-right-lg {
-    float: right;
-  }
-}
-
-@media (min-width: 75em) {
-  .pull-right-xl {
-    float: right;
-  }
 }

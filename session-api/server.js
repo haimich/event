@@ -22,6 +22,22 @@ app.get('/session', function(request, response) {
   });
 });
 
+app.get('/session/:id', function(request, response) {
+  var sessionId = request.params.id;
+    
+  if (isNaN(sessionId) == true) {
+    return response.status(status.PRECONDITION_FAILED).json({ error: 'No session id given' });
+  }
+  
+
+  sessionService.searchSessionId(sessionId, dbPool, function(err, result){
+    if (err) {
+      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    }
+    response.json(result);
+  });
+});
+
 app.put('/session', function(request, response) {
   var session = request.body;
   if (session === undefined || session === null || session === '') {
