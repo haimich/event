@@ -24,9 +24,9 @@ app.get('/user', function(request, response) {
 });
 
 app.get('/user/:id', function(request, response) {
-  var filter = request.params.id || '';
+  var userId = request.params.id || '';
 
-  userService.searchUserId(filter, dbPool, function(err, result){
+  userService.searchUserId(userId, dbPool, function(err, result){
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }
