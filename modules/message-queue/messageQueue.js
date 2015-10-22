@@ -16,7 +16,7 @@ exports.sendMessage = function (jsonContent, queue, host){
   }).then(null, console.warn);
 }
 
-exports.consumeMessage = function (queue, host, callback){
+exports.consumeMessage = function (queue, host, callback) {
   amqp.connect(host).then(function(conn) {
     process.once('SIGINT', function() { conn.close(); });
     return conn.createChannel().then(function(ch) {

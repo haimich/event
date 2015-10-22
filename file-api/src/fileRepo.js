@@ -9,7 +9,7 @@ exports.createFile = function (fileModel, dbPool, callback) {
 	});
 }
 
-exports.searchFileId = function (name, dbPool, callback) {
+exports.getFileById = function (name, dbPool, callback) {
   var gotId = name;
   if (isNaN(gotId) == true) {
     callback(gotId);

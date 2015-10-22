@@ -49,8 +49,7 @@ app.get('/file/:id', function(request, response) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No file id given' });
   }
   
-
-  fileService.searchFileId(fileId, dbPool, function(err, result){
+  fileService.getFileById(fileId, dbPool, function(err, result){
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }

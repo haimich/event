@@ -1,10 +1,11 @@
 var port = process.argv[2];
 
+var config = require('./src/config').readConfig();
 var Session = require('./src/sessionModel');
 var sessionService = require('./src/sessionService');
 var mysql = require('./src/mysql');
 var dbPool = mysql.createPool();
-
+var consumeMessage = require('../modules/message-queue/messageQueue').consumeMessage;
 
 var express = require('express');
 var status = require('http-status');
@@ -12,6 +13,11 @@ var bodyParser = require('body-parser');
 
 var app = express();
 app.use(bodyParser.json());
+
+var host = config.messageQueue.url + ':' + config.messageQueue.port;
+consumeMessage(config.messageQueue.convertFinishedQueue, host, function(msg) {
+  console.log('MSG RECEIVED', msg);
+});
 
 app.get('/session', function(request, response) {
   sessionService.getSessions(dbPool, function(err, result) {

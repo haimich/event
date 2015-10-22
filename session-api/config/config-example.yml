@@ -9,4 +9,4 @@ database:
 messageQueue:
   url: amqp://localhost
   port: 5672
-  readFromQueue: attachement
+  convertFinishedQueue: converted_files

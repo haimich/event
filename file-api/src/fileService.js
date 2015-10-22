@@ -1,5 +1,5 @@
 var fileRepo = require('./fileRepo');
-var config = require('./config').readConfig().messageQueue;
+var config = require('./config').readConfig();
 var messageQueue = require('../../modules/message-queue')
 
 function createFile(fileModel, dbPool, callback) {
@@ -12,18 +12,18 @@ function createFile(fileModel, dbPool, callback) {
   });
 }
 
-function getFileById(fileId, dbPool, callback) {
-  fileRepo.getFileById(fileId, dbPool, callback);
-}
-// 
-// function getFile(fileId, dbPool, callback) {
-//   callback(null, {  
-//     id: 4,
-//     url: null,
-//     mime_type: 'video/x-f4v',
-//     filesystem_location: 'uploads/campus.f4v'
-//   });
+// function getFileById(fileId, dbPool, callback) {
+//   fileRepo.getFileById(fileId, dbPool, callback);
 // }
+// 
+function getFileById(fileId, dbPool, callback) {
+  callback(null, {  
+    id: 4,
+    url: null,
+    mime_type: 'video/x-f4v',
+    filesystem_location: 'uploads/campus.f4v'
+  });
+}
 
 function convertFile(fileId, dbPool) {
   console.log('Converting file with id ' + fileId);
@@ -38,11 +38,10 @@ function convertFile(fileId, dbPool) {
 }
 
 exports.sendMessage = function(msg) {
-  var host = config.url + ':' + config.port;
-  messageQueue.sendMessage(msg, config.convertFinishedQueue, host)
+  var host = config.messageQueue.url + ':' + config.messageQueue.port;
+  messageQueue.sendMessage(msg, config.messageQueue.convertFinishedQueue, host)
 }
 
 exports.getFileById =getFileById; 
 exports.createFile = createFile;
-exports.getFile = getFile;
 exports.convertFile = convertFile;
