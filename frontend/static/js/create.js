@@ -131,6 +131,7 @@ $(document).ready(function() {
       contentType: 'application/json'
     }).success(function(data, status, xhr) {
       console.log('DONE', data);
+      // TODO: forward to /event/index.html
     }).error(function(xhr, status, error) {
       console.log('ERROR', xhr, status, error);
     });

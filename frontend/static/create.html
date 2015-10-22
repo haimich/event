@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>EVENT: Vortrag anlegen</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/event/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/event/css/jquery.autocomplete.css">
+    <link rel="stylesheet" href="/event/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/event/css/datepicker.css">
+    <link rel="stylesheet" href="/event/css/dropzone.min.css">
+    <link rel="stylesheet" href="/event/css/main.css">
+    <link rel="icon" type="image/x-icon" href="/event/images/favicon.ico" />
+  </head>
+  <body>
+    <div class="container content">
+      <div class="row header">
+        <div class="col-xs-12 col-md-6 col-md-push-6">
+          <img src="/event/images/event-logo.png" alt="" class="img-responsive logo pull-right-md pull-right-lg pull-right-xl"/>
+        </div>
+        <div class="col-xs-12 col-md-6 col-md-pull-6">
+          <h1>Vortrag anlegen</h1>
+        </div>
+      </div>
+      <div class="create-session">
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <fieldset class="form-group">
+              <input type="text" name="title" class="form-control" id="sessionTitle" placeholder="Titel des Vortrags">
+            </fieldset>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <fieldset class="form-group">
+              <input type="text" name="speaker" class="form-control autocomplete speaker" id="sessionSpeaker" data-hidden-field-id="speakerId" placeholder="Name des Sprechers">
+              <input type="hidden" name="speakerId" id="speakerId" value="">
+            </fieldset>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <fieldset class="form-group">
+              <textarea name="description" class="form-control optional" id="sessionDescription" rows="3" placeholder="Beschreibung"></textarea>
+            </fieldset>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <fieldset class="form-group">
+              <div class="input-append date" id="sessionDate">
+                <input type="text" name="date" class="datepicker form-control" maxlength="10" value="" id="datepickerSessionDate" placeholder="Datum">
+                <i class="fa fa-calendar pointer" data-datepicker-id="datepickerSessionDate"></i>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <fieldset class="form-group">
+              <label for="sessionSlides">Präsentation</label>
+              <form action="/event/api/file" class="dropzone" id="sessionSlides" data-id-target="sessionSlidesId"></form>
+              <small class="text-muted">Die Präsentation muss im PDF- oder PowerPoint-Format vorliegen.</small>
+              <input type="hidden" name="sessionSlidesId" class="optional" value="">
+            </fieldset>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <fieldset class="form-group">
+              <label for="sessionScreenshot">Screenshot</label>
+              <form action="/event/api/file" class="dropzone" id="sessionScreenshot" data-id-target="sessionScreenshotId"></form>
+              <small class="text-muted">Am besten eignet sich ein Screenshot der Titelfolie oder aus dem Video.</small>
+              <input type="hidden" name="sessionScreenshotId" class="optional" value="">
+            </fieldset>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <fieldset class="form-group">
+              <label for="sessionVideo">Video</label>
+              <form action="/event/api/file" class="dropzone" id="sessionVideo" data-id-target="sessionVideoId"></form>
+              <small class="text-muted">Folgende Videoformate werden unterstützt: ...</small>
+              <input type="hidden" name="sessionVideoId" class="optional" value="">
+            </fieldset>
+            <button type="submit" class="btn btn-primary save-session">Speichern</button>
+            <a href="/event/index.html" class="btn btn-secondary">Abbrechen</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Provide template for dropzone preview -->
+    <div id="preview-template" style="display:none;">
+      <div class="dz-preview dz-file-preview">
+        <div class="dz-details">
+          <div class="dz-filename"><span data-dz-name></span></div>
+          (<div class="dz-size" data-dz-size></div>)
+        </div>
+        <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+        <div class="dz-success-mark"><span>✔</span></div>
+        <div class="dz-error-mark"><span>✘</span></div>
+        <div class="dz-error-message"><span data-dz-errormessage></span></div>
+      </div>
+    </div>
+
+    <!-- jQuery first, then Bootstrap JS. -->
+    <script src="/event/js/jquery.min.js"></script>
+    <script src="/event/js/bootstrap.min.js"></script>
+    <script src="/event/js/jquery.autocomplete.js"></script>
+    <script src="/event/js/bootstrap-datepicker.js"></script>
+    <script src="/event/js/dropzone.min.js"></script>
+    <script src="/event/js/create.js"></script>
+  </body>
+</html>
