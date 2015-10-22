@@ -24,7 +24,7 @@ module.exports = (grunt) ->
         description: ''
         version: '1.0.0'
       schemes: ['http']
-      basePath: '/'
+      basePath: '/event/api'
       produces: ['application/json']
       consumes: ['application/json']
       paths: {}
