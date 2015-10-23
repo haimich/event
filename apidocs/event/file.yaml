@@ -41,7 +41,62 @@ paths:
           description: No file could be found
           schema:
             $ref: "#/definitions/Error"
+  /file/{id}/convert:
+     # binds a127 app logic to a route
+    x-swagger-router-controller: server
+    patch:
+      description: Converts a given file and sends a message to the session-api when done.
+      # used as the method name of the controller
+      operationId: file3
+      parameters:
+        - name: id
+          in: path
+          description: The file id
+          required: true
+          type: integer
+      tags: [File]
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/File3"
+        # responses may fall through to errors
+        "400":
+          description: No file id given
+          schema:
+            $ref: "#/definitions/Error"
+  /file:
+     # binds a127 app logic to a route
+    x-swagger-router-controller: server
+    put:
+      description: Uploads a file to the server and creates a db entry.
+      # used as the method name of the controller
+      operationId: file2
+      tags: [File]
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/File2"
+        # responses may fall through to errors
+        "404":
+          description: No file could be found
+          schema:
+            $ref: "#/definitions/Error"
 definitions:
+  File3:
+    properties:
+      answer: 
+        description: The file status.
+        type: string
+  File2:
+    properties:
+      id:
+        description: The new file id.
+        type: integer
+      answer: 
+        description: The file status.
+        type: string
   File:
     properties:
       id:

@@ -17,13 +17,31 @@ consumes:
 produces:
   - application/json
 paths:
+  /session:
+     # binds a127 app logic to a route
+    x-swagger-router-controller: server
+    get:
+      description: Get all the sessions.
+      # used as the method name of the controller
+      operationId: session
+      tags: [Session]
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Session"
+        # responses may fall through to errors
+        "404":
+          description: No session could be found
+          schema:
+            $ref: "#/definitions/Error"
   /session/{id}:
      # binds a127 app logic to a route
     x-swagger-router-controller: server
     get:
       description: Get a session by id.
       # used as the method name of the controller
-      operationId: session
+      operationId: session2
       parameters:
         - name: id
           in: path
@@ -35,13 +53,40 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/File"
+            $ref: "#/definitions/Session"
         # responses may fall through to errors
         "404":
           description: No session could be found
           schema:
             $ref: "#/definitions/Error"
+  /session{put}:
+     # binds a127 app logic to a route
+    x-swagger-router-controller: server
+    put:
+      description: Create a session.
+      # used as the method name of the controller
+      operationId: session3
+      tags: [Session]
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Session2"
+        # responses may fall through to errors
+        "404":
+          description: No session could be found
+          schema:
+            $ref: "#/definitions/Error"
+# complex objects have schema definitions
 definitions:
+  Session2:
+    properties:
+      id:
+        description: The new session id.
+        type: integer
+      answer: 
+        description: The session status.
+        type: string
   Session:
     properties:
       id:
