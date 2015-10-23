@@ -14,7 +14,7 @@
     <link rel="icon" type="image/x-icon" href="/event/images/favicon.ico" />
   </head>
   <body>
-    <div class="container content">
+    <div class="container-fluid content">
       <div class="row header">
         <div class="col-xs-12 col-md-6 col-md-push-6">
           <img src="/event/images/event-logo.png" alt="" class="img-responsive logo pull-right-md pull-right-lg pull-right-xl"/>
@@ -29,18 +29,20 @@
           Veranstaltung anlegen
         </a>
       </div>
-      <div class="list-sessions">
-        <div class="row session hidden" id="eventTemplate">
-          <div class="col-xs-12 col-sm-3">
-            <div class="session-screenshot default"></div>
-          </div>
-          <div class="col-xs-12 col-sm-9">
-            <h2><a href="#" class="title"></a></h2>
-            <h3>
-              <i class="fa fa-calendar pointer"></i> <span class="date"></span>
-              <i class="fa fa-user pointer"></i><span class="speaker"></span>
-            </h3>
-            <p class="description"></p>
+      <div class="row list-sessions">
+        <div class="col-xs-12 col-lg-6 session hidden" id="eventTemplate">
+          <div class="row">
+            <div class="col-xs-12 col-sm-3">
+              <div class="session-screenshot default"></div>
+            </div>
+            <div class="col-xs-12 col-sm-9">
+              <h2><a href="#" class="title"></a></h2>
+              <h3>
+                <i class="fa fa-calendar pointer"></i> <span class="date"></span>
+                <i class="fa fa-user pointer"></i><span class="speaker"></span>
+              </h3>
+              <p class="description"></p>
+            </div>
           </div>
         </div>
       </div>
