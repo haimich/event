@@ -8,7 +8,11 @@ describe('PUT /session', function() {
       title: 'Test title',
       description: 'Test description',
       date: '2015-10-22 15:15:55',
+      start_time: '15:15:55',
+      duration: 30,
       speaker_id: 1,
+      session_type_id: 1,
+      session_state_id: 1,
       files: [1, 2]
     };
     

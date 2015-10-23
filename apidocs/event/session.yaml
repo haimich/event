@@ -17,7 +17,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /session/all:
+  /session:
      # binds a127 app logic to a route
     x-swagger-router-controller: server
     get:
@@ -30,6 +30,21 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/Session"
+        # responses may fall through to errors
+        "404":
+          description: No session could be found
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      description: Create a session.
+      # used as the method name of the controller
+      operationId: session3
+      tags: [Session]
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Session2"
         # responses may fall through to errors
         "404":
           description: No session could be found
@@ -54,24 +69,6 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/Session"
-        # responses may fall through to errors
-        "404":
-          description: No session could be found
-          schema:
-            $ref: "#/definitions/Error"
-  /session:
-     # binds a127 app logic to a route
-    x-swagger-router-controller: server
-    put:
-      description: Create a session.
-      # used as the method name of the controller
-      operationId: session3
-      tags: [Session]
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/Session2"
         # responses may fall through to errors
         "404":
           description: No session could be found
