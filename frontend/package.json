@@ -4,9 +4,9 @@
   "description": "Event helps you discover conferences and other interesting events around you. It also makes life easier for people organizing events by offering support for the different stages.",
   "main": "server.js",
   "scripts": {
-    "build:css": "node-sass --include-path scss scss/main.scss static/css/main.css && cp node_modules/bootstrap/dist/css/bootstrap.min.css static/css/ && cp node_modules/jquery-autocomplete/jquery.autocomplete.css static/css/ && cp node_modules/font-awesome/css/font-awesome.min.css static/css/ && cp -R node_modules/font-awesome/fonts static/ && cp node_modules/dropzone/dist/min/dropzone.min.css static/css/",
+    "build:css": "node-sass --include-path scss scss/main.scss static/css/main.css && cp node_modules/bootstrap/dist/css/bootstrap.min.css static/css/ && cp node_modules/font-awesome/css/font-awesome.min.css static/css/ && cp -R node_modules/font-awesome/fonts static/ && cp node_modules/dropzone/dist/min/dropzone.min.css static/css/",
     "watch:css": "nodemon -e scss -x 'npm run build:css'",
-    "build:js": "cp node_modules/jquery/dist/jquery.min.js static/js/ && cp node_modules/bootstrap/dist/js/bootstrap.min.js static/js/ && cp node_modules/jquery-autocomplete/jquery.autocomplete.js static/js/ && cp node_modules/dropzone/dist/min/dropzone.min.js static/js/",
+    "build:js": "cp node_modules/jquery/dist/jquery.min.js static/js/ && cp node_modules/bootstrap/dist/js/bootstrap.min.js static/js/ && cp node_modules/devbridge-autocomplete/dist/jquery.autocomplete.min.js static/js/ && cp node_modules/dropzone/dist/min/dropzone.min.js static/js/",
     "start": "echo '>> Use pm2 to start this service!'"
   },
   "repository": {
@@ -25,7 +25,7 @@
     "express": "^4.13.3",
     "font-awesome": "^4.4.0",
     "jquery": "^2.1.4",
-    "jquery-autocomplete": "^1.2.1"
+    "jQuery-Autocomplete": "devbridge/jQuery-Autocomplete#v1.2.24"
   },
   "devDependencies": {
     "node-sass": "^3.3.3"

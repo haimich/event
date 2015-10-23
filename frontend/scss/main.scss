@@ -2,6 +2,9 @@
 
 $lightgrey: #f1f1f1;
 $darkgrey: #aaaaaa;
+$eventred: #ed275c;
+$eventdarkred: #d52352;
+$border: #cccccc;
 
 
 /* GENERAL LAYOUT */
@@ -114,7 +117,7 @@ body {
 .content .dropzone {
   min-height: 30px;
   padding: 10px;
-  border: 1px dashed #ccc;
+  border: 1px dashed $border;
   border-radius: 5px;
 }
 
@@ -152,7 +155,7 @@ body {
 }
 
 .content .datepicker {
-  border: 1px solid #ccc;
+  border: 1px solid $border;
   padding: .375rem .75rem;
   width: 200px;
   display: inline;
@@ -169,4 +172,46 @@ body {
 
 .content fieldset .fa {
   font-size: 24px;
+}
+
+
+/* AUTOCOMPLETER */
+
+.autocomplete-suggestions {
+  padding: 5px 0;
+  background-color: #ffffff;
+  border: 1px solid $border;
+}
+
+.autocomplete-suggestions .autocomplete-suggestion {
+  padding: 2px 11px;
+}
+
+.autocomplete-suggestions .autocomplete-suggestion:hover {
+  background-color: $eventred;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+
+/* BOOTSTRAP THEMING */
+
+a {
+  color: $eventred;
+}
+
+a:hover {
+  color: $eventdarkred;
+}
+
+.btn-primary {
+  background-color: $eventred;
+  border-color: $eventred;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus,
+.btn-primary.hover, .btn-primary.active, .btn-primary.focus {
+  background-color: $eventdarkred;
+  border-color: $eventdarkred;
+  outline: none;
 }

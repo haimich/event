@@ -3,31 +3,38 @@ $(document).ready(function() {
   // Set some default values
   var currentUploads = 0;
 
-  // Initialize autocomplete
-  $('.autocomplete.speaker')
-    .autocomplete({
-      source: [{
-        url: '/event/api/user?find=%QUERY%',
-        type:'remote'
-      }],
-      limit: 5,
-      minLength: 1,
-      titleKey: 'displayname',
-      valueKey: 'id',
-      getTitle: function(speaker) {
-        return speaker.firstname + ' ' + speaker.name;
+
+  var data = [
+    { "value": "1", "label": "one" },
+    { "value": "2", "label": "two" },
+    { "value": "3", "label": "three" }
+];
+ 
+  $(function () {
+    $('.autocomplete.speaker').autocomplete({
+      serviceUrl: '/event/api/user',
+      dataType: 'json',
+      paramName: 'find',
+      transformResult: function(speakers) {
+        var suggestions = [];
+        for (var i in speakers) {
+          var speaker = speakers[i];
+          suggestions.push({
+            'value' : speaker.displayname,
+            'data'  : speaker.id
+          });
+        }
+        return {suggestions};
       },
-      getValue: function(speaker) {
-        return speaker.firstname + ' ' + speaker.name;
-      }
-    })
-    .on('selected.xdsoft', function(e, speaker) {
-      // Set ID in hidden field when suggestion was selected
-      var target = $(this).attr('data-hidden-field-id');
-      if (target != undefined) {
-        $('#' + target).val(speaker.id);
+      onSelect: function (suggestion) {
+        // Set ID in hidden field when suggestion was selected
+        var target = $(this).attr('data-hidden-field-id');
+        if (target != undefined) {
+          $('#' + target).val(suggestion.data);
+        }
       }
     });
+  });
 
   // Initialize datepicker
   $('.datepicker').datepicker({

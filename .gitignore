@@ -28,15 +28,3 @@ node_modules
 
 # Temporary files
 uploads/
-
-# Files provided via npm run build:js / build:css
-frontend/static/css/bootstrap.min.css
-frontend/static/css/dropzone.min.css
-frontend/static/css/font-awesome.min.css
-frontend/static/css/jquery.autocomplete.css
-frontend/static/css/main.css
-frontend/static/fonts/
-frontend/static/js/bootstrap.min.js
-frontend/static/js/dropzone.min.js
-frontend/static/js/jquery.autocomplete.js
-frontend/static/js/jquery.min.js
