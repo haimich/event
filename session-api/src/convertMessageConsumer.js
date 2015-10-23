@@ -67,6 +67,15 @@ function handleConvertedFiles(sessionId, originalFileId, convertedFileIds, dbPoo
         return;
       }
       console.log('Created');
+      
+      sessionService.deleteSessionFileByFileId(originalFileId, dbPool, function(err2) {
+        if (err2 !== null) {
+          console.log('Deleting original file failed for fileId ' + originalFileId, err2);
+          return;
+        }
+        
+        checkCompletenessAndShare(sessionId, dbPool);
+      })
     });
   });
 }
@@ -77,21 +86,25 @@ function handleSimpleFile(sessionId, originalFileId, dbPool) {
       console.warn('Error updating status to OK of session_file with file_id ' + originalFileId + ' in session ' + sessionId, error);
       return;          
     }
-    checkIfSessionComplete(sessionId, dbPool, function(err, isComplete) {
-      if (err !== null) {
-        console.warn('CheckIfSessionComplete failed for sessionId ' + sessionId, err);
-        return;
-      }
-      if (isComplete) {
-        console.log('All files there, yayyy! SessionId: ' + sessionId);
-        
-        sessionService.updateSessionState(sessionId, 2, dbPool, function(err3) { //TODO 2 should be an enum
-          shareSession(sessionId, dbPool);
-        })
-      } else {
-        console.log('Not yet, boooh! SessionId: ' + sessionId);            
-      }
-    });
+    checkCompletenessAndShare(sessionId, dbPool);
+  });
+}
+
+function checkCompletenessAndShare(sessionId, dbPool) {
+  checkIfSessionComplete(sessionId, dbPool, function(err, isComplete) {
+    if (err !== null) {
+      console.warn('CheckIfSessionComplete failed for sessionId ' + sessionId, err);
+      return;
+    }
+    if (isComplete) {
+      console.log('All files there, yayyy! SessionId: ' + sessionId);
+      
+      sessionService.updateSessionState(sessionId, 2, dbPool, function(err3) { //TODO 2 should be an enum
+        shareSession(sessionId, dbPool);
+      });
+    } else {
+      console.log('Not yet, boooh! SessionId: ' + sessionId);            
+    }
   });
 }
 

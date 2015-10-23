@@ -125,3 +125,12 @@ exports.updateSessionState = function(sessionId, newState, dbPool, callback) {
     }
   );
 }
+
+exports.deleteSessionFileByFileId = function(fileId, dbPool, callback) {
+  dbPool.query("DELETE FROM session_file WHERE file_id = :id",
+    { id: fileId },
+    function(err) {
+      callback(err);
+    }
+  );
+}

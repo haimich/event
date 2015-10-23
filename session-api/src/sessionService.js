@@ -61,3 +61,7 @@ exports.updateSessionFileState = function (sessionId, fileId, newState, dbPool,c
 exports.updateSessionState = function(sessionId, newState, dbPool, callback) {
   sessionRepo.updateSessionState(sessionId, newState, dbPool, callback);
 }
+
+exports.deleteSessionFileByFileId = function(sessionFileId, dbPool, callback) {
+  sessionRepo.deleteSessionFileByFileId(sessionFileId, dbPool, callback);
+}
