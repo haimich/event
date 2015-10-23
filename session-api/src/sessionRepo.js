@@ -112,3 +112,12 @@ exports.updateSessionFileState = function(sessionId, fileId, newState, dbPool,ca
     }
   );
 }
+
+exports.updateSessionState = function(sessionId, newState, dbPool, callback) {
+  dbPool.query("UPDATE session SET session_state_id = :state WHERE id = :id",
+    { id: sessionId, state: newState },
+    function(err) {
+      callback(err);
+    }
+  );
+}

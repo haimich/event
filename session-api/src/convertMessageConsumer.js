@@ -55,7 +55,9 @@ exports.listen = function(dbPool) {
           if (isComplete) {
             console.log('All files there, yayyy! SessionId: ' + sessionId);
             
-            shareSession(sessionId, dbPool);
+            sessionService.updateSessionState(sessionId, 2, dbPool, function(err3) {
+              shareSession(sessionId, dbPool);
+            })
           } else {
             console.log('Not yet, boooh! SessionId: ' + sessionId);            
           }

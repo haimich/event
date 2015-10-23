@@ -57,3 +57,7 @@ exports.createSessionFile = function (sessionFile, dbPool, callback){
 exports.updateSessionFileState = function (sessionId, fileId, newState, dbPool,callback) {
   sessionRepo.updateSessionFileState(sessionId, fileId, newState, dbPool,callback);
 }
+
+exports.updateSessionState = function(sessionId, newState, dbPool, callback) {
+  sessionRepo.updateSessionState(sessionId, newState, dbPool, callback);
+}
