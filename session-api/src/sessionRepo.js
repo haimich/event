@@ -50,7 +50,7 @@ exports.getSessionById = function (sessionId, dbPool, callback) {
   });
 }
 
-exports.getSessionIdByFileId = function(fileId, dbPool, callback) {
+exports.getSessionIdByFileId = function(fileId, dbPool, callback) {  
   dbPool.query("SELECT sf.session_id FROM session_file sf WHERE sf.file_id = :id LIMIT 1", { id: fileId }, function(err, result) {
     if (err !== null) {
       callback(err);
@@ -81,7 +81,6 @@ exports.createSession = function (sessionModel, dbPool, callback) {
 }
 
 exports.createSessionFile = function (sessionFileModel, dbPool, callback) {
-	console.log('SQLLL', sessionFileModel);
   dbPool.query(
 		"INSERT INTO session_file (session_id, file_id, type, state) VALUES (:session_id, :file_id, :type, :state)",
 		sessionFileModel, 

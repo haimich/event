@@ -53,7 +53,7 @@ function handleVideoFile(fileModel, dbPool) {
           
           if (convertedFileIds.length == convertedFiles.length) {
             var msg = {
-              originalFile: fileModel,
+              originalFileId: fileModel.id,
               convertedFileIds: convertedFileIds,
               convertStatus: 'finished'
             }
@@ -86,10 +86,9 @@ function handleNonVideoFile(fileModel, dbPool) {
       return;
     }
     
-    console.log('HEEEEEERE');
-    
     fileModel.filesystem_location = newLocation;
     fileModel.url = fileDownloadBasePath + '/' + filename;
+    
     fileService.updateFile(fileModel, dbPool, function(err) {
       if (err) {
         sendErrorMessage(err);
@@ -99,7 +98,7 @@ function handleNonVideoFile(fileModel, dbPool) {
       //Success!
       messageService.sendConvertFinishedMessage({
         convertStatus: 'finished',
-        convertedFileIds: [fileModel.id] 
+        originalFileId: fileModel.id
       });
     });
   });  

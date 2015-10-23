@@ -19,6 +19,7 @@ exports.listen = function(dbPool) {
   consumeMessage(config.messageQueue.convertFinishedQueue, host, function(msg) {
     var content = JSON.parse(msg.content);
     console.log('MESSAGE RECEIVED', content);
+    
     var originalFileId   = content.originalFileId,
         convertStatus    = content.convertStatus,
         convertedFileIds = content.convertedFileIds || null;
