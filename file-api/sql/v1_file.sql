@@ -10,4 +10,4 @@ CREATE TABLE `file` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO file(`url`, `mime_type`, `filesystem_location`) VALUES('internet', 'application/json', '/tmp/myfile.png');
+INSERT INTO file (filesystem_location, mime_type, created_at, modified_at) VALUES ('/home/juicebox/Code/event/file-api/uploads/image.png', 'image/png', '2015-10-22 17:09:44', '2015-10-22 17:09:44');

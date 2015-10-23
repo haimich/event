@@ -38,8 +38,8 @@ exports.searchSessionId = function (id, dbPool, callback){
   sessionRepo.searchSessionId(id, dbPool, callback);
 }
 
-exports.getSessionByFileId = function (id, dbPool, callback){
-  sessionRepo.getSessionByFileId(id, dbPool, callback);
+exports.getSessionIdByFileId = function (fileId, dbPool, callback){
+  sessionRepo.getSessionIdByFileId(fileId, dbPool, callback);
 }
 
 exports.createSessionFile = function (sessionFile, dbPool, callback){
