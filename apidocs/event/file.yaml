@@ -72,6 +72,12 @@ paths:
       description: Uploads a file to the server and creates a db entry.
       # used as the method name of the controller
       operationId: file2
+      parameters:
+        - name: file
+          in: file
+          description: The file
+          required: true
+          type: object
       tags: [File]
       responses:
         "200":
