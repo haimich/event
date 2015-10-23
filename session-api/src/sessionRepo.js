@@ -82,3 +82,12 @@ exports.searchSessionId = function (name, dbPool, callback) {
     callback(err, rows);
   });
 }
+
+exports.updateSessionFileState = function(sessionId, fileId, newState, dbPool,callback) {
+  dbPool.query("UPDATE session_file SET state = :state WHERE session_id = :sessionId AND file_id = :fileId",
+    { sessionId: sessionId, fileId: fileId, state: newState },
+    function(err) {
+      callback(err);
+    }
+  );
+}
