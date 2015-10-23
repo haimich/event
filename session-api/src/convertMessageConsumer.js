@@ -2,6 +2,7 @@ var consumeMessage = require('../../modules/message-queue/messageQueue').consume
 var config = require('./config').readConfig();
 var sessionService = require('./sessionService');
 var host = config.messageQueue.url + ':' + config.messageQueue.port;
+var request = require('request');
 
 var SessionFileModel = require('./sessionFileModel');
 
@@ -160,8 +161,6 @@ function getFileLinks (sessionFiles, dbPool, callback) {
   };
           
   sessionFiles.forEach(function(sessionFile) {
-    console.log(sessionFile.type, sessionFile.url);
-    
     var url = sessionFile.url;
     
     if (sessionFile.type === SESSION_FILE_TYPE.SLIDES) {
@@ -193,5 +192,15 @@ function share(session, fileLinks) {
     webm_link: fileLinks.webm_link
   };
   
-  console.log(shareModel);    
+  request({
+    url: 'http://localhost:8080/event/api/share',
+    method: 'POST',
+    body: shareModel,
+    json: true
+  }, function (error, response, body) {
+    if (error) {
+      console.log('Error during share', error)
+    }
+    console.log('Share done!', response);
+  });
 }
