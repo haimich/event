@@ -40,12 +40,12 @@ CREATE TABLE `session_file` (
   `session_id` BIGINT NOT NULL,
   `file_id` BIGINT NOT NULL,
   `type` VARCHAR(255) DEFAULT NULL,
-  `status` VARCHAR(255) DEFAULT NULL,
+  `state` VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (`session_id`, `file_id`),
   CONSTRAINT uc_pimary_key UNIQUE (`session_id`, `file_id`),
   FOREIGN KEY (`session_id`) REFERENCES session(`id`),
   FOREIGN KEY (`file_id`) REFERENCES file(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO session_file(`session_id`, `file_id`, `type`, `status`) VALUES(1, 1, 'presentation', null);
-INSERT INTO session_file(`session_id`, `file_id`, `type`, `status`) VALUES(1, 2, 'video', null);
+INSERT INTO session_file(`session_id`, `file_id`, `type`, `state`) VALUES(1, 1, 'presentation', null);
+INSERT INTO session_file(`session_id`, `file_id`, `type`, `state`) VALUES(1, 2, 'video', null);
