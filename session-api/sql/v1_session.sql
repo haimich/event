@@ -48,3 +48,4 @@ CREATE TABLE `session_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO session_file(`session_id`, `file_id`, `type`, `status`) VALUES(1, 1, 'presentation', null);
+INSERT INTO session_file(`session_id`, `file_id`, `type`, `status`) VALUES(1, 2, 'video', null);
