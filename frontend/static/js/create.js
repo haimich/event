@@ -29,10 +29,16 @@ $(document).ready(function() {
   });
 
   // Initialize datepicker
-  $('.datepicker').datepicker({
-    format: 'dd.mm.yyyy',
-    weekStart: 1
-  });
+  $('.datepicker')
+    .datepicker({
+      format: 'dd.mm.yyyy',
+      weekStart: 1
+    })
+    .on('changeDate', function(e) {
+      $(e.target).datepicker('hide');
+    }
+  );
+  // Open datepicker on icon click
   $('[data-datepicker-id]').click(function() {
     var id= $(this).attr('data-datepicker-id');
     $('#'+id).datepicker('show');
