@@ -59,7 +59,7 @@ paths:
           description: No session could be found
           schema:
             $ref: "#/definitions/Error"
-  /session{put}:
+  /session:
      # binds a127 app logic to a route
     x-swagger-router-controller: server
     put:

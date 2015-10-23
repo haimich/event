@@ -23,7 +23,7 @@ convertMessageConsumer.listen(dbPool);
 /**
  * Get all sessions.
  */
- app.get('/session', function(request, response) {
+ app.get('/session/all', function(request, response) {
    sessionService.getSessions(dbPool, function(err, result) {
      if (err) {
        return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
