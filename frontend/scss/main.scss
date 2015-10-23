@@ -187,7 +187,7 @@ body {
   padding: 2px 11px;
 }
 
-.autocomplete-suggestions .autocomplete-suggestion:hover {
+.autocomplete-suggestions .autocomplete-suggestion:hover, .autocomplete-suggestions .autocomplete-suggestion.autocomplete-selected {
   background-color: $eventred;
   color: #ffffff;
   cursor: pointer;
