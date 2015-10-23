@@ -3,8 +3,9 @@ var proxyPort    = null,
     frontendPort = null,
     userPort     = null,
     sessionPort  = null,
-    filePort     = null;
-    docPort      = null;
+    filePort     = null,
+    docPort      = null,
+    sharePort      = null;
 
 function parseArguments(callback) {
   process.argv.forEach(function (val, index, array) {
@@ -25,6 +26,8 @@ function parseArguments(callback) {
         filePort = value;
       case 'apidocs':
         docPort = value;
+      case 'share':
+        sharePort = value;
     }
   });
   
@@ -39,4 +42,5 @@ parseArguments(function() {
   proxy.register('localhost/event/api/session', 'http://localhost:' + sessionPort + '/session');
   proxy.register('localhost/event/api/file',    'http://localhost:' + filePort + '/file');
   proxy.register('localhost/event/apidocs',     'http://localhost:' + docPort + '/apidocs');
+  proxy.register('localhost/event/api/share',   'http://localhost:' + sharePort + '/share');
 });

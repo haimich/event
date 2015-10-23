@@ -2,7 +2,7 @@
   "apps" : [{
     "name"        : "proxy",
     "script"      : "server.js",
-    "args"        : ["--proxy=8080", "--frontend=3000", "--user=3010", "--session=3020", "--file=3030", "--apidocs=3040"],
+    "args"        : ["--proxy=8080", "--frontend=3000", "--user=3010", "--session=3020", "--file=3030", "--apidocs=3040", "--share=3050"],
     "merge_logs"  : true,
     "cwd"         : "proxy/",
     "ignore_watch": ["node_modules", "test"]    
@@ -41,5 +41,13 @@
     "merge_logs"  : true,
     "cwd"         : "apidocs/",
     "ignore_watch": ["static", "node_modules", "test"]    
-   }]
+   },{
+    "name"        : "share",
+    "script"      : "server.js",
+    "args"        : ["3050"],
+    "merge_logs"  : true,
+    "cwd"         : "../share/",
+    "ignore_watch": ["node_modules", "test"]    
+   }
+ ]
 }
