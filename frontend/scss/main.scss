@@ -80,7 +80,7 @@ body {
 }
 
 .content .list-sessions .session-screenshot {
-  height: 100px;
+  height: 150px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -89,6 +89,12 @@ body {
 
 .content .list-sessions .session-screenshot.default {
   background-image: url(../images/session-default.jpg);
+}
+
+@media (min-width: 34em) {
+  .content .list-sessions .session-screenshot {
+    height: 100px;
+  }
 }
 
 @media (min-width: 34em) {
