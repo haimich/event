@@ -4,6 +4,8 @@ $lightgrey: #f1f1f1;
 $darkgrey: #aaaaaa;
 $eventred: #ed275c;
 $eventdarkred: #d52352;
+$eventlightred: #ffe3ea;
+$eventpurple: #b8609c;
 $border: #cccccc;
 
 
@@ -231,6 +233,16 @@ a:hover {
   background-color: $eventdarkred;
   border-color: $eventdarkred;
   outline: none;
+}
+
+.form-control:focus {
+  border-color: $eventpurple;
+}
+
+.alert-danger {
+  color: $eventred;
+  background-color: $eventlightred;
+  border-color: $eventdarkred;
 }
 
 
