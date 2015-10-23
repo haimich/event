@@ -27,8 +27,15 @@ body {
   padding-bottom: 30px;
 }
 
-.content.container-fluid {
+.content.container-fluid, footer .container-fluid {
   max-width: 1170px;
+}
+
+footer .container-fluid {
+  padding: 5px 15px;
+  background-color: $eventred;
+  color: #ffffff;
+  font-size: 12px;
 }
 
 
