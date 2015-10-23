@@ -1,0 +1,66 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: EVENT API Doc
+# during dev, should point to your local machine
+host: localhost:8080
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /file/{id}:
+     # binds a127 app logic to a route
+    x-swagger-router-controller: server
+    get:
+      description: Returns a file by id.
+      # used as the method name of the controller
+      operationId: file
+      parameters:
+        - name: id
+          in: path
+          description: The file id
+          required: true
+          type: integer
+      tags: [File]
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/File"
+        # responses may fall through to errors
+        "404":
+          description: No file could be found
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  File:
+    properties:
+      id:
+        description: The file id.
+        type: integer
+      mime_type:
+        description: The file type.
+        type: string
+      filesystem_location:
+        description: The file location on the filesystem.
+        type: string
+      url:
+        description: The file location on the server.
+        type: string
+      created_at:
+        description: DateTime of users creation
+        type: string
+        format: dateTime
+      modified_at:
+        description: DateTime of users last modification
+        type: string
+        format: dateTime

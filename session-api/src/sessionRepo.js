@@ -40,13 +40,13 @@ exports.getSessions = function(dbPool, callback) {
   );
 }
 
-exports.getSessionByFileId = function(fileId, dbPool, callback) {
-  dbPool.query("SELECT sf.session_id FROM session_file sf WHERE sf.file_id = :fileId LIMIT 1", fileId, function(err, result) {
-    if (err === null){
-      callback(null, result[0]);
-    } else {
+exports.getSessionIdByFileId = function(fileId, dbPool, callback) {
+  dbPool.query("SELECT sf.session_id FROM session_file sf WHERE sf.file_id = :id LIMIT 1", { id: fileId }, function(err, result) {
+    if (err !== null) {
       callback(err);
+      return;
     }
+    callback(null, result[0].session_id);
   });
 }
 
