@@ -1,0 +1,29 @@
+{
+  "name": "event-mail-api",
+  "version": "0.0.1",
+  "description": "A RESTful API for sending Mails.",
+  "main": "server.js",
+  "scripts": {
+    "start": "echo '>> Use pm2 to start this service!'",
+    "test": "mocha",
+    "watch:test": "chokidar *.js src/**/*.js test/**/*.js test/*.js -c mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/haimich/event.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haimich/event/issues"
+  },
+  "homepage": "https://github.com/haimich/event#readme",
+  "dependencies": {
+    "nodemailer": "^1.8.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "mocha": "^2.3.3",
+    "chokidar-cli": "^1.1.0"
+  }
+}
