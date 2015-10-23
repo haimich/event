@@ -17,7 +17,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /session:
+  /session/all:
      # binds a127 app logic to a route
     x-swagger-router-controller: server
     get:
