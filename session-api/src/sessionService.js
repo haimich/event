@@ -42,6 +42,10 @@ exports.getSessionIdByFileId = function (fileId, dbPool, callback){
   sessionRepo.getSessionIdByFileId(fileId, dbPool, callback);
 }
 
+exports.getSessionFilesBySessionId = function (sessionId, dbPool, callback){
+  sessionRepo.getSessionFilesBySessionId(sessionId, dbPool, callback);
+}
+
 exports.createSessionFile = function (sessionFile, dbPool, callback){
   sessionRepo.createSessionFile(sessionFile, dbPool, callback);
 }

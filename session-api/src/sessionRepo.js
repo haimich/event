@@ -50,6 +50,16 @@ exports.getSessionIdByFileId = function(fileId, dbPool, callback) {
   });
 }
 
+exports.getSessionFilesBySessionId = function(sessionId, dbPool, callback) {
+  dbPool.query("SELECT * FROM session_file WHERE session_id = :id", { id: sessionId }, function(err, results) {
+    if (err !== null) {
+      callback(err);
+      return;
+    }
+    callback(null, results);
+  });
+}
+
 exports.createSession = function (sessionModel, dbPool, callback) {
  	dbPool.query(
 		"INSERT INTO session (title, description, date, speaker_id, start_time, session_type_id, session_state_id, created_at, modified_at) VALUES (:title, :description, :date, :speaker_id, :start_time, :session_type_id, :session_state_id, :created_at, :modified_at)",
