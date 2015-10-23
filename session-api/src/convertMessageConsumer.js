@@ -142,7 +142,7 @@ function share(session, fileLinks) {
   var shareModel = {
     title: session.title,
     description: session.description,
-    speaker: 'FIRST LAST',
+    speaker: session.speaker_name,
     date: session.date, //TODO nicer format
     screenshot_link: fileLinks.screenshot_link,
     slides_link: fileLinks.slides_link,

@@ -40,8 +40,8 @@ exports.getSessions = function(dbPool, callback) {
   );
 }
 
-exports.getSessionById = function (sessionId, dbPool, callback) {
-  dbPool.query("SELECT * FROM session WHERE id = :id LIMIT 1", { id: sessionId }, function(err, results) {
+exports.getSessionById = function (sessionId, dbPool, callback) {    
+  dbPool.query("SELECT s.*, CONCAT(u.firstname, ' ', u.name) AS speaker_name FROM session s LEFT JOIN user u ON u.id = s.speaker_id WHERE s.id = :id LIMIT 1", { id: sessionId }, function(err, results) {
     if (err !== null) {
       callback(err);
       return;
