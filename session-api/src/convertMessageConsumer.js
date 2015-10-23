@@ -3,6 +3,8 @@ var config = require('./config').readConfig();
 var sessionService = require('./sessionService');
 var host = config.messageQueue.url + ':' + config.messageQueue.port;
 
+var SessionFileModel = require('./sessionFileModel');
+
 var SESSION_FILE_STATE = {
   ERROR: 'error',
   OK: 'ok'
@@ -28,7 +30,7 @@ exports.listen = function(dbPool) {
           if (error !== null) {
             console.warn('Error updating status to ERROR of session_file with file_id  ' + originalFileId + ' in session ' + sessionId, error);
           }
-          return;          
+          return;
         });
         return;
       } else if (convertStatus === 'failed') {
@@ -42,29 +44,54 @@ exports.listen = function(dbPool) {
         return;
       }
       
-      setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.OK, dbPool, function(error) {
-        if (error !== null) {
-          console.warn('Error updating status to OK of session_file with file_id ' + originalFileId + ' in session ' + sessionId, error);
-          return;          
-        }
-        checkIfSessionComplete(sessionId, dbPool, function(err, isComplete) {
-          if (err !== null) {
-            console.warn('CheckIfSessionComplete failed for sessionId ' + sessionId, err);
-            return;
-          }
-          if (isComplete) {
-            console.log('All files there, yayyy! SessionId: ' + sessionId);
-            
-            sessionService.updateSessionState(sessionId, 2, dbPool, function(err3) {
-              shareSession(sessionId, dbPool);
-            })
-          } else {
-            console.log('Not yet, boooh! SessionId: ' + sessionId);            
-          }
-        });
-      })
+      if (convertedFileIds !== null && convertedFileIds.length >= 1) {
+        handleConvertedFiles(sessionId, originalFileId, convertedFileIds, dbPool);
+      } else {
+        handleSimpleFile(sessionId, originalFileId, dbPool);
+      }
     });
         
+  });
+}
+
+/* More complex case (eg. a video got uploaded and was converted into two videos) */
+function handleConvertedFiles(sessionId, originalFileId, convertedFileIds, dbPool) {
+  
+  convertedFileIds.forEach(function(convertedFileId) {
+    var sessionFileModel = new SessionFileModel(sessionId, convertedFileId, 'video'); //TODO could be another type than video!
+    sessionFileModel.state = 'ok';
+    
+    sessionService.createSessionFile(sessionFileModel, dbPool, function(err) {
+      if (err !== null) {
+        console.warn('SessionFile could not be created for file ' + convertedFileId);
+        return;
+      }
+      console.log('Created');
+    });
+  });
+}
+
+function handleSimpleFile(sessionId, originalFileId, dbPool) {
+  setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.OK, dbPool, function(error) {
+    if (error !== null) {
+      console.warn('Error updating status to OK of session_file with file_id ' + originalFileId + ' in session ' + sessionId, error);
+      return;          
+    }
+    checkIfSessionComplete(sessionId, dbPool, function(err, isComplete) {
+      if (err !== null) {
+        console.warn('CheckIfSessionComplete failed for sessionId ' + sessionId, err);
+        return;
+      }
+      if (isComplete) {
+        console.log('All files there, yayyy! SessionId: ' + sessionId);
+        
+        sessionService.updateSessionState(sessionId, 2, dbPool, function(err3) { //TODO 2 should be an enum
+          shareSession(sessionId, dbPool);
+        })
+      } else {
+        console.log('Not yet, boooh! SessionId: ' + sessionId);            
+      }
+    });
   });
 }
 

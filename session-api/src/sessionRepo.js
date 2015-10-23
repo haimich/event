@@ -82,10 +82,14 @@ exports.createSession = function (sessionModel, dbPool, callback) {
 
 exports.createSessionFile = function (sessionFileModel, dbPool, callback) {
 	dbPool.query(
-		"INSERT INTO session_file (session_id, file_id, type) VALUES (:session_id, :file_id, :type)",
+		"INSERT INTO session_file (session_id, file_id, type, state) VALUES (:session_id, :file_id, :type, :state)",
 		sessionFileModel, 
 		function(err, result) {
-      callback(err, result.insertId);
+      if (err !== null) {
+        callback(err);
+        return;
+      }
+      callback(null, result.insertId);
 		});
 }
 
