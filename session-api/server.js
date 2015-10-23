@@ -60,7 +60,7 @@ convertMessageConsumer.listen(dbPool);
      return response.status(status.PRECONDITION_FAILED).json({ error: 'No body given.'});
    }
    
-   create session
+   // create session
    var sessionModel = new Session(session);
    sessionService.createSession(sessionModel, dbPool, function(err, sessionId) {
      if (err) {
@@ -70,13 +70,13 @@ convertMessageConsumer.listen(dbPool);
      if (sessionModel.files === null || sessionModel.files === undefined || sessionModel.files.length === 0) {
        response.status(status.CREATED).json({ id: sessionId });
      } else {
-       create session files
+       // create session files
        sessionService.createSessionFiles(sessionId, sessionModel.files, dbPool, function(error, sessionFileIds){
          if (error) {
            return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
          }
          
-         start converting
+         // start converting
          startConvertProcess(sessionModel.files, function(err) {
            if (err) {
              return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });          
