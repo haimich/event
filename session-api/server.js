@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 var baseUrl = 'http://localhost:8080/event/api';
 
-start listening for converted files messages
+// start listening for converted files messages
 convertMessageConsumer.listen(dbPool);
 
 /**
