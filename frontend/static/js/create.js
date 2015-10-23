@@ -61,7 +61,7 @@ $(document).ready(function() {
         $('input[name=' + this.options.targetId + ']').val(response.id);
       },
       error: function(file, message) {
-        alert(message.error);
+        alert(message);
         this.removeFile(file);
       },
       canceled: function(file) {
