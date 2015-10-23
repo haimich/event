@@ -1,0 +1,81 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: EVENT API Doc
+# during dev, should point to your local machine
+host: localhost:8080
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /session/{id}:
+     # binds a127 app logic to a route
+    x-swagger-router-controller: server
+    get:
+      description: Get a session by id.
+      # used as the method name of the controller
+      operationId: session
+      parameters:
+        - name: id
+          in: path
+          description: The session id
+          required: true
+          type: integer
+      tags: [Session]
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/File"
+        # responses may fall through to errors
+        "404":
+          description: No session could be found
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  Session:
+    properties:
+      id:
+        description: The session id.
+        type: integer
+      title:
+        description: The session title.
+        type: string
+      date:
+        description: The date of the session.
+        type: string
+      start_time:
+        description: The start time of the session.
+        type: string
+      duration:
+        description: The duration of the session.
+        type: integer
+      state_id:
+        description: The state id of the session.
+        type: integer
+      speaker_id:
+        description: The speaker_id time of the session.
+        type: integer
+      session_type_id:
+        description: The session type id of the session.
+        type: integer
+      session_state_id:
+        description: The session state id of the session.
+        type: id
+      created_at:
+        description: DateTime of users creation
+        type: string
+        format: dateTime
+      modified_at:
+        description: DateTime of users last modification
+        type: string
+        format: dateTime
