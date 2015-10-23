@@ -81,7 +81,7 @@ $(document).ready(function() {
         break;
     }
 
-    // Initialize  dropzone
+    // Initialize dropzone
     $(this).dropzone(config);
   });
 
