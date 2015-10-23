@@ -3,37 +3,29 @@ $(document).ready(function() {
   // Set some default values
   var currentUploads = 0;
 
-
-  var data = [
-    { "value": "1", "label": "one" },
-    { "value": "2", "label": "two" },
-    { "value": "3", "label": "three" }
-];
- 
-  $(function () {
-    $('.autocomplete.speaker').autocomplete({
-      serviceUrl: '/event/api/user',
-      dataType: 'json',
-      paramName: 'find',
-      transformResult: function(speakers) {
-        var suggestions = [];
-        for (var i in speakers) {
-          var speaker = speakers[i];
-          suggestions.push({
-            'value' : speaker.displayname,
-            'data'  : speaker.id
-          });
-        }
-        return {suggestions};
-      },
-      onSelect: function (suggestion) {
-        // Set ID in hidden field when suggestion was selected
-        var target = $(this).attr('data-hidden-field-id');
-        if (target != undefined) {
-          $('#' + target).val(suggestion.data);
-        }
+  // Initialize autocompleter
+  $('.autocomplete.speaker').autocomplete({
+    serviceUrl: '/event/api/user',
+    dataType: 'json',
+    paramName: 'find',
+    transformResult: function(speakers) {
+      var suggestions = [];
+      for (var i in speakers) {
+        var speaker = speakers[i];
+        suggestions.push({
+          'value' : speaker.displayname,
+          'data'  : speaker.id
+        });
       }
-    });
+      return {suggestions};
+    },
+    onSelect: function (suggestion) {
+      // Set ID in hidden field when suggestion was selected
+      var target = $(this).attr('data-hidden-field-id');
+      if (target != undefined) {
+        $('#' + target).val(suggestion.data);
+      }
+    }
   });
 
   // Initialize datepicker
