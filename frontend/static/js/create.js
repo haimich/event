@@ -118,9 +118,10 @@ $(document).ready(function() {
     }
 
     if (formErrors.length > 0) {
+      $('#errorMessage').slideDown();
       return;
     }
-
+    
     var files = [];
     if (formData.sessionSlidesId > 0) {
       files.push({ id: formData.sessionSlidesId, type: 'slides' });
