@@ -47,5 +47,3 @@ CREATE TABLE `session_file` (
   FOREIGN KEY (`file_id`) REFERENCES file(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO session_file(`session_id`, `file_id`, `type`, `state`) VALUES(1, 1, 'presentation', null);
-INSERT INTO session_file(`session_id`, `file_id`, `type`, `state`) VALUES(1, 2, 'video', null);

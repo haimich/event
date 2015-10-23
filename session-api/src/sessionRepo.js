@@ -81,7 +81,8 @@ exports.createSession = function (sessionModel, dbPool, callback) {
 }
 
 exports.createSessionFile = function (sessionFileModel, dbPool, callback) {
-	dbPool.query(
+	console.log('SQLLL', sessionFileModel);
+  dbPool.query(
 		"INSERT INTO session_file (session_id, file_id, type, state) VALUES (:session_id, :file_id, :type, :state)",
 		sessionFileModel, 
 		function(err, result) {

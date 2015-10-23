@@ -82,9 +82,9 @@ $(document).ready(function() {
       case 'sessionScreenshot':
         config.acceptedFiles = 'image/*';
         break;
-      case 'sessionVideo':
-        config.acceptedFiles = 'video/*';
-        break;
+      // case 'sessionVideo':
+      //   config.acceptedFiles = 'video/*';
+      //   break;
     }
 
     // Initialize dropzone

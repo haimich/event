@@ -86,6 +86,8 @@ function handleNonVideoFile(fileModel, dbPool) {
       return;
     }
     
+    console.log('HEEEEEERE');
+    
     fileModel.filesystem_location = newLocation;
     fileModel.url = fileDownloadBasePath + '/' + filename;
     fileService.updateFile(fileModel, dbPool, function(err) {

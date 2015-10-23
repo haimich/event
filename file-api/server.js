@@ -22,7 +22,7 @@ app.put('/file', upload.single('file'), function (request, response, next) {
 
   var file = new File({
     name: uploadedFile.originalname,
-    url: uploadedFile.path,
+    filesystem_location: uploadedFile.path,
     mime_type: uploadedFile.mimetype
   });
   

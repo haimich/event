@@ -72,6 +72,7 @@ app.put('/session', function(request, response) {
     } else {
       // create session files
       sessionService.createSessionFiles(sessionId, sessionModel.files, dbPool, function(error, sessionFileIds){
+        console.log('ERRRR', error);
         if (error) {
           return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
         }

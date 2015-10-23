@@ -3,7 +3,7 @@ var dateHelper = require('./dateHelper');
 
 exports.createFile = function (fileModel, dbPool, callback) {
  	dbPool.query(
-		"INSERT INTO file (url, mime_type, created_at, modified_at) VALUES (:url, :mime_type, :created_at, :modified_at)",
+		"INSERT INTO file (mime_type, filesystem_location, url, created_at, modified_at) VALUES (:mime_type, :filesystem_location, :url, :created_at, :modified_at)",
 		fileModel
 	, function(err, rows) {
     callback(err, rows.insertId);
