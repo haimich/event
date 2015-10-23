@@ -40,6 +40,16 @@ exports.getSessions = function(dbPool, callback) {
   );
 }
 
+exports.getSessionById = function (sessionId, dbPool, callback) {
+  dbPool.query("SELECT * FROM session WHERE id = :id LIMIT 1", { id: sessionId }, function(err, results) {
+    if (err !== null) {
+      callback(err);
+      return;
+    }
+    callback(null, results[0]);
+  });
+}
+
 exports.getSessionIdByFileId = function(fileId, dbPool, callback) {
   dbPool.query("SELECT sf.session_id FROM session_file sf WHERE sf.file_id = :id LIMIT 1", { id: fileId }, function(err, result) {
     if (err !== null) {
@@ -50,8 +60,9 @@ exports.getSessionIdByFileId = function(fileId, dbPool, callback) {
   });
 }
 
+/* Return session_files with some file infos */
 exports.getSessionFilesBySessionId = function(sessionId, dbPool, callback) {
-  dbPool.query("SELECT * FROM session_file WHERE session_id = :id", { id: sessionId }, function(err, results) {
+  dbPool.query("SELECT sf.*, f.mime_type, f.url FROM session_file sf, file f WHERE sf.session_id = :id AND sf.file_id = f.id", { id: sessionId }, function(err, results) {
     if (err !== null) {
       callback(err);
       return;

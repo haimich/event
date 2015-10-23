@@ -7,6 +7,10 @@ exports.getSessions = function(dbPool, callback) {
   sessionRepo.getSessions(dbPool, callback);
 }
 
+exports.getSessionById = function (sessionId, dbPool, callback) {
+  sessionRepo.getSessionById(sessionId, dbPool, callback);
+}
+
 exports.createSession = function (sessionModel, dbPool, callback) {
 	sessionRepo.createSession(sessionModel, dbPool, callback);
 }
