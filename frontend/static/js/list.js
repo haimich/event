@@ -23,7 +23,7 @@ $(document).ready(function() {
       html.find('.speaker').text(session.speaker_name);
       html.find('.description').text(session.description);
       if (screenshot != undefined) {
-        // html.find('.session-screenshot').css('background-image', 'url(' + screenshot.url + ')');
+        html.find('.session-screenshot').css('background-image', 'url(' + screenshot.url + ')');
       }
       html.appendTo('.list-sessions').removeClass('hidden');
     });

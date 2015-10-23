@@ -173,7 +173,7 @@ function getFileLinks (sessionFiles, dbPool, callback) {
         result.mp4_link = url;        
       }
     } else if (sessionFile.type === SESSION_FILE_TYPE.SCREENSHOT) {
-      result.slides_link = url;
+      result.screenshot_link = url;
     }
   });
   
