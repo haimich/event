@@ -28,7 +28,7 @@ function sendErrorMessage(err) {
 }
 
 function isVideo(fileModel) {
-  return fileModel.mime_type.startsWith('video');
+  return fileModel.mime_type.startsWith('application/octet-stream');
 }
 
 /** 
