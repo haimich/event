@@ -14,6 +14,8 @@ var upload = multer({ dest: 'uploads', files: 5 });
 var app = express();
 app.use('/file/download', express.static('public')); //downloadable files
 
+var baseSystemPath = '/home/juicebox/Code/event/file-api/';
+
 /**
  *  Uploads a file to the server and creates a db entry.
  */
@@ -22,7 +24,7 @@ app.put('/file', upload.single('file'), function (request, response, next) {
 
   var file = new File({
     name: uploadedFile.originalname,
-    url: uploadedFile.path,
+    filesystem_location: baseSystemPath + uploadedFile.path,
     mime_type: uploadedFile.mimetype
   });
   

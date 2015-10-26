@@ -2,6 +2,7 @@ var consumeMessage = require('../../modules/message-queue/messageQueue').consume
 var config = require('./config').readConfig();
 var sessionService = require('./sessionService');
 var host = config.messageQueue.url + ':' + config.messageQueue.port;
+var request = require('request');
 
 var SessionFileModel = require('./sessionFileModel');
 
@@ -19,6 +20,7 @@ exports.listen = function(dbPool) {
   consumeMessage(config.messageQueue.convertFinishedQueue, host, function(msg) {
     var content = JSON.parse(msg.content);
     console.log('MESSAGE RECEIVED', content);
+    
     var originalFileId   = content.originalFileId,
         convertStatus    = content.convertStatus,
         convertedFileIds = content.convertedFileIds || null;
@@ -159,8 +161,6 @@ function getFileLinks (sessionFiles, dbPool, callback) {
   };
           
   sessionFiles.forEach(function(sessionFile) {
-    console.log(sessionFile.type, sessionFile.url);
-    
     var url = sessionFile.url;
     
     if (sessionFile.type === SESSION_FILE_TYPE.SLIDES) {
@@ -172,7 +172,7 @@ function getFileLinks (sessionFiles, dbPool, callback) {
         result.mp4_link = url;        
       }
     } else if (sessionFile.type === SESSION_FILE_TYPE.SCREENSHOT) {
-      result.slides_link = url;
+      result.screenshot_link = url;
     }
   });
   
@@ -192,5 +192,15 @@ function share(session, fileLinks) {
     webm_link: fileLinks.webm_link
   };
   
-  console.log(shareModel);    
+  request({
+    url: 'http://localhost:8080/event/api/share',
+    method: 'POST',
+    body: shareModel,
+    json: true
+  }, function (error, response, body) {
+    if (error) {
+      console.log('Error during share', error)
+    }
+    console.log('Share done!', response);
+  });
 }
