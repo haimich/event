@@ -1,12 +1,24 @@
-var port = process.argv[2];
+var args = require('minimist')(process.argv.slice(2));
+
+var configHelper = require('./src/helper/config');
+var configLocation = args.config || 'config/config.yml';
+
+var config = configHelper.loadConfig(configLocation);
+
+var port = null;
+try {
+  var ports = configHelper.loadConfig(args.ports);
+  port = ports['session-api'];  
+} catch (err) {
+  throw new Error('No ports config given');
+}
+
+var dbPool = require('./src/helper/mysql').createPool(config);
 
 var Session = require('./src/sessionModel');
 var sessionService = require('./src/sessionService');
 var convertMessageConsumer = require('./src/convertMessageConsumer');
 var request = require('request');
-
-var mysql = require('./src/mysql');
-var dbPool = mysql.createPool();
 
 var express = require('express');
 var status = require('http-status');
@@ -18,7 +30,7 @@ app.use(bodyParser.json());
 var baseUrl = 'http://localhost:8080/event/api';
 
 // start listening for converted files messages
-convertMessageConsumer.listen(dbPool);
+convertMessageConsumer.listen(dbPool, config);
 
 /**
  * Get all sessions.

@@ -1,7 +1,5 @@
 var consumeMessage = require('../../modules/message-queue/messageQueue').consumeMessage;
-var config = require('./config').readConfig();
 var sessionService = require('./sessionService');
-var host = config.messageQueue.url + ':' + config.messageQueue.port;
 var request = require('request');
 
 var SessionFileModel = require('./sessionFileModel');
@@ -16,7 +14,9 @@ var SESSION_FILE_TYPE = {
   SCREENSHOT: 'screenshot'
 };
 
-exports.listen = function(dbPool) {
+exports.listen = function(dbPool, config) {
+  var host = config.messageQueue.url + ':' + config.messageQueue.port;
+  
   consumeMessage(config.messageQueue.convertFinishedQueue, host, function(msg) {
     var content = JSON.parse(msg.content);
     console.log('MESSAGE RECEIVED', content);

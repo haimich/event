@@ -1,4 +1,4 @@
-var dateFormat = require('dateformat');
+var dateHelper = require('./helper/date');
 
 function Session(options) {
   this.id = options.id;
@@ -10,13 +10,8 @@ function Session(options) {
   this.session_type_id = 1;
   this.session_state_id = 1;
   this.files = options.files;
-  this.created_at = getCurrentDatetime();
+  this.created_at = dateHelper.getCurrentDatetime();
   this.modified_at = this.created_at;
-}
-
-function getCurrentDatetime() {
-  var now = new Date();
-  return dateFormat(now, 'isoDateTime');
 }
 
 module.exports = Session;

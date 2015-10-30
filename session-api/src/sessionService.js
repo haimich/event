@@ -1,7 +1,5 @@
 var sessionRepo = require('./sessionRepo');
 var SessionFile = require('./sessionFileModel');
-var amqp = require('amqplib');
-var config = require('./config').readConfig().messageQueue;
 
 exports.getSessions = function(dbPool, callback) {
   sessionRepo.getSessions(dbPool, callback);

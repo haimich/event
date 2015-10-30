@@ -1,18 +1,14 @@
 {
-  "name": "message-queue",
+  "name": "event-message-queue",
   "version": "0.0.1",
   "description": "Message queue functions that are used in the Event services",
-  "main": "messageQueue.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/haimich/event.git"
   },
   "homepage": "https://github.com/haimich/event#readme",
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "amqplib": "^0.4.0",
     "when": "^3.7.3"

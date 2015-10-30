@@ -3,6 +3,7 @@ var exec = require('child_process').exec;
 
 fs.readFile('ecosystem.json', 'utf8', function (error, data) {
   var apps = (JSON.parse(data).apps);
+  var additionalApps = ['modules/message-queue']
 
   // add message-queue
   apps.push({cwd : 'modules/message-queue'});

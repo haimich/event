@@ -1,6 +1,4 @@
-var mysql = require('./mysql');
 var SessionStates = require('./sessionStatesModel');
-
 
 exports.getSessions = function(dbPool, callback) {
   dbPool.query(
