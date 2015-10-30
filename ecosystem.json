@@ -1,9 +1,5 @@
 {
-  /**
-   * Application configuration section
-   * http://pm2.keymetrics.io/docs/usage/application-declaration/
-   */
-  apps : [{
+  "apps" : [{
     "name"        : "proxy",
     "script"      : "server.js",
     "args"        : ["--proxy=8080", "--frontend=3000", "--user=3010", "--session=3020", "--file=3030", "--apidocs=3040", "--share=3050"],
@@ -47,18 +43,13 @@
     "ignore_watch": ["static", "node_modules", "test"]    
    }
  ],
-
-  /**
-   * Deployment section
-   * http://pm2.keymetrics.io/docs/usage/deployment/
-   */
-  deploy : {
-    dev : {
-      user : "event",
-      host : "10.88.10.121",
-      ref  : "origin/master",
-      repo : "git@github.com:haimich/event.git",
-      path : "/home/event/event",
+  "deploy" : {
+    "dev" : {
+      "user" : "event",
+      "host" : "10.88.10.121",
+      "ref"  : "origin/master",
+      "repo" : "git@github.com:haimich/event.git",
+      "path" : "/home/event/event",
       "post-deploy" : "node installDeps.js; pm2 startOrRestart ecosystem.json --env dev"
     }
   }
