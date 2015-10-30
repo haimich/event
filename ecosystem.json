@@ -48,7 +48,7 @@
       "user" : "event",
       "host" : "10.88.10.121",
       "ref"  : "origin/master",
-      "repo" : "git@github.com:haimich/event.git",
+      "repo" : "https://github.com/haimich/event.git",
       "path" : "/home/event/event",
       "post-deploy" : "node installDeps.js; pm2 startOrRestart ecosystem.json --env dev"
     }
