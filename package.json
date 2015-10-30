@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Event helps you discover conferences and other interesting events around you. It also makes life easier for people organizing events by offering support for the different stages.",
   "scripts": {
-    "start": "node installDeps.js && pm2 start --watch services.json"
+    "start": "node installDeps.js && pm2 start --watch services.json",
+    "deploy:dev": "pm2 deploy ecosystem.json dev"
   },
   "repository": {
     "type": "git",
