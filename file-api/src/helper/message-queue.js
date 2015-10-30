@@ -15,15 +15,3 @@ exports.sendMessage = function (jsonContent, queue, host){
     })).ensure(function() { conn.close(); });
   }).then(null, console.warn);
 }
-
-exports.consumeMessage = function (queue, host, callback) {
-  amqp.connect(host).then(function(conn) {
-    process.once('SIGINT', function() { conn.close(); });
-    return conn.createChannel().then(function(ch) {
-      var ok = ch.assertQueue(queue);
-      ok = ok.then(function() {
-        return ch.consume(queue, callback, {noAck: true});
-      });
-     });
-  }).then(null, console.warn);
-}

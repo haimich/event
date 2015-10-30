@@ -28,7 +28,8 @@
     "js-yaml": "^3.4.3",
     "minimist": "^1.2.0",
     "mysql": "^2.9.0",
-    "request": "^2.65.0"
+    "request": "^2.65.0",
+    "when": "^3.7.3"
   },
   "devDependencies": {
     "chai": "^3.4.0",
