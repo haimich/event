@@ -1,5 +1,3 @@
-var mysql = require('./mysql');
-
 exports.searchUser = function (name, dbPool, callback) {
 	var nameWithWildcards = ("%" + name + "%").toUpperCase();
   

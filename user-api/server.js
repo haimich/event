@@ -1,9 +1,21 @@
-var port = process.argv[2];
+var args = require('minimist')(process.argv.slice(2));
+
+var configHelper = require('./src/helper/config');
+var configLocation = args.config || 'config/config.yml';
+
+var config = configHelper.loadConfig(configLocation);
+
+var port = null;
+try {
+  var ports = configHelper.loadConfig(args.ports);
+  port = ports['file-api'];  
+} catch (err) {
+  throw new Error('No ports config given');
+}
+
+var dbPool = require('./src/helper/mysql').createPool(config);
 
 var userService = require('./src/userService');
-
-var mysql = require('./src/mysql');
-var dbPool = mysql.createPool();
 
 var express = require('express');
 var status = require('http-status');

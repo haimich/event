@@ -1,7 +1,7 @@
 var yml = require('js-yaml');
 var fs = require('fs');
 
-module.exports.readConfigSync = function(configLocation) {
+module.exports.loadConfig = function(configLocation) {
 	try {
 		return yml.safeLoad(fs.readFileSync(configLocation, 'utf8'));
 	} catch (e){
