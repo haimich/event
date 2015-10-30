@@ -1,11 +1,11 @@
-var configService = require('./src/config');
 var args = require('minimist')(process.argv.slice(2));
+var configService = require('./src/configService');
 
 var configLocation = args.config || 'config/config.yml';
-var config = configService.loadConfigSync(configLocation);
+var config = configService.loadConfig(configLocation);
 
 var portsConfigLocation = args.ports;
-var ports = configService.loadConfigSync(args.ports);
+var ports = configService.loadConfig(args.ports);
 
 var proxy = require('redbird')({port: ports.proxy});
 

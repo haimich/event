@@ -1,10 +1,12 @@
-var port = process.argv[2];
+var args = require('minimist')(process.argv.slice(2));
+var configHelper = require('./src/helper/config');
+var configLocation = args.config || 'config/config.yml';
+var config = configHelper.loadConfig(configLocation);
+var dbPool = require('./src/helper/mysql').createPool(config);
 
 var fileService = require('./src/fileService');
 var convertService = require('./src/convertService');
 var File = require('./src/fileModel');
-var mysql = require('./src/mysql');
-var dbPool = mysql.createPool();
 
 var express = require('express');
 var status = require('http-status');
@@ -46,7 +48,7 @@ app.patch('/file/:id/convert', function(request, response) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No file id given' });
   }
   
-  convertService.convertFile(fileId, dbPool);
+  convertService.convertFile(fileId, dbPool, config);
   
   response.sendStatus(status.ACCEPTED); //does not wait for convert to finish
 });

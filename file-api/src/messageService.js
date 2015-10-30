@@ -1,7 +1,6 @@
-var config = require('./config').readConfig().messageQueue;
 var messageQueue = require('../../modules/message-queue');
-var host = config.url + ':' + config.port;
 
-exports.sendConvertFinishedMessage = function (msg) {
-  messageQueue.sendMessage(msg, config.convertFinishedQueue, host)
+exports.sendConvertFinishedMessage = function (msg, config) {
+  var host = config.messageQueue.url + ':' + config.messageQueue.port;  
+  messageQueue.sendMessage(msg, config.messageQueue.convertFinishedQueue, host)
 }

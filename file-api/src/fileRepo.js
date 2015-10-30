@@ -1,5 +1,4 @@
-var mysql = require('./mysql');
-var dateHelper = require('./dateHelper');
+var dateHelper = require('./helper/date');
 
 exports.createFile = function (fileModel, dbPool, callback) {
  	dbPool.query(
@@ -23,7 +22,7 @@ exports.getFileById = function (id, dbPool, callback) {
     } else if (rows.length !== 1) {
       callback('Select by id returned more than one result');
     } else {
-      callback(err, rows[0]);      
+      callback(err, rows[0]);
     }
   });
 }

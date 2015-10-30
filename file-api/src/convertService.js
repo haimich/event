@@ -1,4 +1,3 @@
-var config = require('./config').readConfig().convert;
 var converter = require('./convert/convertVideo');
 var messageService = require('./messageService');
 var fileService = require('./fileService');
@@ -19,12 +18,12 @@ function createFile(file, dbPool, callback) {
   fileService.createFile(file, dbPool, callback);
 }
 
-function sendErrorMessage(err) {
+function sendErrorMessage(err, config) {
   var msg = {
     convertStatus: 'failed',
     error: err
   };
-  messageService.sendConvertFinishedMessage(msg);
+  messageService.sendConvertFinishedMessage(msg, config);
 }
 
 function isVideo(fileModel) {
@@ -36,17 +35,17 @@ function isVideo(fileModel) {
  * - creates file objects in the db for the converted videos
  * - sends a message to the queue when done (or when an error occurs)
  */
-function handleVideoFile(fileModel, dbPool) {
-  converter.start(fileModel.filesystem_location, config.outputPath, function(err, convertedFiles) {
+function handleVideoFile(fileModel, dbPool, config) {
+  converter.start(fileModel.filesystem_location, 'public', function(err, convertedFiles) {
     if (err) {
-      sendErrorMessage(err);
+      sendErrorMessage(err, config);
       return;
     } else {
       var convertedFileIds = [];
       convertedFiles.forEach(function(file) {
         createFile(file, dbPool, function(err, fileId) {
           if (err !== null) {
-            sendErrorMessage(err);
+            sendErrorMessage(err, config);
             return;
           }
           convertedFileIds.push(fileId);
@@ -57,7 +56,7 @@ function handleVideoFile(fileModel, dbPool) {
               convertedFileIds: convertedFileIds,
               convertStatus: 'finished'
             }
-            messageService.sendConvertFinishedMessage(msg);
+            messageService.sendConvertFinishedMessage(msg, config);
           }
         });
       });
@@ -69,7 +68,7 @@ function handleVideoFile(fileModel, dbPool) {
  * At the moment only videos are converted, so here we only copy the file to the public
  * folder and update the row in the database. Then a message is sent to the queue.
  */
-function handleNonVideoFile(fileModel, dbPool) {
+function handleNonVideoFile(fileModel, dbPool, config) {
   var currentLocation = fileModel.filesystem_location,                    //home/juicebox/Code/event/file-api/uploads/image.png
       loc = currentLocation.lastIndexOf('/'),
       filename = currentLocation.substr(loc + 1, currentLocation.length); //image.png
@@ -82,7 +81,7 @@ function handleNonVideoFile(fileModel, dbPool) {
   //move file to public folder
   fs.rename(currentLocation, newLocation, function(err) {
     if (err) {
-      sendErrorMessage(err);
+      sendErrorMessage(err, config);
       return;
     }
     
@@ -91,30 +90,31 @@ function handleNonVideoFile(fileModel, dbPool) {
     
     fileService.updateFile(fileModel, dbPool, function(err) {
       if (err) {
-        sendErrorMessage(err);
+        sendErrorMessage(err, config);
         return;
       }
       
       //Success!
-      messageService.sendConvertFinishedMessage({
+      var msg = {
         convertStatus: 'finished',
         originalFileId: fileModel.id
-      });
+      };
+      messageService.sendConvertFinishedMessage(msg, config);
     });
   });  
 }
 
-exports.convertFile = function(fileId, dbPool) {
+exports.convertFile = function(fileId, dbPool, config) {
   fileService.getFileById(fileId, dbPool, function(err, fileModel) {
     if (err) {
-      sendErrorMessage(err);
+      sendErrorMessage(err, config);
       return;
     }
     
     if (! isVideo(fileModel)) {
-      handleNonVideoFile(fileModel, dbPool);
+      handleNonVideoFile(fileModel, dbPool, config);
     } else {
-      handleVideoFile(fileModel, dbPool);      
+      handleVideoFile(fileModel, dbPool, config);
     }    
   });
 }

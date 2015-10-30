@@ -1,4 +1,4 @@
-var dateHelper = require('./dateHelper');
+var dateHelper = require('./helper/date');
 
 function File(options) {
   this.id = options.id

@@ -10,6 +10,3 @@ messageQueue:
   url: amqp://localhost
   port: 5672
   uploadFinishedQueue: converted_files
-
-convert:
-  outputPath: 'public'
