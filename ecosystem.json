@@ -2,46 +2,38 @@
   "apps" : [{
     "name"        : "proxy",
     "script"      : "server.js",
-    "args"        : ["--proxy=8080", "--frontend=3000", "--user=3010", "--session=3020", "--file=3030", "--apidocs=3040", "--share=3050"],
+    "args"        : ["--config=/home/event/config/proxy/dev.yml", "--ports=/home/event/config/proxy/dev.yml"],
     "merge_logs"  : true,
-    "cwd"         : "proxy/",
-    "ignore_watch": ["node_modules", "test"]    
+    "cwd"         : "proxy/"    
    },{
     "name"        : "frontend",
     "script"      : "server.js",
-    "args"        : ["3000"],
+    "args"        : ["--config=/home/event/config/frontend/dev.yml", "--ports=/home/event/config/proxy/dev.yml"],
     "merge_logs"  : true,
-    "cwd"         : "frontend/",
-    "post_update" : ["npm install", "echo launching frontend"],
-    "ignore_watch": ["node_modules", "test"]    
+    "cwd"         : "frontend/"
    },{
     "name"        : "user-api",
     "script"      : "server.js",
-    "args"        : ["3010"],
+    "args"        : ["--config=/home/event/config/user-api/dev.yml", "--ports=/home/event/config/proxy/dev.yml"],
     "merge_logs"  : true,
-    "cwd"         : "user-api/",
-    "ignore_watch": ["node_modules", "test"]    
+    "cwd"         : "user-api/"
    },{
     "name"        : "session-api",
     "script"      : "server.js",
-    "args"        : ["3020"],
+    "args"        : ["--config=/home/event/config/session-api/dev.yml", "--ports=/home/event/config/proxy/dev.yml"],
     "merge_logs"  : true,
-    "cwd"         : "session-api/",
-    "ignore_watch": ["node_modules", "test"]    
+    "cwd"         : "session-api/"
    },{
     "name"        : "file-api",
     "script"      : "server.js",
-    "args"        : ["3030"],
+    "args"        : ["--config=/home/event/config/file-api/dev.yml", "--ports=/home/event/config/proxy/dev.yml"],
     "merge_logs"  : true,
-    "cwd"         : "file-api/",
-    "ignore_watch": ["uploads", "public", "node_modules", "test"]
+    "cwd"         : "file-api/"
    },{
     "name"        : "apidocs",
     "script"      : "server.js",
-    "args"        : ["3040"],
     "merge_logs"  : true,
-    "cwd"         : "apidocs/",
-    "ignore_watch": ["static", "node_modules", "test"]    
+    "cwd"         : "apidocs/"
    }
  ],
   "deploy" : {
@@ -51,7 +43,7 @@
       "ref"  : "origin/master",
       "repo" : "https://github.com/haimich/event.git",
       "path" : "/home/event/event",
-      "post-deploy" : "pm2 startOrRestart ecosystem.json --env dev"
+      "post-deploy" : "node installDeps.js; pm2 startOrRestart ecosystem.json --env dev"
     }
   }
 }

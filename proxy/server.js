@@ -1,49 +1,17 @@
-var portRegex = /^--(\w+)=(\d+)/;
-var proxyPort    = null,
-    frontendPort = null,
-    userPort     = null,
-    sessionPort  = null,
-    filePort     = null,
-    docPort      = null,
-    sharePort      = null;
+var configService = require('./src/config');
+var args = require('minimist')(process.argv.slice(2));
 
-var hostname = require("os").hostname();
+var configLocation = args.config || 'config/config.yml';
+var config = configService.loadConfigSync(configLocation);
 
-function parseArguments(callack) {
-  process.argv.forEach(function (val, index, array) {
-    if (index <= 1) return;
-    var match = portRegex.exec(val);
-    var name = match[1], value = match[2];
-  
-    switch (name) {
-      case 'proxy':
-        proxyPort = value;
-      case 'frontend':
-        frontendPort = value;
-      case 'user':
-        userPort = value;
-      case 'session':
-        sessionPort = value;
-      case 'file':
-        filePort = value;
-      case 'apidocs':
-        docPort = value;
-      case 'share':
-        sharePort = value;
-    }
-  });
-}
+var portsConfigLocation = args.ports;
+var ports = configService.loadConfigSync(args.ports);
 
-function registerRoutes() {
-  var proxy = require('redbird')({port: proxyPort});
-  
-  proxy.register(hostname + '/event',             'http://localhost:' + frontendPort);
-  proxy.register(hostname + '/event/api/user',    'http://localhost:' + userPort + '/user');
-  proxy.register(hostname + '/event/api/session', 'http://localhost:' + sessionPort + '/session');
-  proxy.register(hostname + '/event/api/file',    'http://localhost:' + filePort + '/file');
-  proxy.register(hostname + '/event/apidocs',     'http://localhost:' + docPort + '/apidocs');
-  proxy.register(hostname + '/event/api/share',   'http://localhost:' + sharePort + '/share');
-}
+var proxy = require('redbird')({port: ports.proxy});
 
-parseArguments();
-registerRoutes();
+proxy.register(config.hostname + '/event',             'http://localhost:' + ports['frontend']);
+proxy.register(config.hostname + '/event/api/user',    'http://localhost:' + ports['user-api']    + '/user');
+proxy.register(config.hostname + '/event/api/session', 'http://localhost:' + ports['session-api'] + '/session');
+proxy.register(config.hostname + '/event/api/file',    'http://localhost:' + ports['file-api']    + '/file');
+proxy.register(config.hostname + '/event/apidocs',     'http://localhost:' + ports['apidocs']     + '/apidocs');
+proxy.register(config.hostname + '/event/api/share',   'http://localhost:' + ports['share-api']   + '/share');

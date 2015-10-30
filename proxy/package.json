@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/haimich/event#readme",
   "dependencies": {
+    "js-yaml": "^3.4.3",
+    "minimist": "^1.2.0",
     "redbird": "^0.4.9"
   }
 }
