@@ -7,7 +7,9 @@ var proxyPort    = null,
     docPort      = null,
     sharePort      = null;
 
-function parseArguments(callback) {
+var hostname = require("os").hostname();
+
+function parseArguments(callack) {
   process.argv.forEach(function (val, index, array) {
     if (index <= 1) return;
     var match = portRegex.exec(val);
@@ -30,17 +32,18 @@ function parseArguments(callback) {
         sharePort = value;
     }
   });
-  
-  callback();
 }
 
-parseArguments(function() {
+function registerRoutes() {
   var proxy = require('redbird')({port: proxyPort});
+  
+  proxy.register(hostname + '/event',             'http://localhost:' + frontendPort);
+  proxy.register(hostname + '/event/api/user',    'http://localhost:' + userPort + '/user');
+  proxy.register(hostname + '/event/api/session', 'http://localhost:' + sessionPort + '/session');
+  proxy.register(hostname + '/event/api/file',    'http://localhost:' + filePort + '/file');
+  proxy.register(hostname + '/event/apidocs',     'http://localhost:' + docPort + '/apidocs');
+  proxy.register(hostname + '/event/api/share',   'http://localhost:' + sharePort + '/share');
+}
 
-  proxy.register('localhost/event',             'http://localhost:' + frontendPort);
-  proxy.register('localhost/event/api/user',    'http://localhost:' + userPort + '/user');
-  proxy.register('localhost/event/api/session', 'http://localhost:' + sessionPort + '/session');
-  proxy.register('localhost/event/api/file',    'http://localhost:' + filePort + '/file');
-  proxy.register('localhost/event/apidocs',     'http://localhost:' + docPort + '/apidocs');
-  proxy.register('localhost/event/api/share',   'http://localhost:' + sharePort + '/share');
-});
+parseArguments();
+registerRoutes();
