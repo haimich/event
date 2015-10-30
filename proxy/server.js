@@ -4,8 +4,12 @@ var configHelper = require('./src/helper/config');
 var configLocation = args.config || 'config/config.yml';
 var config = configHelper.loadConfig(configLocation);
 
-var portsConfigLocation = args.ports;
-var ports = configHelper.loadConfig(args.ports);
+var ports = null;
+try {
+  ports = configHelper.loadConfig(args.ports);  
+} catch (err) {
+  throw new Error('No ports config given');
+}
 
 var proxy = require('redbird')({port: ports.proxy});
 
