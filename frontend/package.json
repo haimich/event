@@ -7,7 +7,8 @@
     "build:css": "node-sass --include-path scss scss/main.scss static/css/main.css && cp node_modules/bootstrap/dist/css/bootstrap.min.css static/css/ && cp node_modules/font-awesome/css/font-awesome.min.css static/css/ && cp -R node_modules/font-awesome/fonts static/ && cp node_modules/dropzone/dist/min/dropzone.min.css static/css/",
     "watch:css": "nodemon -e scss -x 'npm run build:css'",
     "build:js": "cp node_modules/jquery/dist/jquery.min.js static/js/ && cp node_modules/bootstrap/dist/js/bootstrap.min.js static/js/ && cp node_modules/devbridge-autocomplete/dist/jquery.autocomplete.min.js static/js/ && cp node_modules/dropzone/dist/min/dropzone.min.js static/js/",
-    "start": "echo '>> Use pm2 to start this service!'"
+    "start": "echo '>> Use pm2 to start this service!'",
+    "postInstall": "npm run build:css && npm run build:js"
   },
   "repository": {
     "type": "git",
