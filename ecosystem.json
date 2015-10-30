@@ -12,6 +12,7 @@
     "args"        : ["3000"],
     "merge_logs"  : true,
     "cwd"         : "frontend/",
+    "post_update" : ["npm install", "echo launching frontend"],
     "ignore_watch": ["node_modules", "test"]    
    },{
     "name"        : "user-api",
