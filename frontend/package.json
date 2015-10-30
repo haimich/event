@@ -8,7 +8,7 @@
     "watch:css": "nodemon -e scss -x 'npm run build:css'",
     "build:js": "cp node_modules/jquery/dist/jquery.min.js static/js/ && cp node_modules/bootstrap/dist/js/bootstrap.min.js static/js/ && cp node_modules/devbridge-autocomplete/dist/jquery.autocomplete.min.js static/js/ && cp node_modules/dropzone/dist/min/dropzone.min.js static/js/",
     "start": "echo '>> Use pm2 to start this service!'",
-    "postInstall": "npm run build:css && npm run build:js"
+    "postinstall": "npm run build:css && npm run build:js"
   },
   "repository": {
     "type": "git",
