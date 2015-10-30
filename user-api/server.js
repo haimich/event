@@ -8,7 +8,7 @@ var config = configHelper.loadConfig(configLocation);
 var port = null;
 try {
   var ports = configHelper.loadConfig(args.ports);
-  port = ports['file-api'];  
+  port = ports['user-api'];  
 } catch (err) {
   throw new Error('No ports config given');
 }

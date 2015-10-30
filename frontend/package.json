@@ -25,8 +25,10 @@
     "dropzone": "^4.2.0",
     "express": "^4.13.3",
     "font-awesome": "^4.4.0",
+    "jQuery-Autocomplete": "devbridge/jQuery-Autocomplete#v1.2.24",
     "jquery": "^2.1.4",
-    "jQuery-Autocomplete": "devbridge/jQuery-Autocomplete#v1.2.24"
+    "js-yaml": "^3.4.3",
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
     "node-sass": "^3.3.3"
