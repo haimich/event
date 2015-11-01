@@ -5,6 +5,7 @@ exports.createPool = function(config){
 		connectionLimit: config.database.connectionLimit,
 		host:            config.database.host,
 		user:            config.database.user,
+		port:            config.database.port,
 		password:        config.database.password,
 		database:        config.database.database,
 		debug:           config.database.debug
