@@ -1,7 +1,0 @@
-database:
-  host: localhost
-  user: domi
-  password: root
-  database: event
-  connectionLimit: 30
-  debug: false

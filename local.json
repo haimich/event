@@ -46,7 +46,7 @@
     "merge_logs"  : true,
     "watch"       : true,
     "cwd"         : "apidocs/",
-    "ignore_watch": ["static", "node_modules", "test"]    
+    "ignore_watch": ["static", "node_modules"]    
    }
  ]
 }
