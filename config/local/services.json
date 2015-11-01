@@ -2,7 +2,7 @@
   "apps" : [{
     "name"        : "proxy",
     "script"      : "server.js",
-    "args"        : ["--ports=../ports.yml"],
+    "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
     "cwd"         : "proxy/",
@@ -10,7 +10,7 @@
    },{
     "name"        : "frontend",
     "script"      : "server.js",
-    "args"        : ["--ports=../ports.yml"],
+    "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
     "cwd"         : "frontend/",
@@ -18,7 +18,7 @@
    },{
     "name"        : "user-api",
     "script"      : "server.js",
-    "args"        : ["--ports=../ports.yml"],
+    "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
     "cwd"         : "user-api/",
@@ -26,7 +26,7 @@
    },{
     "name"        : "session-api",
     "script"      : "server.js",
-    "args"        : ["--ports=../ports.yml"],
+    "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
     "cwd"         : "session-api/",
@@ -34,7 +34,7 @@
    },{
     "name"        : "file-api",
     "script"      : "server.js",
-    "args"        : ["--ports=../ports.yml"],
+    "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
     "cwd"         : "file-api/",
@@ -42,7 +42,7 @@
    },{
     "name"        : "apidocs",
     "script"      : "server.js",
-    "args"        : ["--ports=../ports.yml"],
+    "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
     "cwd"         : "apidocs/",

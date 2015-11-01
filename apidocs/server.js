@@ -4,7 +4,8 @@ var configHelper = require('./src/helper/config');
 
 var port = null;
 try {
-  var ports = configHelper.loadConfig(args.ports);
+  var portsParam = args.ports || args.p;
+  var ports = configHelper.loadConfig(portsParam);
   port = ports['file-api'];  
 } catch (err) {
   throw new Error('No ports config given');
