@@ -1,0 +1,6 @@
+proxy: 8080
+frontend: 3000
+user-api: 3010
+session-api: 3020
+file-api: 3030
+apidocs: 3040
