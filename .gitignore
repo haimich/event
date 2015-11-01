@@ -20,7 +20,7 @@ coverage
 build/Release
 
 node_modules
-node-debug.log
+npm-debug.log
 
 # Microsoft Code files
 .vscode
