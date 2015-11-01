@@ -22,10 +22,10 @@
   "homepage": "https://github.com/haimich/event#readme",
   "dependencies": {
     "bootstrap": "twbs/bootstrap#v4.0.0-alpha",
+    "devbridge-autocomplete": "github:devbridge/jQuery-Autocomplete#v1.2.24",
     "dropzone": "^4.2.0",
     "express": "^4.13.3",
     "font-awesome": "^4.4.0",
-    "jQuery-Autocomplete": "devbridge/jQuery-Autocomplete#v1.2.24",
     "jquery": "^2.1.4",
     "js-yaml": "^3.4.3",
     "minimist": "^1.2.0"
