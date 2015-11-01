@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "Event helps you discover conferences and other interesting events around you. It also makes life easier for people organizing events by offering support for the different stages.",
   "scripts": {
-    "start": "node installDeps.js && pm2 start --watch services.json",
-    "deploy:dev": "pm2 deploy ecosystem.json dev",
-    "setup:dev": "pm2 deploy ecosystem.json dev setup"
+    "start": "node installDeps.js --config=local.json && pm2 startOrRestart local.json",
+    "deploy:dev": "pm2 deploy dev.json dev",
+    "setup:dev": "pm2 deploy dev.json dev setup"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/haimich/event#readme",
   "devDependencies": {
+    "minimist": "^1.2.0",
     "shelljs": "^0.5.3"
   }
 }

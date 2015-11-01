@@ -1,13 +1,23 @@
+var args = require('minimist')(process.argv.slice(2));
+
 var fs = require('fs');
 var cd = require('shelljs').cd,
     exec = require('shelljs').exec;
 
-var pm2Config = 'services.json';
+var pm2Config = args.config || args.c;
+
+if (pm2Config === undefined) {
+  throw new Error('No config file given. Specify with config=<path>');
+}
 
 console.log('Installing dependencies for apps from file ' + pm2Config);
 
 fs.readFile(pm2Config, 'utf8', function (error, data) {
-  var apps = (JSON.parse(data).apps);
+  if (error !== undefined) {
+    throw new Error('Error loading config file ' + pm2Config + ': ' + error);
+  }
+  
+  var apps = JSON.parse(data).apps;
   
   apps.forEach(function(app) {
     cd(__dirname + '/' + app.cwd);
