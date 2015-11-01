@@ -2,52 +2,45 @@
   "apps" : [{
     "name"        : "proxy",
     "script"      : "server.js",
-    "args"        : ["--proxy=8080", "--frontend=3000", "--user=3010", "--session=3020", "--file=3030", "--apidocs=3040", "--share=3050"],
+    "args"        : ["--ports=../ports.yml"],
     "merge_logs"  : true,
     "cwd"         : "proxy/",
     "ignore_watch": ["node_modules", "test"]    
    },{
     "name"        : "frontend",
     "script"      : "server.js",
-    "args"        : ["3000"],
+    "args"        : ["--ports=../ports.yml"],
     "merge_logs"  : true,
     "cwd"         : "frontend/",
     "ignore_watch": ["node_modules", "test"]    
    },{
     "name"        : "user-api",
     "script"      : "server.js",
-    "args"        : ["3010"],
+    "args"        : ["--ports=../ports.yml"],
     "merge_logs"  : true,
     "cwd"         : "user-api/",
     "ignore_watch": ["node_modules", "test"]    
    },{
     "name"        : "session-api",
     "script"      : "server.js",
-    "args"        : ["3020"],
+    "args"        : ["--ports=../ports.yml"],
     "merge_logs"  : true,
     "cwd"         : "session-api/",
     "ignore_watch": ["node_modules", "test"]    
    },{
     "name"        : "file-api",
     "script"      : "server.js",
-    "args"        : ["3030"],
+    "args"        : ["--ports=../ports.yml"],
     "merge_logs"  : true,
     "cwd"         : "file-api/",
     "ignore_watch": ["uploads", "public", "node_modules", "test"]
    },{
     "name"        : "apidocs",
     "script"      : "server.js",
-    "args"        : ["3040"],
+    "args"        : ["--ports=../ports.yml"],
     "merge_logs"  : true,
     "cwd"         : "apidocs/",
     "ignore_watch": ["static", "node_modules", "test"]    
-   },{
-    "name"        : "share",
-    "script"      : "server.js",
-    "args"        : ["3050"],
-    "merge_logs"  : true,
-    "cwd"         : "../share/",
-    "ignore_watch": ["node_modules", "test"]    
    }
  ]
 }

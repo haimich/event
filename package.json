@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/haimich/event/issues"
   },
-  "homepage": "https://github.com/haimich/event#readme"
+  "homepage": "https://github.com/haimich/event#readme",
+  "devDependencies": {
+    "shelljs": "^0.5.3"
+  }
 }
