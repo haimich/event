@@ -47,6 +47,7 @@
 * https://www.converia.de/konferenz_und_event_management_software/prm/68/0/index.html / http://zwei.converia.de/
 * https://www.eventbrite.de
 * https://www.eventora.com/
+* http://2015.uxbucharest.com/program: nice per day view
 
 ## Technologies
 * [NodeJS](https://nodejs.org/en/)
