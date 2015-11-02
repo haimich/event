@@ -1,3 +1,8 @@
 DROP DATABASE IF EXISTS `event`;
 
 CREATE DATABASE IF NOT EXISTS `event`;
+
+CREATE USER 'event'@'localhost' IDENTIFIED BY 'event';
+GRANT ALL PRIVILEGES ON event.* TO 'event'@'localhost';
+
+FLUSH PRIVILEGES;
