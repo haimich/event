@@ -3,7 +3,7 @@
 read -p "This script will setup your database for the first time. Press Enter root password: " pw
 
 #drop/create database
-mysql -uroot -p$pw < sql/v1_event.sql;
+mysql -uroot -p$pw < setup/sql/v1_event.sql;
 
 mysql -uroot -p$pw < file-api/sql/v1_file.sql;
 mysql -uroot -p$pw < session-api/sql/v1_session.sql;
