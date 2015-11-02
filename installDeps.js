@@ -13,7 +13,7 @@ if (pm2Config === undefined) {
 console.log('Installing dependencies for apps from file ' + pm2Config);
 
 fs.readFile(pm2Config, 'utf8', function (error, data) {
-  if (error !== undefined) {
+  if (error !== undefined && error !== null) {
     throw new Error('Error loading config file ' + pm2Config + ': ' + error);
   }
   
