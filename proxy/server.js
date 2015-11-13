@@ -13,6 +13,7 @@ try {
 
 var proxy = require('redbird')({port: ports.proxy});
 
+proxy.register(config.hostname + '/',                  'http://' + config.hostname + ':' + ports['proxy'] + '/event');
 proxy.register(config.hostname + '/event',             'http://localhost:' + ports['frontend']);
 proxy.register(config.hostname + '/event/api/user',    'http://localhost:' + ports['user-api']    + '/user');
 proxy.register(config.hostname + '/event/api/session', 'http://localhost:' + ports['session-api'] + '/session');
