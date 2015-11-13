@@ -1,7 +1,7 @@
 database:
   host: localhost
-  port: 3306
-  user: 
+  user:
+  port: 3306 
   password: 
   database: event
   connectionLimit: 30
@@ -10,4 +10,4 @@ database:
 messageQueue:
   url: amqp://localhost
   port: 5672
-  uploadFinishedQueue: converted_files
+  name: converted_files

@@ -17,7 +17,7 @@ var SESSION_FILE_TYPE = {
 exports.listen = function(dbPool, config) {
   var host = config.messageQueue.url + ':' + config.messageQueue.port;
   
-  messageQueue.consumeMessage(config.messageQueue.convertFinishedQueue, host, function(msg) {
+  messageQueue.consumeMessage(config.messageQueue.name, host, function(msg) {
     var content = JSON.parse(msg.content);
     console.log('MESSAGE RECEIVED', content);
     
