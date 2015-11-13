@@ -2,6 +2,9 @@
   "name": "event-file-api",
   "version": "0.0.1",
   "description": "A RESTful API for handling Files.",
+  "engines" : {
+    "node" : ">=4.0.0"
+  },
   "main": "server.js",
   "scripts": {
     "start": "echo '>> Use pm2 to start this service!'",

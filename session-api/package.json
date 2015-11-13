@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "A RESTful API for creating sessions.",
   "main": "server.js",
+  "engines" : {
+    "node" : ">=4.0.0"
+  },
   "scripts": {
     "start": "echo '>> Use pm2 to start this service!'",
     "test": "mocha",
