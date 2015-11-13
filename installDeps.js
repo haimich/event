@@ -12,23 +12,20 @@ if (pm2Config === undefined) {
 
 console.log('Installing dependencies for apps from file ' + pm2Config);
 
-fs.readFile(pm2Config, 'utf8', function (error, data) {
-  if (error !== undefined && error !== null) {
-    throw new Error('Error loading config file ' + pm2Config + ': ' + error);
-  }
+var file = fs.readFileSync(pm2Config);
+var apps = JSON.parse(file).apps;
+
+apps.forEach(installDependencies);
+
+function installDependencies(app) {
+  cd(__dirname + '/' + app.cwd);
   
-  var apps = JSON.parse(data).apps;
-  
-  apps.forEach(function(app) {
-    cd(__dirname + '/' + app.cwd);
-    
-    exec('npm install', { async: true, silent: true }, function(code, output) {
-      if (code !== 0) {
-        console.log(':( Got error for ' + app.cwd);
-        console.log('Error output:', output);
-      } else {
-        console.log(':) ' + app.cwd);
-      }
-    });
+  exec('npm install', { async: true, silent: true }, function(code, output) {
+    if (code !== 0) {
+      console.log(':( Got error for ' + app.cwd);
+      console.log('Error output:', output);
+    } else {
+      console.log(':) ' + app.cwd);
+    }
   });
-});
+}

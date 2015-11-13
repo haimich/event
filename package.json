@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Event helps you discover conferences and other interesting events around you. It also makes life easier for people organizing events by offering support for the different stages.",
   "scripts": {
+    "prestart": "npm install",
     "start": "node installDeps.js --config=config/local/services.json && pm2 startOrRestart config/local/services.json",
     "deploy:dev": "pm2 deploy config/dev/services.json dev",
     "setup:dev": "pm2 deploy config/dev/services.json dev setup"
@@ -11,7 +12,6 @@
     "type": "git",
     "url": "git+ssh://git@github.com/haimich/event.git"
   },
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/haimich/event/issues"
