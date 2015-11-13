@@ -13,5 +13,5 @@ else
 	apt-get install -y rabbitmq-server
 	service rabbitmq-server start 
 fi
-rabbitmq-plugins enable rabbitmq_management
+rabbitmq-plugins enable rabbitmq_management # available via port 55672
 service rabbitmq-server restart
