@@ -69,6 +69,7 @@ app.get('/session/:id', function(request, response) {
  */
 app.put('/session', function(request, response) {
   var session = request.body;
+  
   if (session === undefined || session === null || Object.keys(session).length === 0) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No body given.'});
   }
@@ -99,6 +100,13 @@ app.put('/session', function(request, response) {
       });
     }
   });
+});
+
+/**
+ * If no route matches send 404
+ */
+app.use(function(req, res, next) {
+  res.status(404).send('No route found, baby!');
 });
 
 function startConvertProcess(files, callback) {

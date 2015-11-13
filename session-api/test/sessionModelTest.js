@@ -2,7 +2,7 @@ var should = require('chai').should();
 var Session = require('../src/sessionModel');
 
 describe('Session', function() {
-  it('should create a Session', function() {
+  it('should create a Session object', function() {
 
   	var options = {
   		id: 0,

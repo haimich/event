@@ -1,6 +1,6 @@
 var request = require('request');
 
-var baseUrl = 'http://localhost:8080/event/api/session';
+var baseUrl = 'http://localhost:3020/session';
 
 function createSession(session, callback) {  
   request({
