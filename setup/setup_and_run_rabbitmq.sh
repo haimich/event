@@ -10,7 +10,7 @@ if dpkg-query -W rabbitmq-server > /dev/null; then
 	echo "rabbitmq is already installed."
 else
 	apt-get update
-	apt-get install rabbitmq-server
+	apt-get install -y rabbitmq-server
 	service rabbitmq-server start 
 fi
 rabbitmq-plugins enable rabbitmq_management
