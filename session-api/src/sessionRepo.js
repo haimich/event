@@ -1,6 +1,7 @@
 var SessionStates = require('./sessionStatesModel');
+var dbPool = require('./helper/mysql')();
 
-exports.getSessions = function(dbPool, callback) {
+exports.getSessions = function(callback) {
   dbPool.query(
     "SELECT session.*, CONCAT(user.firstname, ' ', user.name) AS speaker_name FROM session LEFT JOIN user ON user.id = session.speaker_id WHERE session_state_id != :deleted",
     { 'deleted' : SessionStates.get('deleted').value },
@@ -38,7 +39,7 @@ exports.getSessions = function(dbPool, callback) {
   );
 }
 
-exports.getSessionById = function (sessionId, dbPool, callback) {    
+exports.getSessionById = function (sessionId, callback) {    
   dbPool.query("SELECT s.*, CONCAT(u.firstname, ' ', u.name) AS speaker_name FROM session s LEFT JOIN user u ON u.id = s.speaker_id WHERE s.id = :id LIMIT 1", { id: sessionId }, function(err, results) {
     if (err !== null) {
       callback(err);
@@ -48,7 +49,7 @@ exports.getSessionById = function (sessionId, dbPool, callback) {
   });
 }
 
-exports.getSessionIdByFileId = function(fileId, dbPool, callback) {  
+exports.getSessionIdByFileId = function(fileId, callback) {  
   dbPool.query("SELECT sf.session_id FROM session_file sf WHERE sf.file_id = :id LIMIT 1", { id: fileId }, function(err, result) {
     if (err !== null) {
       callback(err);
@@ -59,7 +60,7 @@ exports.getSessionIdByFileId = function(fileId, dbPool, callback) {
 }
 
 /* Return session_files with some file infos */
-exports.getSessionFilesBySessionId = function(sessionId, dbPool, callback) {
+exports.getSessionFilesBySessionId = function(sessionId, callback) {
   dbPool.query("SELECT sf.*, f.mime_type, f.url FROM session_file sf, file f WHERE sf.session_id = :id AND sf.file_id = f.id", { id: sessionId }, function(err, results) {
     if (err !== null) {
       callback(err);
@@ -69,7 +70,7 @@ exports.getSessionFilesBySessionId = function(sessionId, dbPool, callback) {
   });
 }
 
-exports.createSession = function (sessionModel, dbPool, callback) {
+exports.createSession = function (sessionModel, callback) {
  	dbPool.query(
 		"INSERT INTO session (title, description, date, speaker_id, start_time, session_type_id, session_state_id, created_at, modified_at) VALUES (:title, :description, :date, :speaker_id, :start_time, :session_type_id, :session_state_id, :created_at, :modified_at)",
 		sessionModel
@@ -78,7 +79,7 @@ exports.createSession = function (sessionModel, dbPool, callback) {
 	});
 }
 
-exports.createSessionFile = function (sessionFileModel, dbPool, callback) {
+exports.createSessionFile = function (sessionFileModel, callback) {
   dbPool.query(
 		"INSERT INTO session_file (session_id, file_id, type, state) VALUES (:session_id, :file_id, :type, :state)",
 		sessionFileModel, 
@@ -91,7 +92,7 @@ exports.createSessionFile = function (sessionFileModel, dbPool, callback) {
 		});
 }
 
-exports.searchSessionId = function (name, dbPool, callback) {
+exports.searchSessionId = function (name, callback) {
   var gotId = name;
   if (isNaN(gotId) == true) {
     callback(name + ' is not a number');
@@ -106,7 +107,7 @@ exports.searchSessionId = function (name, dbPool, callback) {
   });
 }
 
-exports.updateSessionFileState = function(sessionId, fileId, newState, dbPool,callback) {
+exports.updateSessionFileState = function(sessionId, fileId, newState, callback) {
   dbPool.query("UPDATE session_file SET state = :state WHERE session_id = :sessionId AND file_id = :fileId",
     { sessionId: sessionId, fileId: fileId, state: newState },
     function(err) {
@@ -115,7 +116,7 @@ exports.updateSessionFileState = function(sessionId, fileId, newState, dbPool,ca
   );
 }
 
-exports.updateSessionState = function(sessionId, newState, dbPool, callback) {
+exports.updateSessionState = function(sessionId, newState, callback) {
   dbPool.query("UPDATE session SET session_state_id = :state WHERE id = :id",
     { id: sessionId, state: newState },
     function(err) {
@@ -124,7 +125,7 @@ exports.updateSessionState = function(sessionId, newState, dbPool, callback) {
   );
 }
 
-exports.deleteSessionFileByFileId = function(fileId, dbPool, callback) {
+exports.deleteSessionFileByFileId = function(fileId, callback) {
   dbPool.query("DELETE FROM session_file WHERE file_id = :id",
     { id: fileId },
     function(err) {

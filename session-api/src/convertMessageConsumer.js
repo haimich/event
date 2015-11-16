@@ -14,7 +14,7 @@ var SESSION_FILE_TYPE = {
   SCREENSHOT: 'screenshot'
 };
 
-exports.listen = function(dbPool, config) {
+exports.listen = function(config) {
   var host = config.messageQueue.url + ':' + config.messageQueue.port;
   
   messageQueue.consumeMessage(config.messageQueue.name, host, function(msg) {
@@ -25,10 +25,10 @@ exports.listen = function(dbPool, config) {
         convertStatus    = content.convertStatus,
         convertedFileIds = content.convertedFileIds || null;
         
-    sessionService.getSessionIdByFileId(originalFileId, dbPool, function(err, sessionId) {
+    sessionService.getSessionIdByFileId(originalFileId, function(err, sessionId) {
       if (err !== null){
         console.warn('Error getting sessionId', err);
-        setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.ERROR, dbPool, function(error) {
+        setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.ERROR, function(error) {
           if (error !== null) {
             console.warn('Error updating status to ERROR of session_file with file_id  ' + originalFileId + ' in session ' + sessionId, error);
           }
@@ -37,7 +37,7 @@ exports.listen = function(dbPool, config) {
         return;
       } else if (convertStatus === 'failed') {
         console.warn('Got converted file with error - id: ' + originalFileId);
-        setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.ERROR, dbPool,function(error) {
+        setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.ERROR, function(error) {
           if (error !== null) {
             console.warn('Error updating status to ERROR of session_file with file_id  ' + originalFileId + ' in session ' + sessionId, error);
           }
@@ -47,9 +47,9 @@ exports.listen = function(dbPool, config) {
       }
       
       if (convertedFileIds !== null && convertedFileIds.length >= 1) {
-        handleConvertedFiles(sessionId, originalFileId, convertedFileIds, dbPool);
+        handleConvertedFiles(sessionId, originalFileId, convertedFileIds);
       } else {
-        handleSimpleFile(sessionId, originalFileId, dbPool);
+        handleSimpleFile(sessionId, originalFileId);
       }
     });
         
@@ -57,43 +57,43 @@ exports.listen = function(dbPool, config) {
 }
 
 /* More complex case (eg. a video got uploaded and was converted into two videos) */
-function handleConvertedFiles(sessionId, originalFileId, convertedFileIds, dbPool) {
+function handleConvertedFiles(sessionId, originalFileId, convertedFileIds) {
   
   convertedFileIds.forEach(function(convertedFileId) {
     var sessionFileModel = new SessionFileModel(sessionId, convertedFileId, 'video'); //TODO could be another type than video!
     sessionFileModel.state = 'ok';
     
-    sessionService.createSessionFile(sessionFileModel, dbPool, function(err) {
+    sessionService.createSessionFile(sessionFileModel, function(err) {
       if (err !== null) {
         console.warn('SessionFile could not be created for file ' + convertedFileId);
         return;
       }
       console.log('Created');
       
-      sessionService.deleteSessionFileByFileId(originalFileId, dbPool, function(err2) {
+      sessionService.deleteSessionFileByFileId(originalFileId, function(err2) {
         if (err2 !== null) {
           console.log('Deleting original file failed for fileId ' + originalFileId, err2);
           return;
         }
         
-        checkCompletenessAndShare(sessionId, dbPool);
+        checkCompletenessAndShare(sessionId);
       })
     });
   });
 }
 
-function handleSimpleFile(sessionId, originalFileId, dbPool) {
-  setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.OK, dbPool, function(error) {
+function handleSimpleFile(sessionId, originalFileId) {
+  setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.OK, function(error) {
     if (error !== null) {
       console.warn('Error updating status to OK of session_file with file_id ' + originalFileId + ' in session ' + sessionId, error);
       return;          
     }
-    checkCompletenessAndShare(sessionId, dbPool);
+    checkCompletenessAndShare(sessionId);
   });
 }
 
-function checkCompletenessAndShare(sessionId, dbPool) {
-  checkIfSessionComplete(sessionId, dbPool, function(err, isComplete) {
+function checkCompletenessAndShare(sessionId) {
+  checkIfSessionComplete(sessionId, function(err, isComplete) {
     if (err !== null) {
       console.warn('CheckIfSessionComplete failed for sessionId ' + sessionId, err);
       return;
@@ -101,8 +101,8 @@ function checkCompletenessAndShare(sessionId, dbPool) {
     if (isComplete) {
       console.log('All files there, yayyy! SessionId: ' + sessionId);
       
-      sessionService.updateSessionState(sessionId, 2, dbPool, function(err3) { //TODO 2 should be an enum
-        shareSession(sessionId, dbPool);
+      sessionService.updateSessionState(sessionId, 2, function(err3) { //TODO 2 should be an enum
+        shareSession(sessionId);
       });
     } else {
       console.log('Not yet, boooh! SessionId: ' + sessionId);            
@@ -110,12 +110,12 @@ function checkCompletenessAndShare(sessionId, dbPool) {
   });
 }
 
-function setSessionFileState(sessionId, fileId, newState, dbPool, callback) {
-  sessionService.updateSessionFileState(sessionId, fileId, newState, dbPool, callback);
+function setSessionFileState(sessionId, fileId, newState, callback) {
+  sessionService.updateSessionFileState(sessionId, fileId, newState, callback);
 }
 
-function checkIfSessionComplete(sessionId, dbPool, callback) {
-  sessionService.getSessionFilesBySessionId(sessionId, dbPool, function(err, results) {
+function checkIfSessionComplete(sessionId, callback) {
+  sessionService.getSessionFilesBySessionId(sessionId, function(err, results) {
     if (err !== null) {
       callback(err, false);
       return;
@@ -132,27 +132,27 @@ function checkIfSessionComplete(sessionId, dbPool, callback) {
   })
 }
 
-function shareSession(sessionId, dbPool) {
-  sessionService.getSessionById(sessionId, dbPool, function(err, session) {
+function shareSession(sessionId) {
+  sessionService.getSessionById(sessionId, function(err, session) {
     if (err !== null) {
       console.warn('Error loading session with id ' + sessionId);
       return;
     }
     
-    sessionService.getSessionFilesBySessionId(sessionId, dbPool, function(error, results) {
+    sessionService.getSessionFilesBySessionId(sessionId, function(error, results) {
       if (err !== null) {
         console.warn('Error loading session_files with session id ' + sessionId);
         return;
       }
       
-      getFileLinks(results, dbPool, function(links) {
+      getFileLinks(results, function(links) {
         share(session, links);
       });
     });
   });
 }
 
-function getFileLinks (sessionFiles, dbPool, callback) {
+function getFileLinks (sessionFiles, callback) {
   var result = {
     screenshot_link: null,
     slides_link: null,

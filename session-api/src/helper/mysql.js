@@ -1,7 +1,10 @@
 var mysql  = require('mysql');
 
-exports.createPool = function(config){
-	var pool = mysql.createPool({
+var dbPool = null;
+
+//Create Singleton for DB pools
+function createPool(config) {
+	dbPool = mysql.createPool({
 		connectionLimit: config.database.connectionLimit,
 		host:            config.database.host,
 		user:            config.database.user,
@@ -12,7 +15,7 @@ exports.createPool = function(config){
 	});
   
 	// change query format from "?" to ":variable" syntax	
-	pool.config.connectionConfig.queryFormat = function (query, values) {
+	dbPool.config.connectionConfig.queryFormat = function (query, values) {
 		if (!values) return query;
 		return query.replace(/\:(\w+)/g, function (txt, key) {
 			if (values.hasOwnProperty(key)) {
@@ -21,7 +24,14 @@ exports.createPool = function(config){
 			return txt;
 		}.bind(this));
 	};
+}
 
-	return pool;
-} 
-
+module.exports = function getDbPool(config) {
+  if (config) {
+    return createPool(config);
+  } else if (dbPool !== null && dbPool !== undefined) {
+    return dbPool;
+  } else {
+    throw new Error('Can not create db pool: no config given');
+  }
+};

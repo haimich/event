@@ -26,7 +26,7 @@ describe('PUT /session', function() {
       response.statusCode.should.equal(status.CREATED);
       response.body.id.should.exist;
       done(); 
-    });
+    }); 
   });
   
   it('should create a session with files', function (done) {

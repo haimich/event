@@ -14,7 +14,8 @@ try {
   throw new Error('No ports config given');
 }
 
-var dbPool = require('./src/helper/mysql').createPool(config);
+//Initialize global db pool
+require('./src/helper/mysql')(config);
 
 var Session = require('./src/sessionModel');
 var sessionService = require('./src/sessionService');
@@ -31,13 +32,13 @@ app.use(bodyParser.json());
 var baseUrl = 'http://localhost:8080/event/api';
 
 // start listening for converted files messages
-convertMessageConsumer.listen(dbPool, config);
+convertMessageConsumer.listen(config);
 
 /**
  * Get all sessions.
  */
 app.get('/session', function(request, response) {
-  sessionService.getSessions(dbPool, function(err, result) {
+  sessionService.getSessions(function(err, result) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }
@@ -56,7 +57,7 @@ app.get('/session/:id', function(request, response) {
   }
   
 
-  sessionService.searchSessionId(sessionId, dbPool, function(err, result){
+  sessionService.searchSessionId(sessionId, function(err, result){
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }
@@ -76,7 +77,7 @@ app.put('/session', function(request, response) {
   
   // create session
   var sessionModel = new Session(session);
-  sessionService.createSession(sessionModel, dbPool, function(err, sessionId) {
+  sessionService.createSession(sessionModel, function(err, sessionId) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }
@@ -85,7 +86,7 @@ app.put('/session', function(request, response) {
       return response.status(status.CREATED).json({ id: sessionId });
     } else {
       // create session files
-      sessionService.createSessionFiles(sessionId, sessionModel.files, dbPool, function(error, sessionFileIds) {
+      sessionService.createSessionFiles(sessionId, sessionModel.files, function(error, sessionFileIds) {
         if (error) {
           return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
         }
