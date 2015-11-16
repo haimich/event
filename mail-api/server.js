@@ -1,3 +1,5 @@
+// könnte man sich auch mal anschauen: https://github.com/eleith/emailjs
+
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport();
 transporter.sendMail({
