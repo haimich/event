@@ -6,7 +6,7 @@
     "node" : ">=4.0.0"
   },
   "scripts": {
-    "prestart": "npm install",
+    "install:global": "sudo npm install -g pm2 && sudo npm install -g mocha",
     "postinstall": "node installDeps.js --config=config/local/services.json",
     "start": "pm2 startOrRestart config/local/services.json",
     "deploy:dev": "pm2 deploy config/dev/services.json dev",
