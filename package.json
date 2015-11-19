@@ -7,7 +7,8 @@
   },
   "scripts": {
     "prestart": "npm install",
-    "start": "node installDeps.js --config=config/local/services.json && pm2 startOrRestart config/local/services.json",
+    "postinstall": "node installDeps.js --config=config/local/services.json",
+    "start": "pm2 startOrRestart config/local/services.json",
     "deploy:dev": "pm2 deploy config/dev/services.json dev",
     "setup:dev": "pm2 deploy config/dev/services.json dev setup"
   },
