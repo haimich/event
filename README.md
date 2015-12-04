@@ -2,6 +2,13 @@
 
 [![Join the chat at https://gitter.im/haimich/event](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/haimich/event)
 
+## TODOs 4.12.2015
+* select orm mapper
+* write user api with orm mapper
+* add tests, try to run them with sqlite3
+* change rest resources and projects to plural from
+* user.name => lastname
+
 ## Feature Ideas
 ### MUST
 * Create/View Session
