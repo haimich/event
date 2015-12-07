@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "A RESTful API for creating and querying event users.",
   "main": "server.js",
-  "engines" : {
-    "node" : ">=4.0.0"
+  "engines": {
+    "node": ">=4.0.0"
   },
   "scripts": {
     "start": "echo '>> Use pm2 to start this service!'",
@@ -22,17 +22,20 @@
   },
   "homepage": "https://github.com/haimich/event#readme",
   "dependencies": {
+    "bookshelf": "^0.9.1",
     "cors": "^2.7.1",
     "express": "^4.13.3",
     "http-status": "^0.2.0",
     "js-yaml": "^3.4.3",
+    "knex": "^0.9.0",
     "minimist": "^1.2.0",
     "mysql": "^2.9.0",
     "request": "^2.65.0"
   },
   "devDependencies": {
     "chai": "^3.4.0",
+    "chokidar-cli": "^1.1.0",
     "mocha": "^2.3.3",
-    "chokidar-cli": "^1.1.0"
+    "sqlite3": "^3.1.1"
   }
 }
