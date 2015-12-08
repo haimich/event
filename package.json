@@ -6,7 +6,7 @@
     "node" : ">=4.0.0"
   },
   "scripts": {
-    "install:global": "sudo npm install -g pm2 mocha",
+    "install:global": "sudo npm install -g pm2 mocha knex",
     "postinstall": "node installDeps.js --config=config/local/services.json",
     "start": "pm2 startOrRestart config/local/services.json"
   },
