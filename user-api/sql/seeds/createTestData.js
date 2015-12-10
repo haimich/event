@@ -11,9 +11,9 @@ exports.seed = (knex, Promise) => {
     knex(TABLE_NAME).del(),
 
     // Inserts seed entries
-    generateTestData(knex),
+    generateTestData(knex)
     
-    outputData(knex)
+    //outputData(knex)
   );
 };
 
@@ -23,7 +23,7 @@ function outputData(knex) {
 
 function generateTestData(knex) {
   let promises = [];
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     promises.push(createRandomUser(knex));
   }
   return Promise.all(promises);

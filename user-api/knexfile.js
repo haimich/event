@@ -1,4 +1,18 @@
 module.exports = {
+  
+  test: {
+    client: 'sqlite3',
+    connection: {
+      filename: ':memory:'
+    },
+    seeds: {
+      directory: './sql/seeds'
+    },
+    migrations: {
+      directory: './sql/migrations',
+      tableName: 'knex_migrations'
+    }
+  },
 
   development: {
     client: 'sqlite3',

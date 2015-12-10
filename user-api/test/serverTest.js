@@ -51,4 +51,3 @@ describe('GET /user/{id}', function() {
 
   });
 });
-                                                                                                                                                                               
