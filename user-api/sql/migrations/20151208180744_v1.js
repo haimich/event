@@ -1,23 +1,20 @@
-exports.up = function(knex, Promise) {
+exports.up = (knex, Promise) => {
   return Promise.all([
-    knex.schema.createTable('users_2', function (table) {
+    knex.schema.createTable('users', function (table) {
       table.bigIncrements('id').primary().unsigned();
       table.integer('external_id');
       table.string('username');
       table.string('firstname');
       table.string('lastname');
-      table.string('password');
+      table.string('email');
       table.dateTime('created_at');
       table.dateTime('modified_at');
-
-      /* CREATE FKS */
-      // table.bigInteger('AddressId').unsigned().index().inTable('Address').references('id');
     })
   ]);
 };
 
-exports.down = function(knex, Promise) {
+exports.down = (knex, Promise) => {
   return Promise.all([
-    knex.schema.dropTable('users_2')
+    knex.schema.dropTable('users')
   ]);
 };
