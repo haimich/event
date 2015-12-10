@@ -23,7 +23,7 @@ function outputData(knex) {
 
 function generateTestData(knex) {
   let promises = [];
-  for (let i = 0; i < 10000; i++) {
+  for (let i = 0; i < 1000; i++) {
     promises.push(createRandomUser(knex));
   }
   return Promise.all(promises);
