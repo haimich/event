@@ -18,35 +18,35 @@
     "ignore_watch": ["node_modules", "test"],
     "env": { "NODE_ENV": "development" }    
    },{
-    "name"        : "user-api",
+    "name"        : "users-api",
     "script"      : "server.js",
     "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
-    "cwd"         : "user-api/",
+    "cwd"         : "users-api/",
     "ignore_watch": ["node_modules", "test"],
     "env": { "NODE_ENV": "development" }    
    },{
-    "name"        : "session-api",
+    "name"        : "sessions-api",
     "script"      : "server.js",
     "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
-    "cwd"         : "session-api/",
+    "cwd"         : "sessions-api/",
     "ignore_watch": ["node_modules", "test"],
     "env": { "NODE_ENV": "development" }    
    },{
-    "name"        : "file-api",
+    "name"        : "files-api",
     "script"      : "server.js",
     "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
-    "cwd"         : "file-api/",
+    "cwd"         : "files-api/",
     "ignore_watch": ["uploads", "public", "node_modules", "test"],
     "env": { "NODE_ENV": "development" }
    },{
     "name"        : "apidocs",
-    "script"      : "server.js",
+    "script"      : "servers.js",
     "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,

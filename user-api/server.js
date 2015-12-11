@@ -28,10 +28,10 @@ app.use(cors());
 /**
  * Search for users.
  */
-app.get('/user', function(request, response) {
+app.get('/users', (request, response) => {
 	let filter = request.query.filter || '';
   
-	userService.searchUser(filter)
+	userService.searchUsers(filter)
     .then((users) => {
 		  response.json(users);
 	  })
@@ -43,14 +43,14 @@ app.get('/user', function(request, response) {
 /**
  * Get a specific user.
  */
-app.get('/user/:id', function(request, response) {
+app.get('/users/:id', (request, response) => {
   let userId = request.params.id;
   
   if (isNaN(userId) == true) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No user id given' });
   }
   
-  userService.searchUserId(userId)
+  userService.getUserById(userId)
     .then((users) => {
       if (users.length === 0) {
         response.status(status.NOT_FOUND).json({ error: `User with id ${userId} not found` });

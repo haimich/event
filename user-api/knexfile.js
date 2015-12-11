@@ -37,9 +37,13 @@ module.exports = {
       user:     'event',
       password: 'event'
     },
+    timezone: 'UTC',
     pool: {
       min: 2,
       max: 10
+    },
+    seeds: {
+      directory: './sql/seeds'
     },
     migrations: {
       directory: './sql/migrations',

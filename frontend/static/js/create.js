@@ -5,7 +5,7 @@ $(document).ready(function() {
 
   // Initialize autocompleter
   $('.autocomplete.speaker').autocomplete({
-    serviceUrl: '/event/api/user',
+    serviceUrl: '/event/api/users',
     dataType: 'json',
     paramName: 'find',
     transformResult: function(speakers) {

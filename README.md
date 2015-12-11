@@ -3,9 +3,13 @@
 [![Join the chat at https://gitter.im/haimich/event](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/haimich/event)
 
 ## TODOs 4.12.2015
-* select orm mapper
-* write user api with orm mapper
-* add tests, try to run them with sqlite3
+* alles user -> users (REST, project, db)
+* db initialization überdenken
+* user tests auf Promises umstellen
+* name in lastname bei users
+* knexfile ist eigentlich config?
+* refactor user api server.js
+* Projektstruktur umstellen -> übersichtlicher machen
 * change rest resources and projects to plural from
 * user.name => lastname
 

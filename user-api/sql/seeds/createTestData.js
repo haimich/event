@@ -30,11 +30,11 @@ function generateTestData(knex) {
 }
 
 function createRandomUser(knex) {
-  let datetime = chance.date().toISOString();
+  let datetime = chance.date();
   
   let user = {
-    external_id: chance.natural(),
-    username: chance.word(),
+    external_id: chance.natural({ max: 100000 }),
+    username: chance.word({ length: 7 }),
     firstname: chance.first(),
     lastname: chance.last(),
     email: chance.email(),

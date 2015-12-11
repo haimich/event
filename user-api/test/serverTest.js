@@ -9,10 +9,10 @@ let userid = 1,
     firstname = 'Event',
     lastname = 'Man';
 
-describe('GET /user', () => {
+describe('GET /users', () => {
   
   it('should return a user by username', (done) => {
-    helper.searchUser(username)
+    helper.searchUsers(username)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
@@ -25,7 +25,7 @@ describe('GET /user', () => {
   });
 
   it('should return a user by firstname', (done) => {
-    helper.searchUser(firstname)
+    helper.searchUsers(firstname)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
@@ -39,7 +39,7 @@ describe('GET /user', () => {
   });
 
   it('should return a user by name', (done) => {
-    helper.searchUser(lastname)
+    helper.searchUsers(lastname)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
@@ -53,7 +53,7 @@ describe('GET /user', () => {
   });
   
   it('should ignore case', (done) => {
-    helper.searchUser('eVenT')
+    helper.searchUsers('eVenT')
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
@@ -67,7 +67,7 @@ describe('GET /user', () => {
   });
   
   it('should not return a user that does not exist', (done) => { 
-    helper.searchUser('hansideinemuddaiscool')
+    helper.searchUsers('hansideinemuddaiscool')
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         
@@ -79,7 +79,7 @@ describe('GET /user', () => {
   });
   
   it('should return an additional field named displayname', (done) => {
-    helper.searchUser(username)
+    helper.searchUsers(username)
       .then((response) => {
         let users = JSON.parse(response.body);
         users.should.have.length(1);
@@ -91,7 +91,7 @@ describe('GET /user', () => {
   
 });
 
-describe('GET /user/{id}', () => {
+describe('GET /users/{id}', () => {
   
   it('should return a user by id', (done) => {
     helper.getUserId(userid)

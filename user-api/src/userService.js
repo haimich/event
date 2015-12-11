@@ -1,9 +1,11 @@
-var userRepo = require('./userRepo');
+'use strict';
 
-exports.searchUserId = (id) => {
-	return userRepo.searchUserId(id);
+let userRepo = require('./userRepo');
+
+exports.getUserById = (id) => {
+	return userRepo.getUserById(id);
 }
 
-exports.searchUser = (name) => {
-  return userRepo.searchUser(name);
+exports.searchUsers = (term) => {
+  return userRepo.searchUsers(term);
 }

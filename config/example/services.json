@@ -16,23 +16,23 @@
    },{
     "name"        : "user-api",
     "script"      : "server.js",
-    "args"        : ["--config=/home/event/event-internal/config/user-api/dev.yml", "--ports=/home/event/event-internal/config/ports/dev.yml"],
+    "args"        : ["--config=/home/event/event-internal/config/users-api/dev.yml", "--ports=/home/event/event-internal/config/ports/dev.yml"],
     "merge_logs"  : true,
-    "cwd"         : "user-api/",
+    "cwd"         : "users-api/",
     "env": { "NODE_ENV": "example" }
    },{
     "name"        : "session-api",
     "script"      : "server.js",
-    "args"        : ["--config=/home/event/event-internal/config/session-api/dev.yml", "--ports=/home/event/event-internal/config/ports/dev.yml"],
+    "args"        : ["--config=/home/event/event-internal/config/sessions-api/dev.yml", "--ports=/home/event/event-internal/config/ports/dev.yml"],
     "merge_logs"  : true,
-    "cwd"         : "session-api/",
+    "cwd"         : "sessions-api/",
     "env": { "NODE_ENV": "example" }
    },{
     "name"        : "file-api",
     "script"      : "server.js",
-    "args"        : ["--config=/home/event/event-internal/config/file-api/dev.yml", "--ports=/home/event/event-internal/config/ports/dev.yml"],
+    "args"        : ["--config=/home/event/event-internal/config/files-api/dev.yml", "--ports=/home/event/event-internal/config/ports/dev.yml"],
     "merge_logs"  : true,
-    "cwd"         : "file-api/",
+    "cwd"         : "files-api/",
     "env": { "NODE_ENV": "example" }
    },{
     "name"        : "apidocs",

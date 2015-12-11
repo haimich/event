@@ -2,11 +2,11 @@
 
 let request = require('request-promise');
 
-let baseUrl = 'http://localhost:8080/event/api/user';
+let baseUrl = 'http://localhost:8080/event/api/users';
 
-module.exports.searchUser = (userinfo) => {
+module.exports.searchUsers = (term) => {
   return request({
-    url: baseUrl + '?filter=' + userinfo,
+    url: baseUrl + '?filter=' + term,
     method: 'GET',
     resolveWithFullResponse: true
   });
