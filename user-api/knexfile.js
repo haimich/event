@@ -15,12 +15,13 @@ module.exports = {
   },
 
   development: {
-    client: 'sqlite3',
+    client: 'mysql',
+    debug: true,
     connection: {
-      filename: 'dev.db'
-    },
-    seeds: {
-      directory: './sql/seeds'
+      host: 'localhost',
+      database: 'event',
+      user:     'event',
+      password: 'event'
     },
     migrations: {
       directory: './sql/migrations',
@@ -31,6 +32,7 @@ module.exports = {
   stage: {
     client: 'mysql',
     connection: {
+      host: 'localhost',
       database: 'event',
       user:     'event',
       password: 'event'

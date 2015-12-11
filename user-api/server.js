@@ -30,6 +30,7 @@ app.use(cors());
  */
 app.get('/user', function(request, response) {
 	var filter = request.query.filter || '';
+  console.log('Filter:', request.query);
   
 	userService.searchUser(filter, dbPool, function(err, result){
     if (err) {
@@ -49,10 +50,13 @@ app.get('/user/:id', function(request, response) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No user id given' });
   }
   
-
   userService.searchUserId(userId, dbPool, function(err, result){
     if (err) {
-      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+      if (err === 'empty') {
+        return response.status(status.NOT_FOUND).json({ error: `User with id ${userId} not found` }); 
+      } else {
+        return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+      }
     }
     response.json(result);
   });

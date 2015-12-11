@@ -1,28 +1,21 @@
-var request = require('request');
+'use strict';
 
-var baseUrl = 'http://localhost:8080/event/api/user';
-var basePath = '/event/api/user?filter=';
+let request = require('request-promise');
 
-function getUser(userinfo, callback) {
-   request({
-    url: baseUrl,
-    path: basePath + userinfo,
-    method: 'GET'
-  }, function (error, response, body) {
-    if (error) { throw error; }
-    callback(response);
+let baseUrl = 'http://localhost:8080/event/api/user';
+
+module.exports.searchUser = (userinfo) => {
+  return request({
+    url: baseUrl + '?filter=' + userinfo,
+    method: 'GET',
+    resolveWithFullResponse: true
   });
 }
 
-function getUserId(userid, callback) {
-   request({
+module.exports.getUserId = (userid) => {
+  return request({
     url: baseUrl + '/' + userid,
-    method: 'GET'
-  }, function (error, response, body) {
-    if (error) { throw error; }
-    callback(response);
+    method: 'GET',
+    resolveWithFullResponse: true
   });
 }
-
-exports.getUser = getUser;
-exports.getUserId = getUserId;

@@ -1,53 +1,132 @@
-var should = require('chai').should();
-var helper = require('./helpers/userHelper');
-var status = require('http-status');
+'use strict';
 
-var userid = 1;
-var username = 'eventman';
-var firstname = 'Event';
-var name = 'Man';
+let should = require('chai').should(),
+    helper = require('./helpers/userHelper'),
+    status = require('http-status');
 
-describe('GET /user', function() {
-  it('should return a user by username', function (done) {
+let userid = 1,
+    username = 'eventman',
+    firstname = 'Event',
+    lastname = 'Man';
 
-    helper.getUser(username, function(response) {
-      response.statusCode.should.equal(status.OK);
-      response.body.should.exist;
-      response.body.should.contain(username);
-      done();
-    });    
+describe('GET /user', () => {
+  
+  it('should return a user by username', (done) => {
+    helper.searchUser(username)
+      .then((response) => {
+        response.statusCode.should.equal(status.OK);
+        response.body.should.exist;
+        
+        let users = JSON.parse(response.body);
+        users.should.have.length(1);
+        users[0].username.should.equal(username);
+        done();
+      });
   });
 
-  it('should return a user by firstname', function (done) {
-
-    helper.getUser(firstname, function(response) {
-      response.statusCode.should.equal(status.OK);
-      response.body.should.exist;
-      response.body.should.contain(username);
-      done();
-    });    
+  it('should return a user by firstname', (done) => {
+    helper.searchUser(firstname)
+      .then((response) => {
+        response.statusCode.should.equal(status.OK);
+        response.body.should.exist;
+        
+        let users = JSON.parse(response.body);
+        users.should.have.length(1);
+        users[0].username.should.equal(username);
+        
+        done();
+    });
   });
 
-  it('should return a user by name', function (done) {
-
-    helper.getUser(name, function(response) {
-      response.statusCode.should.equal(status.OK);
-      response.body.should.exist;
-      response.body.should.contain(username);
-      done();
-    });    
+  it('should return a user by name', (done) => {
+    helper.searchUser(lastname)
+      .then((response) => {
+        response.statusCode.should.equal(status.OK);
+        response.body.should.exist;
+        
+        let users = JSON.parse(response.body);
+        users.should.have.length(1);
+        users[0].username.should.equal(username);
+        
+        done();
+      });
   });
+  
+  it('should ignore case', (done) => {
+    helper.searchUser('eVenT')
+      .then((response) => {
+        response.statusCode.should.equal(status.OK);
+        response.body.should.exist;
+        
+        let users = JSON.parse(response.body);
+        users.should.have.length(1);
+        users[0].username.should.equal(username);
+        
+        done();
+      });
+  });
+  
+  it('should not return a user that does not exist', (done) => { 
+    helper.searchUser('hansideinemuddaiscool')
+      .then((response) => {
+        response.statusCode.should.equal(status.OK);
+        
+        let users = JSON.parse(response.body);
+        users.should.have.length(0);
+        
+        done();
+      });
+  });
+  
+  it('should return an additional field named displayname', (done) => {
+    helper.searchUser(username)
+      .then((response) => {
+        let users = JSON.parse(response.body);
+        users.should.have.length(1);
+        users[0].displayname.should.equal(firstname + ' ' + lastname);
+        
+        done();
+      });
+  })
+  
 });
 
-describe('GET /user/{id}', function() {
-  it('should return a user by id', function (done) {
-
-    helper.getUserId(userid, function(response) {
-      response.statusCode.should.equal(status.OK);
-      response.body.should.exist;
-      response.body.should.contain(username);
-      done();
-    });
-
+describe('GET /user/{id}', () => {
+  
+  it('should return a user by id', (done) => {
+    helper.getUserId(userid)
+      .then((response) => {
+        response.statusCode.should.equal(status.OK);
+        response.body.should.exist;
+        
+        let users = JSON.parse(response.body);
+        users.should.have.length(1);
+        users[0].username.should.equal(username);
+        
+        done();
+      });
   });
+  
+  it('should return 404 when the user can not be found', (done) => {
+    helper.getUserId(12312371293)
+      .catch((response) => {
+        response.statusCode.should.equal(status.NOT_FOUND);
+        let errorObj = JSON.parse(response.error);
+        errorObj.error.should.exist;
+        
+        done();
+      });
+  });
+  
+  it('should return 412 when no id is given', (done) => {
+    helper.getUserId('fooblablupp')
+      .catch((response) => {
+        response.statusCode.should.equal(status.PRECONDITION_FAILED);
+        let errorObj = JSON.parse(response.error);
+        errorObj.error.should.exist;
+        
+        done();
+      });
+  });
+  
 });

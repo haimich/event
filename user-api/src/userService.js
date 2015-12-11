@@ -1,9 +1,19 @@
-var userRepo = require('./userRepo');
-
-exports.searchUser = function (name, dbPool, callback){
-	userRepo.searchUser(name, dbPool, callback);
-}
+var userRepoKnex = require('./userRepoKnex');
 
 exports.searchUserId = function (id, dbPool, callback){
-	userRepo.searchUserId(id, dbPool, callback);
+	userRepoKnex.searchUserId(id)
+    .then((user) => {
+      if (user.length === 0) {
+        callback('empty');
+      } else {
+        callback(null, user);
+      }
+    })
+    .catch((err) => callback(err));
+}
+
+exports.searchUser = function (name, dbPool, callback){
+  userRepoKnex.searchUser(name)
+    .then((users) => callback(null, users))
+    .catch((err) => callback(err));
 }
