@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -p "This script will setup your database for the first time. Press Enter root password: " pw
+read -p "This script will setup your database for the first time. Please enter root password: " pw
 
 #drop/create database
 mysql -uroot -p$pw < setup/sql/v1_event.sql;
