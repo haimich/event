@@ -46,7 +46,7 @@
     "env": { "NODE_ENV": "development" }
    },{
     "name"        : "apidocs",
-    "script"      : "servers.js",
+    "script"      : "server.js",
     "args"        : ["--ports=../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
