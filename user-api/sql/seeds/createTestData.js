@@ -13,7 +13,7 @@ exports.seed = (knex, Promise) => {
     // Inserts seed entries
     generateTestData(knex)
     
-    //outputData(knex)
+    // outputData(knex)
   );
 };
 
@@ -42,5 +42,5 @@ function createRandomUser(knex) {
     modified_at: datetime
   }
   
-  return knex(TABLE_NAME).insert(user).then();
+  return knex(TABLE_NAME).insert(user);
 }
