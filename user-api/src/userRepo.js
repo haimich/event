@@ -1,26 +1,28 @@
-exports.searchUser = function (name, dbPool, callback) {
-	var nameWithWildcards = ("%" + name + "%").toUpperCase();
-  
-	dbPool.query(
-		"SELECT *, CONCAT(firstname, ' ', name) AS displayname FROM user WHERE upper(firstname) like :name OR upper(name) like :name OR upper(username) like :name OR upper(concat_ws(' ', firstname, name) like :name)",
-		{ name: nameWithWildcards }
-	, function(err, rows) {
-		if (err) throw err;		
-    callback(err, rows);
-	});
+'use strict';
+
+let knexOptions = require('../knexfile').development,
+    kn = require('knex'),
+    knex = kn(knexOptions);
+
+module.exports.searchUser = (name) => {
+  return knex
+    .select('*')
+    .from('user')
+    .where('username', name)
+    .orWhere('firstname', name)
+    .orWhere('name', name)
+    .then((users) => {
+      return users.map((user) => {
+        user.displayname = user.firstname + ' ' + user.name;
+        return user;
+      });
+    });
 }
 
-exports.searchUserId = function (name, dbPool, callback) {
-  var gotId = name;
-  if (isNaN(gotId) == true) {
-    callback(gotId);
-    return;
-  }
-  
-  dbPool.query(
-		"SELECT * FROM user WHERE id= :name;",
-		{ name: gotId }
-	, function(err, rows) {
-    callback(err, rows);
-  });
+module.exports.searchUserId = (id) => {
+  return knex
+    .select('*')
+    .from('user')
+    .where('id', id)
+    .limit(1);
 }
