@@ -12,7 +12,7 @@ CREATE TABLE `session_state` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `session` (
+CREATE TABLE `sessions` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) DEFAULT NULL,
   `description` VARCHAR(255) DEFAULT NULL,
@@ -34,9 +34,9 @@ INSERT INTO session_state(`name`) VALUES('in progress');
 INSERT INTO session_state(`name`) VALUES('published');
 INSERT INTO session_state(`name`) VALUES('deleted');
 
-INSERT INTO session(`title`, `description`, `date`, `speaker_id`, `session_type_id`, `session_state_id`, `created_at`, `modified_at`) VALUES('Test presentation', 'My test presentation', '2015-10-23', 1, 1, 1, '2015-10-23 10:20:00', '2015-10-23 10:20:00');
+INSERT INTO sessions(`title`, `description`, `date`, `speaker_id`, `session_type_id`, `session_state_id`, `created_at`, `modified_at`) VALUES('Test presentation', 'My test presentation', '2015-10-23', 1, 1, 1, '2015-10-23 10:20:00', '2015-10-23 10:20:00');
 
-CREATE TABLE `session_file` (
+CREATE TABLE `session_files` (
   `session_id` BIGINT NOT NULL,
   `file_id` BIGINT NOT NULL,
   `type` VARCHAR(255) DEFAULT NULL,

@@ -1,6 +1,6 @@
 USE `event`;
 
-CREATE TABLE `file` (
+CREATE TABLE `files` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `mime_type` VARCHAR(255) DEFAULT NULL,
   `filesystem_location` VARCHAR(255) DEFAULT NULL,
