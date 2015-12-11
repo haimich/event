@@ -1,23 +1,29 @@
 'use strict';
 
-let should = require('chai').should(),
-    knexOptions = require('../knexfile').test,
-    knexDb   = require('knex');
+// let should = require('chai').should(),
+//     knexOptions = require('../knexfile').development,
+//     knexDb   = require('knex');
 
-describe.only('bla foo', function() {
-  let knex;
+// const TABLE_NAME = 'users';
+
+// describe('bla foo', function() {
+//   let knex = knexDb(knexOptions);
   
-  beforeEach((done) => {
-    knex = knexDb(knexOptions);
-    
-    knex.migrate.latest()
-      .then(() => {
-        return knex.seed.run();
-      })
-      .then(() => done());
-  });
+//   beforeEach((done) => {
+//     knex.migrate.latest()
+//       .then(() => {
+//         return knex.seed.run();
+//       })
+//       .then((result) => {
+//         done()
+//       });
+//   });
   
-  it('should return a user by username', (done) => {
-    done();
-  });
-});
+//   it('should return a user by username', (done) => {
+//     knex(TABLE_NAME).select()
+//       .then((results) => {
+//         results.length.should.be(100);
+//         done();
+//       });
+//   });
+// });
