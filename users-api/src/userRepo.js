@@ -5,15 +5,17 @@ let knexOptions = require('../knexfile').development,
     knex = kn(knexOptions);
 
 module.exports.searchUsers = (term) => {
+  let searchTerm = `%${term}%`;
+  
   return knex
     .select('*')
     .from('users')
-    .where('username', term)
-    .orWhere('firstname', term)
-    .orWhere('name', term)
+    .where('username',    'like', `${searchTerm}`)
+    .orWhere('firstname', 'like', `${searchTerm}`)
+    .orWhere('lastname',  'like', `${searchTerm}`)
     .then((users) => {
       return users.map((user) => {
-        user.displayname = user.firstname + ' ' + user.name;
+        user.displayname = user.firstname + ' ' + user.lastname;
         return user;
       });
     });

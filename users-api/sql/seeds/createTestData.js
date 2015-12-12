@@ -7,11 +7,13 @@ const TABLE_NAME = 'users';
 
 exports.seed = (knex, Promise) => {
   return Promise.join(
-    // Deletes ALL existing entries
+    // Delete ALL existing entries
     knex(TABLE_NAME).del(),
 
-    // Inserts seed entries
-    generateTestData(knex)
+    // Insert seed entries
+    generateTestData(knex),
+    
+    createTestUser(knex) //important for tests
     
     // outputData(knex)
   );
@@ -38,6 +40,22 @@ function createRandomUser(knex) {
     firstname: chance.first(),
     lastname: chance.last(),
     email: chance.email(),
+    created_at: datetime,
+    modified_at: datetime
+  }
+  
+  return knex(TABLE_NAME).insert(user);
+}
+
+function createTestUser(knex) {
+  let datetime = chance.date();
+  
+  let user = {
+    external_id: 12345,
+    username: 'eventman',
+    firstname: 'Event',
+    lastname: 'Man',
+    email: 'event@man.de',
     created_at: datetime,
     modified_at: datetime
   }

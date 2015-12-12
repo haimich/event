@@ -9,7 +9,7 @@ var port = null;
 try {
   var portsParam = args.ports || args.p;
   var ports = configHelper.loadConfig(portsParam);
-  port = ports['file-api'];  
+  port = ports['files-api'];  
 } catch (err) {
   throw new Error('No ports config given');
 }

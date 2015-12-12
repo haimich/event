@@ -1,12 +1,9 @@
 module.exports = {
   
-  test: {
+  testing: {
     client: 'sqlite3',
     connection: {
       filename: ':memory:'
-    },
-    seeds: {
-      directory: './sql/seeds'
     },
     migrations: {
       directory: './sql/migrations',

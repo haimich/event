@@ -11,7 +11,7 @@ let port = null;
 try {
   let portsParam = args.ports || args.p;
   let ports = configHelper.loadConfig(portsParam);
-  port = ports['user-api'];  
+  port = ports['users-api'];  
 } catch (err) {
   throw new Error('No ports config given');
 }
