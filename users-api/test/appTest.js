@@ -23,7 +23,7 @@ describe('GET /users', () => {
       })
   });
   
-  it.only('should find a user by username', (done) => {
+  it('should find a user by username', (done) => {
     restHelper.searchUsers(testUser.username)
       .then((response) => {
         response.statusCode.should.equal(status.OK);

@@ -2,7 +2,7 @@
   "name": "event-session-api",
   "version": "0.0.1",
   "description": "A RESTful API for creating sessions.",
-  "main": "server.js",
+  "main": "src/app.js",
   "engines" : {
     "node" : ">=4.0.0"
   },

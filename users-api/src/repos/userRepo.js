@@ -1,6 +1,6 @@
 'use strict';
 
-let knexOptions = require('../knexfile').development,
+let knexOptions = require('../../knexfile').testing,
     kn = require('knex'),
     knex = kn(knexOptions);
 

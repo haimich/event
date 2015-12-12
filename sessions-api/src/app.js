@@ -1,7 +1,7 @@
 var args = require('minimist')(process.argv.slice(2));
 
-var configHelper = require('./src/helper/config');
-var configLocation = args.config || 'config/config.yml';
+var configHelper = require('./helper/config');
+var configLocation = args.config || '../config/config.yml';
 
 var config = configHelper.loadConfig(configLocation);
 
@@ -15,11 +15,11 @@ try {
 }
 
 //Initialize global db pool
-require('./src/helper/mysql')(config);
+require('./helper/mysql')(config);
 
-var Session = require('./src/sessionModel');
-var sessionService = require('./src/sessionService');
-var convertMessageConsumer = require('./src/convertMessageConsumer');
+var Session = require('./sessionModel');
+var sessionService = require('./sessionService');
+var convertMessageConsumer = require('./convertMessageConsumer');
 var request = require('request');
 
 var express = require('express');

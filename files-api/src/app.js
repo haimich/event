@@ -1,7 +1,7 @@
 var args = require('minimist')(process.argv.slice(2));
 
-var configHelper = require('./src/helper/config');
-var configLocation = args.config || 'config/config.yml';
+var configHelper = require('./helper/config');
+var configLocation = args.config || '../config/config.yml';
 
 var config = configHelper.loadConfig(configLocation);
 
@@ -14,19 +14,19 @@ try {
   throw new Error('No ports config given');
 }
 
-var dbPool = require('./src/helper/mysql').createPool(config);
+var dbPool = require('./helper/mysql').createPool(config);
 
-var fileService = require('./src/fileService');
-var convertService = require('./src/convertService');
-var File = require('./src/fileModel');
+var fileService = require('./fileService');
+var convertService = require('./convertService');
+var File = require('./fileModel');
 
 var express = require('express');
 var status = require('http-status');
 var multer  = require('multer');
-var upload = multer({ dest: 'uploads', files: 5 });
+var upload = multer({ dest: '../', files: 5 });
 
 var app = express();
-app.use('/file/download', express.static('public')); //downloadable files
+app.use('/file/download', express.static('../public')); //downloadable files
 
 var baseSystemPath = __dirname + '/';
 

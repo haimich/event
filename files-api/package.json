@@ -5,7 +5,7 @@
   "engines" : {
     "node" : ">=4.0.0"
   },
-  "main": "server.js",
+  "main": "src/app.js",
   "scripts": {
     "start": "echo '>> Use pm2 to start this service!'",
     "test": "mocha",

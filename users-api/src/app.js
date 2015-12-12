@@ -2,8 +2,8 @@
 
 let args = require('minimist')(process.argv.slice(2));
 
-let configHelper = require('./src/helper/config');
-let configLocation = args.config || 'config/config.yml';
+let configHelper = require('./helper/config');
+let configLocation = args.config || '../config/config.yml';
 
 let config = configHelper.loadConfig(configLocation);
 
@@ -16,7 +16,7 @@ try {
   throw new Error('No ports config given');
 }
 
-let userService = require('./src/userService');
+let userService = require('./services/userService');
 
 let express = require('express');
 let status = require('http-status');
