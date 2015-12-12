@@ -1,7 +1,8 @@
-var args = require('minimist')(process.argv.slice(2));
+var args = require('minimist')(process.argv.slice(2))
+    path = require('path');
 
 var configHelper = require('./helper/config');
-var configLocation = args.config || '../config/config.yml';
+var configLocation = args.config || path.join(__dirname, '../config/config.yml');
 
 var config = configHelper.loadConfig(configLocation);
 

@@ -1,20 +1,7 @@
 'use strict';
 
 let args = require('minimist')(process.argv.slice(2));
-
-let configHelper = require('./helper/config');
-let configLocation = args.config || '../config/config.yml';
-
-let config = configHelper.loadConfig(configLocation);
-
-let port = null;
-try {
-  let portsParam = args.ports || args.p;
-  let ports = configHelper.loadConfig(portsParam);
-  port = ports['users-api'];  
-} catch (err) {
-  throw new Error('No ports config given');
-}
+let configLocation = args.config || path.join(__dirname, '../config/config.yml');
 
 let userService = require('./services/userService');
 
