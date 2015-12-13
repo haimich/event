@@ -1,11 +1,14 @@
 'use strict';
 
 let userService = require('./services/userService'),
-    configHelper = require('./helper/config');
+    configHelper = require('./helpers/config');
 
-let args = require('./helper/arguments').parse();
+let args = require('./helpers/arguments').parse();
 let config = configHelper.loadConfig(args.config);
 let port = configHelper.loadKeyFromConfig(args.ports, 'users-api');
+
+let dbHelper = require('./helpers/db');
+dbHelper.initialize(config.knex);
 
 let express = require('express');
 let status = require('http-status');

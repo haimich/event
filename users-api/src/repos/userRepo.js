@@ -1,13 +1,11 @@
 'use strict';
 
-let knexOptions = require('../../knexfile').testing,
-    kn = require('knex'),
-    knex = kn(knexOptions);
+let dbHelper = require('../helpers/db');
 
-module.exports.searchUsers = (term) => {
+function searchUsers (term) {
   let searchTerm = `%${term}%`;
   
-  return knex
+  return dbHelper.getInstance()
     .select('*')
     .from('users')
     .where('username',    'like', `${searchTerm}`)
@@ -21,10 +19,15 @@ module.exports.searchUsers = (term) => {
     });
 }
 
-module.exports.getUserById = (id) => {
-  return knex
+function getUserById (id) {
+  return dbHelper.getInstance()
     .select('*')
     .from('users')
     .where('id', id)
     .limit(1);
+}
+
+module.exports = {
+  searchUsers,
+  getUserById
 }
