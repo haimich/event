@@ -7,7 +7,7 @@ let should = require('chai').should(),
 
 const SESSIONS_TABLE = 'sessions';
 
-describe('PUT /sessions', () => {
+describe.only('PUT /sessions', () => {
   
   it('should require a body', (done) => {
     restHelper.createSession({})
@@ -17,7 +17,7 @@ describe('PUT /sessions', () => {
       });
   });
   
-  it.only('should create a session', (done) => {
+  it('should create a session', (done) => {
     let session = {
       title: 'Test title',
       description: 'Test description',

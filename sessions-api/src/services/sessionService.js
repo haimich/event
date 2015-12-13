@@ -15,28 +15,16 @@ module.exports.createSession = (sessionModel) => {
 	return sessionRepo.createSession(sessionModel);
 }
 
-// module.exports.createSessionFiles = (sessionId, files, callback) => {
-//   let createdSessionFiles = [];
-//   let gotError = false;
+module.exports.createSessionFiles = (sessionId, files) => {
+  let promises = [];
   
-//   files.forEach(function(file) {
-//     let sessionFile = new SessionFile(sessionId, file.id, file.type);
-//     sessionRepo.createSessionFile(sessionFile, function(err, sessionFileId) {
-//       if (err) {
-//         callback(err);
-//         gotError = true;
-//         return;
-//       } else if (gotError) {
-//         return;
-//       }
-//       createdSessionFiles.push(sessionFileId);
-      
-//       if (createdSessionFiles.length == files.length) {
-//         callback(null, createdSessionFiles);
-//       }
-//     });
-//   });
-// }
+  for (let file of files) {
+    let sessionFile = new SessionFile(sessionId, file.id, file.type);
+    promises.push(sessionRepo.createSessionFile(sessionFile));
+  }
+  
+  return Promise.all(promises);
+}
 
 // module.exports.searchSessionId = (id, callback) => {
 //   sessionRepo.searchSessionId(id, callback);

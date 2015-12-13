@@ -31,6 +31,12 @@ module.exports.createSession = (sessionModel) => {
     .into('sessions');
 }
 
+module.exports.createSessionFile = (sessionFileModel) => {
+  return dbHelper.getInstance()
+    .insert(sessionFileModel)
+    .into('session_files');
+}
+
 // exports.getSessions = function(callback) {
 //   dbPool.query(
 //     "SELECT session.*, CONCAT(user.firstname, ' ', user.name) AS speaker_name FROM session LEFT JOIN user ON user.id = session.speaker_id WHERE session_state_id != :deleted",
@@ -90,18 +96,6 @@ module.exports.createSession = (sessionModel) => {
 //   });
 // }
 
-// exports.createSessionFile = function (sessionFileModel, callback) {
-//   dbPool.query(
-// 		"INSERT INTO session_file (session_id, file_id, type, state) VALUES (:session_id, :file_id, :type, :state)",
-// 		sessionFileModel, 
-// 		function(err, result) {
-//       if (err !== null) {
-//         callback(err);
-//         return;
-//       }
-//       callback(null, result.insertId);
-// 		});
-// }
 
 // exports.updateSessionFileState = function(sessionId, fileId, newState, callback) {
 //   dbPool.query("UPDATE session_file SET state = :state WHERE session_id = :sessionId AND file_id = :fileId",
