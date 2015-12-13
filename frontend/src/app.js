@@ -1,19 +1,17 @@
-var args = require('minimist')(process.argv.slice(2));
+'use strict';
 
-var configHelper = require('./helper/config');
+let configHelper = require('./helpers/config');
 
-var port = null;
-try {
-  var portsParam = args.ports || args.p;
-  var ports = configHelper.loadConfig(portsParam);
-  port = ports['frontend']; 
-} catch (err) {
-  throw new Error('No ports config given');
-}
+let args = require('./helpers/arguments').parse();
+let port = configHelper.loadKeyFromConfig(args.ports, 'frontend');
 
-var express = require('express');
+let express = require('express');
+let morgan = require('morgan');
 
-var app = express();
+let app = express();
 app.use(express.static('static'));
+app.use(morgan('combined'));
 
-app.listen(port);
+app.listen(port, () => {
+  console.log('Server listening on port ' + port);
+});

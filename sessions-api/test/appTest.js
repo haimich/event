@@ -1,17 +1,21 @@
-var should = require('chai').should();
-var helper = require('./helpers/rest');
-var status = require('http-status');
+'use strict';
 
-describe('PUT /session', function() {
-  it('should require a body', function(done) {
-    helper.createSession({}, function(response) {
-      response.statusCode.should.equal(status.PRECONDITION_FAILED);
-      done();   
-    });
+let should = require('chai').should(),
+    restHelper = require('./helpers/rest'),
+    status = require('http-status');
+
+describe('PUT /session', () => {
+  
+  it('should require a body', (done) => {
+    restHelper.createSession({})
+      .then((response) => {
+        response.statusCode.should.equal(status.PRECONDITION_FAILED);
+        done();
+      });
   });
   
-  it('should create a session', function (done) {
-    var session = {
+  it.only('should create a session', (done) => {
+    let session = {
       title: 'Test title',
       description: 'Test description',
       date: '2015-10-22 15:15:55',
@@ -22,15 +26,16 @@ describe('PUT /session', function() {
       session_state_id: 1
     };
     
-    helper.createSession(session, function(response) {
-      response.statusCode.should.equal(status.CREATED);
-      response.body.id.should.exist;
-      done(); 
-    }); 
+    restHelper.createSession(session)
+      .then((response) => {
+        response.statusCode.should.equal(status.CREATED);
+        response.body.id.should.exist;
+        done();
+      });
   });
   
-  it('should create a session with files', function (done) {
-    var session = {
+  it('should create a session with files', (done) => {
+    let session = {
       title: 'Test title',
       description: 'Test description',
       date: '2015-10-22 15:15:55',
@@ -42,48 +47,49 @@ describe('PUT /session', function() {
       files: [1, 2]
     };
     
-    helper.createSession(session, function(response) {
+    restHelper.createSession(session, function(response) {
       response.statusCode.should.equal(status.CREATED);
       response.body.id.should.exist;
       done();
     });
-  }); 
+  });
+  
 });
 
 
-// describe('GET /session', function() {
-//   it('should return all sessions', function (done) {
-//     helper.getSessions(function(response) {
-//       response.statusCode.should.equal(status.OK);
-//       response.body.should.exist;
+describe('GET /session', () => {
+  it('should return all sessions', (done) => {
+    restHelper.getSessions(function(response) {
+      response.statusCode.should.equal(status.OK);
+      response.body.should.exist;
       
-//       var json = JSON.parse(response.body);
-//       json.should.be.a('array');
-//       json.should.not.be.empty;
-//       done();
-//     });
-//   });
-// });
+      let json = JSON.parse(response.body);
+      json.should.be.a('array');
+      json.should.not.be.empty;
+      done();
+    });
+  });
+});
 
-// describe('GET /session/{id}', function() {
-//   it('should return a session by id', function (done) {
-//     var sessionId = 1;
+describe('GET /session/{id}', () => {
+  it('should return a session by id', (done) => {
+    let sessionId = 1;
 
-//     helper.getSessionId(sessionId, function(response) {
-//       response.statusCode.should.equal(status.OK);
-//       response.body.should.exist;
-//       response.body.should.contain(sessionId);
-//       done();
-//     });
-//   });
+    restHelper.getSessionId(sessionId, function(response) {
+      response.statusCode.should.equal(status.OK);
+      response.body.should.exist;
+      response.body.should.contain(sessionId);
+      done();
+    });
+  });
 
-//   it('should return an error when no id is given', function (done) {
-//     var sessionId = null;
+  it('should return an error when no id is given', (done) => {
+    let sessionId = null;
     
-//     helper.getSessionId(sessionId, function(response) {
-//       response.statusCode.should.equal(status.PRECONDITION_FAILED);
+    restHelper.getSessionId(sessionId, function(response) {
+      response.statusCode.should.equal(status.PRECONDITION_FAILED);
       
-//       done();
-//     });
-//   });
-// });
+      done();
+    });
+  });
+});

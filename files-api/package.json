@@ -2,8 +2,8 @@
   "name": "event-file-api",
   "version": "0.0.1",
   "description": "A RESTful API for handling Files.",
-  "engines" : {
-    "node" : ">=4.0.0"
+  "engines": {
+    "node": ">=4.0.0"
   },
   "main": "src/app.js",
   "scripts": {
@@ -28,8 +28,9 @@
     "fluent-ffmpeg": "^2.0.1",
     "http-status": "^0.2.0",
     "js-yaml": "^3.4.3",
-    "minimist": "^1.2.0",
     "knex": "^0.9.0",
+    "minimist": "^1.2.0",
+    "morgan": "^1.6.1",
     "multer": "^1.0.6",
     "mysql": "^2.9.0",
     "request": "^2.65.0",

@@ -23,11 +23,13 @@ var File = require('./fileModel');
 
 var express = require('express');
 var status = require('http-status');
+let morgan = require('morgan');
 var multer  = require('multer');
 var upload = multer({ dest: '../', files: 5 });
 
 var app = express();
 app.use('/file/download', express.static('../public')); //downloadable files
+app.use(morgan('combined'));
 
 var baseSystemPath = __dirname + '/';
 
@@ -84,4 +86,6 @@ app.get('/file/:id', function(request, response) {
   });
 });
 
-app.listen(port);
+app.listen(port, () => {
+  console.log('Server listening on port ' + port);
+});

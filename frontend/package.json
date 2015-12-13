@@ -2,8 +2,8 @@
   "name": "event",
   "version": "0.0.1",
   "description": "Event helps you discover conferences and other interesting events around you. It also makes life easier for people organizing events by offering support for the different stages.",
-  "engines" : {
-    "node" : ">=4.0.0"
+  "engines": {
+    "node": ">=4.0.0"
   },
   "main": "src/app.js",
   "scripts": {
@@ -31,7 +31,8 @@
     "font-awesome": "^4.4.0",
     "jquery": "^2.1.4",
     "js-yaml": "^3.4.3",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "morgan": "^1.6.1"
   },
   "devDependencies": {
     "node-sass": "^3.3.3"

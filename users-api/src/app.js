@@ -13,9 +13,11 @@ dbHelper.initialize(config.knex);
 let express = require('express');
 let status = require('http-status');
 let cors = require('cors');
+let morgan = require('morgan');
 
 let app = express();
 app.use(cors());
+app.use(morgan('combined'));
 
 /**
  * Search for users.

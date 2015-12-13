@@ -4,7 +4,7 @@ let configHelper = require('./helpers/config');
 
 let args = require('./helpers/arguments').parse();
 let config = configHelper.loadConfig(args.config);
-let port = configHelper.loadKeyFromConfig(args.ports, 'users-api');
+let port = configHelper.loadKeyFromConfig(args.ports, 'sessions-api');
 
 let dbHelper = require('./helpers/db');
 dbHelper.initialize(config.knex);
@@ -17,9 +17,11 @@ let request = require('request');
 let express = require('express');
 let status = require('http-status');
 let bodyParser = require('body-parser');
+let morgan = require('morgan');
 
 let app = express();
 app.use(bodyParser.json());
+app.use(morgan('combined'));
 
 let baseUrl = 'http://localhost:8080/event/api';
 
