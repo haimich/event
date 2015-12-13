@@ -65,7 +65,7 @@ describe('GET /users', () => {
   });
   
   it('should ignore case', (done) => {
-    restHelper.searchUsers('eVenT')
+    restHelper.searchUsers(randomUser.lastname.toUpperCase())
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
@@ -80,7 +80,7 @@ describe('GET /users', () => {
   
   
   it('should find partial matches', (done) => {
-    restHelper.searchUsers('ev')
+    restHelper.searchUsers(randomUser.username.slice(0, randomUser.username.length-2))
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
@@ -135,7 +135,7 @@ describe('GET /users/{id}', () => {
   });
   
   it('should return a user by id', (done) => {
-    restHelper.getUserId(randomUser.userid)
+    restHelper.getUserId(userId)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
