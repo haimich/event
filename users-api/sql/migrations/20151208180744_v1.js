@@ -1,6 +1,7 @@
+
 exports.up = (knex, Promise) => {
   return Promise.all([
-    knex.schema.createTable('users', function (table) {
+    knex.schema.createTable('users', (table) => {
       table.bigIncrements('id').primary().unsigned();
       table.integer('external_id');
       table.string('username');
@@ -9,6 +10,9 @@ exports.up = (knex, Promise) => {
       table.string('email');
       table.dateTime('created_at');
       table.dateTime('modified_at');
+      
+      table.index(['id'], 'index_id');
+      table.index(['username', 'firstname', 'lastname'], 'index_namefields');
     })
   ]);
 };

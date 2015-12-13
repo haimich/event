@@ -9,6 +9,11 @@ knex: # knex options get imported to knexfile.js to be able to use knex command 
   timezone: UTC
   migrations:
     directory: ./sql/migrations
-    tableName: knex_migrations_users
+    tableName: knex_migrations_sessions
   seeds:
     directory: ./sql/seeds
+  
+messageQueue:
+  url: amqp://localhost
+  port: 5672
+  name: converted_files
