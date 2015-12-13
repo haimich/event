@@ -79,7 +79,7 @@ app.put('/sessions', (request, response) => {
       } else {
         // create session files
         sessionService.createSessionFiles(sessionId, sessionModel.files)
-          .then((sessionFiles) => {
+          .then(() => {
             // start converting
             console.log('TODO: startConvertProcess');
             return response.status(status.CREATED).json({ id: sessionId });
@@ -91,7 +91,7 @@ app.put('/sessions', (request, response) => {
             // });
           })
           .catch((err) => {
-            return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
           })
       }
     })
@@ -107,7 +107,7 @@ function startConvertProcess(files, callback) {
   files.forEach(function(file) {
     console.log(file);
     request({
-      url: baseUrl + '/file/' + file.id + '/convert',
+      url: baseUrl + '/files/' + file.id + '/convert',
       method: 'PATCH'
     }, function (error, response) {
       if (error) {

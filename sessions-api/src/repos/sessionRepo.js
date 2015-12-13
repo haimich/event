@@ -28,13 +28,15 @@ module.exports.createSession = (sessionModel) => {
   let session = _.omit(sessionModel, 'files');
   return dbHelper.getInstance()
     .insert(session)
-    .into('sessions');
+    .into('sessions')
+    .then((idArray) => idArray[0]);
 }
 
 module.exports.createSessionFile = (sessionFileModel) => {
   return dbHelper.getInstance()
     .insert(sessionFileModel)
-    .into('session_files');
+    .into('session_files')
+    .then((idArray) => idArray[0]);
 }
 
 // exports.getSessions = function(callback) {

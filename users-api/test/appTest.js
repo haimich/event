@@ -20,7 +20,7 @@ describe('GET /users', () => {
   });
   
   after(() => {
-    return dbHelper.remove(USERS_TABLE, userId);
+    return dbHelper.delete(USERS_TABLE, userId);
   });
   
   it('should find a user by username', (done) => {
@@ -131,7 +131,7 @@ describe('GET /users/{id}', () => {
   });
   
   after(() => {
-    return dbHelper.remove(USERS_TABLE, userId);
+    return dbHelper.delete(USERS_TABLE, userId);
   });
   
   it('should return a user by id', (done) => {

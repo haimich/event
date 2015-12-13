@@ -14,8 +14,9 @@ module.exports.insert = (tableName, user) => {
   return knex(tableName).insert(user);
 }
 
-module.exports.remove = (tableName, id) => {
+module.exports.delete = (tableName, id) => {
   let knex = initDb();
+  let ids = [].concat(id);
   
-  return knex(tableName).where('id', id).delete();
+  return knex(tableName).whereIn('id', ids).delete();
 }

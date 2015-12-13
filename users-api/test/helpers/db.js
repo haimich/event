@@ -8,19 +8,15 @@ function initDb() {
   return knexDb(knexOptions);
 }
 
-function insert(tableName, user) {
+module.exports.insert = (tableName, user) => {
   let knex = initDb();
   
   return knex(tableName).insert(user);
 }
 
-function remove(tableName, id) {
+module.exports.delete = (tableName, id) => {
   let knex = initDb();
+  let ids = [].concat(id);
   
-  return knex(tableName).where('id', id).delete();
-}
-
-module.exports = {
-  insert,
-  remove
+  return knex(tableName).whereIn('id', ids).delete();
 }

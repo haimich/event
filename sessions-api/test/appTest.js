@@ -5,9 +5,26 @@ let should = require('chai').should(),
     dbHelper = require('./helpers/db'),
     status = require('http-status');
 
-const SESSIONS_TABLE = 'sessions';
+const SESSIONS_TABLE = 'sessions',
+      FILES_TABLE = 'files';
 
-describe.only('PUT /sessions', () => {
+describe('PUT /sessions', () => {
+  
+  let testFiles = [
+        { mime_type: 'image/png' },
+        { mime_type: 'presentation/keynote' },
+        { mime_type: 'video/mp4' }
+      ];
+  let fileIds = null;
+  
+  before(() => {
+    Promise.all([
+      dbHelper.insert(FILES_TABLE, testFiles[0]),
+      dbHelper.insert(FILES_TABLE, testFiles[1]),
+      dbHelper.insert(FILES_TABLE, testFiles[2])
+    ])
+    .then((ids) => fileIds = ids);
+  });
   
   it('should require a body', (done) => {
     restHelper.createSession({})
@@ -47,14 +64,24 @@ describe.only('PUT /sessions', () => {
       speaker_id: 1,
       session_type_id: 1,
       session_state_id: 1,
-      files: [1, 2]
+      files: [{
+        id: fileIds[0],
+        type: 'screenshot'
+      }, {
+        id: fileIds[1],
+        type: 'slides'
+      }, {
+        id: fileIds[2],
+        type: 'video'
+      }]
     };
     
-    restHelper.createSession(session, function(response) {
-      response.statusCode.should.equal(status.CREATED);
-      response.body.id.should.exist;
-      done();
-    });
+    restHelper.createSession(session)
+      .then((response) => {
+        response.statusCode.should.equal(status.CREATED);
+        response.body.id.should.exist;
+        done();
+      });
   });
   
 });
@@ -98,7 +125,7 @@ describe('GET /sessions/{id}', () => {
   });
   
   after(() => {
-    return dbHelper.remove(SESSIONS_TABLE, sessionId);
+    return dbHelper.delete(SESSIONS_TABLE, sessionId);
   });
   
   it('should return a session by id', (done) => {
