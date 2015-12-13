@@ -95,13 +95,6 @@ app.put('/session', function(request, response) {
   });
 });
 
-/**
- * If no route matches send 404
- */
-app.use((req, res, next) => {
-  res.status(404).send('No route found, baby!');
-});
-
 function startConvertProcess(files, callback) {
   let gotError = false;
   
