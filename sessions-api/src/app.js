@@ -31,51 +31,52 @@ convertMessageConsumer.listen(config);
 /**
  * Get all sessions.
  */
-app.get('/session', function(request, response) {
-  sessionService.getSessions(function(err, result) {
-    if (err) {
+app.get('/sessions', (request, response) => {
+  sessionService.getSessions()
+    .then((sessions) => {
+      response.json(sessions);
+    })
+    .catch((err) => {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
-    }
-    response.json(result);
-  });
+    });
 });
 
 /**
  * Get a session by id.
  */
-app.get('/session/:id', function(request, response) {
+app.get('/sessions/:id', (request, response) => {
   let sessionId = request.params.id;
-    
-  if (isNaN(sessionId) == true) {
+
+  if (isNaN(sessionId) === true) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No session id given' });
   }
-  
 
-  sessionService.searchSessionId(sessionId, function(err, result){
-    if (err) {
+  sessionService.getSessionById(sessionId)
+    .then((session) => {
+      response.json(session);
+    })
+    .catch((err) => {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
-    }
-    response.json(result);
-  });
+    });
 });
 
 /**
  * Create a session.
  */
-app.put('/session', function(request, response) {
+app.put('/sessions', (request, response) => {
   let session = request.body;
-  
+
   if (session === undefined || session === null || Object.keys(session).length === 0) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No body given.'});
   }
-  
+
   // create session
   let sessionModel = new Session(session);
   sessionService.createSession(sessionModel, function(err, sessionId) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }
-    
+
     if (sessionModel.files === null || sessionModel.files === undefined || sessionModel.files.length === 0) {
       return response.status(status.CREATED).json({ id: sessionId });
     } else {
@@ -84,13 +85,13 @@ app.put('/session', function(request, response) {
         if (error) {
           return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
         }
-        
+
         // start converting
         startConvertProcess(sessionModel.files, function(err) {
           if (err) {
-            return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });          
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
           }
-          response.status(status.CREATED).json({ id: sessionId });        
+          response.status(status.CREATED).json({ id: sessionId });
         });
       });
     }
@@ -99,7 +100,7 @@ app.put('/session', function(request, response) {
 
 function startConvertProcess(files, callback) {
   let gotError = false;
-  
+
   files.forEach(function(file) {
     console.log(file);
     request({
@@ -113,9 +114,9 @@ function startConvertProcess(files, callback) {
       }
     });
   });
-  
+
   if (! gotError) {
-    callback(); 
+    callback();
   }
 }
 

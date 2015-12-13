@@ -1,6 +1,21 @@
 'use strict';
 
+let dbHelper = require('../helpers/db');
 let SessionStates = require('../models/sessionStatesModel');
+
+module.exports.getSessions = () => {
+  return dbHelper.getInstance()
+    .select('*')
+    .from('sessions');
+}
+
+module.exports.getSessionById = (id) => {
+  return dbHelper.getInstance()
+    .select('*')
+    .from('sessions')
+    .where('id', id)
+    .limit(1);
+}
 
 // exports.getSessions = function(callback) {
 //   dbPool.query(

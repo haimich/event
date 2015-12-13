@@ -2,7 +2,7 @@
 
 let dbHelper = require('../helpers/db');
 
-function searchUsers (term) {
+module.exports.searchUsers = (term) => {
   let searchTerm = `%${term}%`;
   
   return dbHelper.getInstance()
@@ -19,15 +19,10 @@ function searchUsers (term) {
     });
 }
 
-function getUserById (id) {
+module.exports.getUserById = (id) => {
   return dbHelper.getInstance()
     .select('*')
     .from('users')
     .where('id', id)
     .limit(1);
-}
-
-module.exports = {
-  searchUsers,
-  getUserById
 }

@@ -143,7 +143,7 @@ $(document).ready(function() {
 
     // Post session object to API
     $.ajax({
-      url:  '/event/api/session',
+      url:  '/event/api/sessions',
       method: 'put',
       data: JSON.stringify(session),
       contentType: 'application/json'

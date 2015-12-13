@@ -13,7 +13,7 @@ $(document).ready(function() {
   };
 
   // Load list of sessions
-  $.get('/event/api/session', function(sessions) {
+  $.get('/event/api/sessions', function(sessions) {
     $(sessions).each(function(i) {
       var session = sessions[i];
       var screenshot = getFileByType(session, 'screenshot');

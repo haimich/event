@@ -2,9 +2,12 @@
 
 let should = require('chai').should(),
     restHelper = require('./helpers/rest'),
+    dbHelper = require('./helpers/db'),
     status = require('http-status');
 
-describe('PUT /session', () => {
+const SESSIONS_TABLE = 'sessions';
+
+describe('PUT /sessions', () => {
   
   it('should require a body', (done) => {
     restHelper.createSession({})
@@ -14,7 +17,7 @@ describe('PUT /session', () => {
       });
   });
   
-  it.only('should create a session', (done) => {
+  it('should create a session', (done) => {
     let session = {
       title: 'Test title',
       description: 'Test description',
@@ -57,7 +60,8 @@ describe('PUT /session', () => {
 });
 
 
-describe('GET /session', () => {
+describe('GET /sessions', () => {
+  
   it('should return all sessions', (done) => {
     restHelper.getSessions(function(response) {
       response.statusCode.should.equal(status.OK);
@@ -69,27 +73,53 @@ describe('GET /session', () => {
       done();
     });
   });
+  
 });
 
-describe('GET /session/{id}', () => {
-  it('should return a session by id', (done) => {
-    let sessionId = 1;
-
-    restHelper.getSessionId(sessionId, function(response) {
-      response.statusCode.should.equal(status.OK);
-      response.body.should.exist;
-      response.body.should.contain(sessionId);
-      done();
-    });
+describe('GET /sessions/{id}', () => {
+  let testSession = {
+    title: 'Test title',
+    description: 'Test description',
+    date: '2015-10-22 15:15:55',
+    start_time: '15:15:55',
+    duration: 30,
+    speaker_id: 1,
+    session_type_id: 1,
+    session_state_id: 1
+  };
+  let sessionId = null;
+  
+  before(() => {
+    return dbHelper.insert(SESSIONS_TABLE, testSession)
+      .then((response) => {
+        sessionId = response[0];
+      });
+  });
+  
+  after(() => {
+    return dbHelper.remove(SESSIONS_TABLE, sessionId);
+  });
+  
+  it.only('should return a session by id', (done) => {
+    restHelper.getSessionId(sessionId)
+      .then((response) => {
+        response.statusCode.should.equal(status.OK);
+        response.body.should.exist;
+        response.body.should.contain(sessionId);
+        done();
+      });
   });
 
   it('should return an error when no id is given', (done) => {
     let sessionId = null;
     
-    restHelper.getSessionId(sessionId, function(response) {
-      response.statusCode.should.equal(status.PRECONDITION_FAILED);
-      
-      done();
-    });
+    restHelper.getSessionId(sessionId)
+      .catch((response) => {
+        response.statusCode.should.equal(status.PRECONDITION_FAILED);
+        let errorObj = JSON.parse(response.error);
+        errorObj.error.should.exist;
+        done();
+      });
   });
+  
 });
