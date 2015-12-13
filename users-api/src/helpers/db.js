@@ -24,4 +24,4 @@ function getInstance() {
 module.exports = {
   initialize,
   getInstance
-}
+};

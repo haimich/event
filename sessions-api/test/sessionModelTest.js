@@ -1,10 +1,12 @@
-var should = require('chai').should();
-var Session = require('../src/sessionModel');
+'use strict';
 
-describe('Session', function() {
+let should = require('chai').should();
+let Session = require('../src/models/sessionModel');
+
+describe.only('Session', function() {
   it('should create a Session object', function() {
 
-  	var options = {
+  	let options = {
   		id: 0,
       title: 'Title',
       description: 'description',
@@ -15,7 +17,7 @@ describe('Session', function() {
       session_state_id: 1,
       files: null
   	}
-  	var session = new Session(options);
+  	let session = new Session(options);
 
     session.id.should.equal(options.id);
     session.title.should.equal(options.title);

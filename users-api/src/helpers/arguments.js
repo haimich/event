@@ -19,5 +19,5 @@ module.exports.parse = () => {
   return {
     config,
     ports
-  }
+  };
 }

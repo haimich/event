@@ -1,24 +1,26 @@
-var sessionRepo = require('./sessionRepo');
-var SessionFile = require('./sessionFileModel');
+'use strict';
 
-exports.getSessions = function(callback) {
+let sessionRepo = require('../repos/sessionRepo');
+let SessionFile = require('../models/sessionFileModel');
+
+module.exports.getSessions = (callback) => {
   sessionRepo.getSessions(callback);
 }
 
-exports.getSessionById = function (sessionId, callback) {
+module.exports.getSessionById = (sessionId, callback) => {
   sessionRepo.getSessionById(sessionId, callback);
 }
 
-exports.createSession = function (sessionModel, callback) {
+module.exports.createSession = (sessionModel, callback) => {
 	sessionRepo.createSession(sessionModel, callback);
 }
 
-exports.createSessionFiles = function (sessionId, files, callback){
-  var createdSessionFiles = [];
-  var gotError = false;
+module.exports.createSessionFiles = (sessionId, files, callback) => {
+  let createdSessionFiles = [];
+  let gotError = false;
   
   files.forEach(function(file) {
-    var sessionFile = new SessionFile(sessionId, file.id, file.type);
+    let sessionFile = new SessionFile(sessionId, file.id, file.type);
     sessionRepo.createSessionFile(sessionFile, function(err, sessionFileId) {
       if (err) {
         callback(err);
@@ -36,30 +38,30 @@ exports.createSessionFiles = function (sessionId, files, callback){
   });
 }
 
-exports.searchSessionId = function (id, callback){
+module.exports.searchSessionId = (id, callback) => {
   sessionRepo.searchSessionId(id, callback);
 }
 
-exports.getSessionIdByFileId = function (fileId, callback){
+module.exports.getSessionIdByFileId = (fileId, callback) => {
   sessionRepo.getSessionIdByFileId(fileId, callback);
 }
 
-exports.getSessionFilesBySessionId = function (sessionId, callback){
+module.exports.getSessionFilesBySessionId = (sessionId, callback) => {
   sessionRepo.getSessionFilesBySessionId(sessionId, callback);
 }
 
-exports.createSessionFile = function (sessionFile, callback){
+module.exports.createSessionFile = (sessionFile, callback) => {
   sessionRepo.createSessionFile(sessionFile, callback);
 }
 
-exports.updateSessionFileState = function (sessionId, fileId, newState, callback) {
+module.exports.updateSessionFileState = (sessionId, fileId, newState, callback) => {
   sessionRepo.updateSessionFileState(sessionId, fileId, newState, callback);
 }
 
-exports.updateSessionState = function(sessionId, newState, callback) {
+module.exports.updateSessionState = (sessionId, newState, callback) => {
   sessionRepo.updateSessionState(sessionId, newState, callback);
 }
 
-exports.deleteSessionFileByFileId = function(sessionFileId, callback) {
+module.exports.deleteSessionFileByFileId = (sessionFileId, callback) => {
   sessionRepo.deleteSessionFileByFileId(sessionFileId, callback);
 }

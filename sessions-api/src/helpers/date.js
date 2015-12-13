@@ -1,6 +1,6 @@
 var dateFormat = require('dateformat');
 
-exports.getCurrentDatetime = function() {
+module.exports.getCurrentDatetime = () => {
   var now = new Date();
   return dateFormat(now, "isoDateTime");
 }

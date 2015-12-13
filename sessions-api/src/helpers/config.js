@@ -12,16 +12,11 @@ function loadYaml(configLocation) {
 	}
 } 
 
-function loadConfig(configLocation) {
+module.exports.loadConfig = (configLocation) => {
   return loadYaml(configLocation);
 }
 
-function loadKeyFromConfig(configLocation, key) {
+module.exports.loadKeyFromConfig = (configLocation, key) => {
   let config = loadYaml(configLocation);
   return config[key];
-}
-
-module.exports = {
-  loadConfig,
-  loadKeyFromConfig
 }

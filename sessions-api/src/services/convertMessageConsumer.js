@@ -1,27 +1,29 @@
-var messageQueue = require('./helper/message-queue');
-var sessionService = require('./sessionService');
-var request = require('request');
+'use strict';
 
-var SessionFileModel = require('./sessionFileModel');
+let request = require('request');
 
-var SESSION_FILE_STATE = {
+let messageQueue = require('../helpers/message-queue');
+let sessionService = require('../services/sessionService');
+let SessionFileModel = require('../models/sessionFileModel');
+
+const SESSION_FILE_STATE = {
   ERROR: 'error',
   OK: 'ok'
 };
-var SESSION_FILE_TYPE = {
+const SESSION_FILE_TYPE = {
   SLIDES: 'slides',
   VIDEO: 'video',
   SCREENSHOT: 'screenshot'
 };
 
-exports.listen = function(config) {
-  var host = config.messageQueue.url + ':' + config.messageQueue.port;
+module.exports.listen = (config) => {
+  let host = config.messageQueue.url + ':' + config.messageQueue.port;
   
   messageQueue.consumeMessage(config.messageQueue.name, host, function(msg) {
-    var content = JSON.parse(msg.content);
+    let content = JSON.parse(msg.content);
     console.log('MESSAGE RECEIVED', content);
     
-    var originalFileId   = content.originalFileId,
+    let originalFileId   = content.originalFileId,
         convertStatus    = content.convertStatus,
         convertedFileIds = content.convertedFileIds || null;
         
@@ -60,7 +62,7 @@ exports.listen = function(config) {
 function handleConvertedFiles(sessionId, originalFileId, convertedFileIds) {
   
   convertedFileIds.forEach(function(convertedFileId) {
-    var sessionFileModel = new SessionFileModel(sessionId, convertedFileId, 'video'); //TODO could be another type than video!
+    let sessionFileModel = new SessionFileModel(sessionId, convertedFileId, 'video'); //TODO could be another type than video!
     sessionFileModel.state = 'ok';
     
     sessionService.createSessionFile(sessionFileModel, function(err) {
@@ -120,7 +122,7 @@ function checkIfSessionComplete(sessionId, callback) {
       callback(err, false);
       return;
     } else {
-      var isComplete = true;
+      let isComplete = true;
       results.forEach(function(sessionFile) {
         if (sessionFile.state === null || sessionFile.state === SESSION_FILE_STATE.ERROR) {
           isComplete = false;
@@ -153,7 +155,7 @@ function shareSession(sessionId) {
 }
 
 function getFileLinks (sessionFiles, callback) {
-  var result = {
+  let result = {
     screenshot_link: null,
     slides_link: null,
     mp4_link: null,
@@ -161,7 +163,7 @@ function getFileLinks (sessionFiles, callback) {
   };
           
   sessionFiles.forEach(function(sessionFile) {
-    var url = sessionFile.url;
+    let url = sessionFile.url;
     
     if (sessionFile.type === SESSION_FILE_TYPE.SLIDES) {
       result.slides_link = url;
@@ -181,7 +183,7 @@ function getFileLinks (sessionFiles, callback) {
 
 function share(session, fileLinks) {
   //POST share   
-  var shareModel = {
+  let shareModel = {
     title: session.title,
     description: session.description,
     speaker: session.speaker_name,

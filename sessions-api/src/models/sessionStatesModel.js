@@ -1,6 +1,8 @@
-var Enum = require('enum');
+'use strict';
 
-var SessionStates = new Enum({
+let Enum = require('enum');
+
+let SessionStates = new Enum({
   'inProgress': 1,
   'published' : 2,
   'deleted'   : 3

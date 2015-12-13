@@ -1,5 +1,5 @@
 var should = require('chai').should();
-var helper = require('./helpers/sessionHelper');
+var helper = require('./helpers/rest');
 var status = require('http-status');
 
 describe('PUT /session', function() {

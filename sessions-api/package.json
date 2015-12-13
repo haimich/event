@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "A RESTful API for creating sessions.",
   "main": "src/app.js",
-  "engines" : {
-    "node" : ">=4.0.0"
+  "engines": {
+    "node": ">=4.0.0"
   },
   "scripts": {
     "start": "echo '>> Use pm2 to start this service!'",
@@ -29,10 +29,11 @@
     "express": "^4.13.3",
     "http-status": "^0.2.0",
     "js-yaml": "^3.4.3",
+    "knex": "^0.9.0",
     "minimist": "^1.2.0",
     "mysql": "^2.9.0",
-    "knex": "^0.9.0",
     "request": "^2.65.0",
+    "request-promise": "^1.0.2",
     "when": "^3.7.3"
   },
   "devDependencies": {

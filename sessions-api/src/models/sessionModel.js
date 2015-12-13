@@ -1,6 +1,8 @@
-var dateHelper = require('./helper/date');
+'use strict';
 
-function Session(options) {
+let dateHelper = require('../helpers/date');
+
+module.exports = function Session(options) {
   this.id = options.id;
   this.title = options.title;
   this.description = options.description;
@@ -13,5 +15,3 @@ function Session(options) {
   this.created_at = dateHelper.getCurrentDatetime();
   this.modified_at = this.created_at;
 }
-
-module.exports = Session;

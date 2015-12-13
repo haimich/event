@@ -1,11 +1,13 @@
-var amqp = require('amqplib');
-var when = require('when');
+'use strict';
 
-exports.consumeMessage = function (queue, host, callback) {
+let amqp = require('amqplib');
+let when = require('when');
+
+module.exports.consumeMessage = (queue, host, callback) => {
   amqp.connect(host).then(function(conn) {
     process.once('SIGINT', function() { conn.close(); });
     return conn.createChannel().then(function(ch) {
-      var ok = ch.assertQueue(queue);
+      let ok = ch.assertQueue(queue);
       ok = ok.then(function() {
         return ch.consume(queue, callback, {noAck: true});
       });

@@ -24,4 +24,4 @@ function loadKeyFromConfig(configLocation, key) {
 module.exports = {
   loadConfig,
   loadKeyFromConfig
-}
+};

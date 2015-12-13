@@ -4,12 +4,12 @@ let knexDb = require('knex'),
     instance = null,
     config = null;
 
-function initialize(knexConfig) {
+module.exports.initialize = (knexConfig) => {
   config = knexConfig;
   config.timezone = config.timezone || 'UTC';
 }
 
-function getInstance() {
+module.exports.getInstance = () => {
   if (instance === null) {
     if (config === null) {
       throw new Error('DB not properly initialized, no config given');
@@ -19,9 +19,4 @@ function getInstance() {
   }
   
   return instance;
-}
-
-module.exports = {
-  initialize,
-  getInstance
 }
