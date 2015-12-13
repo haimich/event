@@ -9,9 +9,9 @@ const SESSIONS_TABLE = 'sessions';
 
 describe('PUT /sessions', () => {
   
-  it('should require a body', (done) => {
+  it.only('should require a body', (done) => {
     restHelper.createSession({})
-      .then((response) => {
+      .catch((response) => {
         response.statusCode.should.equal(status.PRECONDITION_FAILED);
         done();
       });
@@ -63,15 +63,16 @@ describe('PUT /sessions', () => {
 describe('GET /sessions', () => {
   
   it('should return all sessions', (done) => {
-    restHelper.getSessions(function(response) {
-      response.statusCode.should.equal(status.OK);
-      response.body.should.exist;
-      
-      let json = JSON.parse(response.body);
-      json.should.be.a('array');
-      json.should.not.be.empty;
-      done();
-    });
+    restHelper.getSessions()
+      .then((response) => {
+        response.statusCode.should.equal(status.OK);
+        response.body.should.exist;
+        
+        let sessions = JSON.parse(response.body);
+        sessions.should.be.a('array');
+        sessions.should.not.be.empty;
+        done();
+     });
   });
   
 });
@@ -100,7 +101,7 @@ describe('GET /sessions/{id}', () => {
     return dbHelper.remove(SESSIONS_TABLE, sessionId);
   });
   
-  it.only('should return a session by id', (done) => {
+  it('should return a session by id', (done) => {
     restHelper.getSessionId(sessionId)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
