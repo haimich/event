@@ -1,0 +1,19 @@
+knex: # knex options get imported to knexfile.js to be able to use knex command line client
+  client: mysql
+  debug: true
+  connection:
+    host: localhost
+    database: event
+    user: event
+    password: event
+  timezone: UTC
+  migrations:
+    directory: ./sql/migrations
+    tableName: knex_migrations_files
+  seeds:
+    directory: ./sql/seeds
+    
+messageQueue:
+  url: amqp://localhost
+  port: 5672
+  name: converted_files
