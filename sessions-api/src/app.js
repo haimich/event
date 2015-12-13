@@ -1,36 +1,27 @@
-var args = require('minimist')(process.argv.slice(2)),
-    path = require('path');
+'use strict';
 
-var configHelper = require('./helper/config');
-var configLocation = args.config || path.join(__dirname, '../config/config.yml');
+let configHelper = require('./helpers/config');
 
-var config = configHelper.loadConfig(configLocation);
+let args = require('./helpers/arguments').parse();
+let config = configHelper.loadConfig(args.config);
+let port = configHelper.loadKeyFromConfig(args.ports, 'users-api');
 
-var port = null;
-try {
-  var portsParam = args.ports || args.p;
-  var ports = configHelper.loadConfig(portsParam);  
-  port = ports['sessions-api'];  
-} catch (err) {
-  throw new Error('No ports config given');
-}
+let dbHelper = require('./helpers/db');
+dbHelper.initialize(config.knex);
 
-//Initialize global db pool
-require('./helper/mysql')(config);
+let Session = require('./models/sessionModel');
+let sessionService = require('./services/sessionService');
+let convertMessageConsumer = require('./services/convertMessageConsumer');
+let request = require('request');
 
-var Session = require('./sessionModel');
-var sessionService = require('./sessionService');
-var convertMessageConsumer = require('./convertMessageConsumer');
-var request = require('request');
+let express = require('express');
+let status = require('http-status');
+let bodyParser = require('body-parser');
 
-var express = require('express');
-var status = require('http-status');
-var bodyParser = require('body-parser');
-
-var app = express();
+let app = express();
 app.use(bodyParser.json());
 
-var baseUrl = 'http://localhost:8080/event/api';
+let baseUrl = 'http://localhost:8080/event/api';
 
 // start listening for converted files messages
 convertMessageConsumer.listen(config);
@@ -51,7 +42,7 @@ app.get('/session', function(request, response) {
  * Get a session by id.
  */
 app.get('/session/:id', function(request, response) {
-  var sessionId = request.params.id;
+  let sessionId = request.params.id;
     
   if (isNaN(sessionId) == true) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No session id given' });
@@ -70,14 +61,14 @@ app.get('/session/:id', function(request, response) {
  * Create a session.
  */
 app.put('/session', function(request, response) {
-  var session = request.body;
+  let session = request.body;
   
   if (session === undefined || session === null || Object.keys(session).length === 0) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No body given.'});
   }
   
   // create session
-  var sessionModel = new Session(session);
+  let sessionModel = new Session(session);
   sessionService.createSession(sessionModel, function(err, sessionId) {
     if (err) {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
@@ -107,12 +98,12 @@ app.put('/session', function(request, response) {
 /**
  * If no route matches send 404
  */
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   res.status(404).send('No route found, baby!');
 });
 
 function startConvertProcess(files, callback) {
-  var gotError = false;
+  let gotError = false;
   
   files.forEach(function(file) {
     console.log(file);
@@ -133,4 +124,6 @@ function startConvertProcess(files, callback) {
   }
 }
 
-app.listen(port);
+app.listen(port, () => {
+  console.log('Server listening on port ' + port);
+});

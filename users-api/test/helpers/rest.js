@@ -19,3 +19,11 @@ module.exports.getUserId = (userid) => {
     resolveWithFullResponse: true
   });
 }
+
+module.exports.callInvalidRoute = () => {
+  return request({
+    url: baseUrl + '/asdasdajklsdadasdas',
+    method: 'GET',
+    resolveWithFullResponse: true
+  });
+}
