@@ -9,7 +9,7 @@ const SESSIONS_TABLE = 'sessions';
 
 describe('PUT /sessions', () => {
   
-  it.only('should require a body', (done) => {
+  it('should require a body', (done) => {
     restHelper.createSession({})
       .catch((response) => {
         response.statusCode.should.equal(status.PRECONDITION_FAILED);
@@ -17,7 +17,7 @@ describe('PUT /sessions', () => {
       });
   });
   
-  it('should create a session', (done) => {
+  it.only('should create a session', (done) => {
     let session = {
       title: 'Test title',
       description: 'Test description',

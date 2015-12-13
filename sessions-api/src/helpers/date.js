@@ -1,6 +1,8 @@
-var dateFormat = require('dateformat');
+'use strict';
+
+let dateFormat = require('dateformat');
 
 module.exports.getCurrentDatetime = () => {
-  var now = new Date();
-  return dateFormat(now, "isoDateTime");
+  let now = new Date();
+  return dateFormat(now, 'yyyy-mm-dd hh:mm:ss');
 }

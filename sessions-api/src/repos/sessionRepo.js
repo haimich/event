@@ -1,7 +1,8 @@
 'use strict';
 
-let dbHelper = require('../helpers/db');
-let SessionStates = require('../models/sessionStatesModel');
+let dbHelper = require('../helpers/db'),
+    SessionStates = require('../models/sessionStatesModel'),
+    _ = require('lodash');
 
 module.exports.getSessions = () => {
   return dbHelper.getInstance()
@@ -9,12 +10,25 @@ module.exports.getSessions = () => {
     .from('sessions');
 }
 
+//TODO: "SELECT s.*, CONCAT(u.firstname, ' ', u.name) AS speaker_name FROM session s LEFT JOIN user u ON u.id = s.speaker_id WHERE s.id = :id LIMIT 1
 module.exports.getSessionById = (id) => {
+  let gotId = id;
+  if (isNaN(gotId) === true) {
+    throw new Error(id + ' is not a number');
+  }
+  
   return dbHelper.getInstance()
     .select('*')
     .from('sessions')
     .where('id', id)
     .limit(1);
+}
+
+module.exports.createSession = (sessionModel) => {
+  let session = _.omit(sessionModel, 'files');
+  return dbHelper.getInstance()
+    .insert(session)
+    .into('sessions');
 }
 
 // exports.getSessions = function(callback) {
@@ -55,16 +69,6 @@ module.exports.getSessionById = (id) => {
 //   );
 // }
 
-// exports.getSessionById = function (sessionId, callback) {    
-//   dbPool.query("SELECT s.*, CONCAT(u.firstname, ' ', u.name) AS speaker_name FROM session s LEFT JOIN user u ON u.id = s.speaker_id WHERE s.id = :id LIMIT 1", { id: sessionId }, function(err, results) {
-//     if (err !== null) {
-//       callback(err);
-//       return;
-//     }
-//     callback(null, results[0]);
-//   });
-// }
-
 // exports.getSessionIdByFileId = function(fileId, callback) {  
 //   dbPool.query("SELECT sf.session_id FROM session_file sf WHERE sf.file_id = :id LIMIT 1", { id: fileId }, function(err, result) {
 //     if (err !== null) {
@@ -86,15 +90,6 @@ module.exports.getSessionById = (id) => {
 //   });
 // }
 
-// exports.createSession = function (sessionModel, callback) {
-//  	dbPool.query(
-// 		"INSERT INTO session (title, description, date, speaker_id, start_time, session_type_id, session_state_id, created_at, modified_at) VALUES (:title, :description, :date, :speaker_id, :start_time, :session_type_id, :session_state_id, :created_at, :modified_at)",
-// 		sessionModel
-// 	, function(err, result) {
-//     callback(err, result.insertId);
-// 	});
-// }
-
 // exports.createSessionFile = function (sessionFileModel, callback) {
 //   dbPool.query(
 // 		"INSERT INTO session_file (session_id, file_id, type, state) VALUES (:session_id, :file_id, :type, :state)",
@@ -106,21 +101,6 @@ module.exports.getSessionById = (id) => {
 //       }
 //       callback(null, result.insertId);
 // 		});
-// }
-
-// exports.searchSessionId = function (name, callback) {
-//   var gotId = name;
-//   if (isNaN(gotId) == true) {
-//     callback(name + ' is not a number');
-//     return;
-//   }
-  
-//   dbPool.query(
-//     "SELECT * FROM session WHERE id= :name;",
-//     { name: gotId }
-//   , function(err, rows) {
-//     callback(err, rows);
-//   });
 // }
 
 // exports.updateSessionFileState = function(sessionId, fileId, newState, callback) {

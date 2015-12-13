@@ -14,9 +14,7 @@ exports.seed = (knex, Promise) => {
       date: '2015-10-23',
       speaker_id: 1,
       session_type_id: 1,
-      session_state_id: 1,
-      created_at: '2015-10-23 10:20:00',
-      modified_at: '2015-10-23 10:20:00'
+      session_state_id: 1
     })
   );
 };

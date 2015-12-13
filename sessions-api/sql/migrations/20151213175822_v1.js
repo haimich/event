@@ -19,14 +19,16 @@ exports.up = (knex, Promise) => {
  * Down migration. Order is important due to foreign key constraints.
  */
 exports.down = (knex, Promise) => {
-  return knex.schema.dropTable('sessions')
+  return knex.schema.dropTable('session_files')
+    .then(() => {
+      return knex.schema.dropTable('sessions');
+    })
     .then(() => {
       return Promise.all([
         knex.schema.dropTable('session_type'),
-        knex.schema.dropTable('session_state'),
-        knex.schema.dropTable('session_files')
+        knex.schema.dropTable('session_state')
       ])
-    });
+    })
 };
 
 function createEnumTables(knex) {
@@ -61,8 +63,8 @@ function createSessionsTable(knex) {
     table.bigInteger('session_type_id').unsigned().defaultTo(0).references('id').inTable('session_type');
     table.bigInteger('session_state_id').unsigned().defaultTo(0).references('id').inTable('session_state');
     
-    table.dateTime('created_at');
-    table.dateTime('modified_at');
+    table.timestamp('created_at').defaultTo(knex.fn.now());;
+    table.timestamp('modified_at').defaultTo(knex.fn.now());;
     
     table.index(['id'], 'index_id');
   });

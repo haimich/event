@@ -11,9 +11,9 @@ module.exports.getSessionById = (sessionId) => {
   return sessionRepo.getSessionById(sessionId);
 }
 
-// module.exports.createSession = (sessionModel, callback) => {
-// 	sessionRepo.createSession(sessionModel, callback);
-// }
+module.exports.createSession = (sessionModel) => {
+	return sessionRepo.createSession(sessionModel);
+}
 
 // module.exports.createSessionFiles = (sessionId, files, callback) => {
 //   let createdSessionFiles = [];

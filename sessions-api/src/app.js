@@ -72,30 +72,31 @@ app.put('/sessions', (request, response) => {
 
   // create session
   let sessionModel = new Session(session);
-  sessionService.createSession(sessionModel, function(err, sessionId) {
-    if (err) {
-      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
-    }
-
-    if (sessionModel.files === null || sessionModel.files === undefined || sessionModel.files.length === 0) {
-      return response.status(status.CREATED).json({ id: sessionId });
-    } else {
-      // create session files
-      sessionService.createSessionFiles(sessionId, sessionModel.files, function(error, sessionFileIds) {
-        if (error) {
-          return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
-        }
-
-        // start converting
-        startConvertProcess(sessionModel.files, function(err) {
-          if (err) {
-            return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+  sessionService.createSession(sessionModel)
+    .then((sessionId) => {
+      if (sessionModel.files === null || sessionModel.files === undefined || sessionModel.files.length === 0) {
+        return response.status(status.CREATED).json({ id: sessionId });
+      } else {
+        // create session files
+        sessionService.createSessionFiles(sessionId, sessionModel.files, function(error, sessionFileIds) {
+          if (error) {
+            return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
           }
-          response.status(status.CREATED).json({ id: sessionId });
+  
+          // start converting
+          startConvertProcess(sessionModel.files, function(err) {
+            if (err) {
+              return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+            }
+            response.status(status.CREATED).json({ id: sessionId });
+          });
         });
-      });
-    }
-  });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    })
 });
 
 function startConvertProcess(files, callback) {

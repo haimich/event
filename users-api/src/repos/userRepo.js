@@ -24,5 +24,5 @@ module.exports.getUserById = (id) => {
     .select('*')
     .from('users')
     .where('id', id)
-    .limit(1);
+    .first();
 }
