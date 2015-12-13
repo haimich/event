@@ -2,63 +2,63 @@
 
 let should = require('chai').should(),
     restHelper = require('./helpers/rest'),
+    testdataHelper = require('./helpers/testdata'),
     dbHelper = require('./helpers/db'),
     status = require('http-status');
 
-const TABLE_NAME = 'users';
-const testUser = {
-  external_id: 123124,
-  username: 'eventman',
-  firstname: 'Event',
-  lastname: 'Man',
-  email: 'event@man.com'
-};
+const USERS_TABLE = 'users';
 
 describe('GET /users', () => {
+  let randomUser = testdataHelper.createRandomUser(7);
+  let userId = null;
   
-  before((done) => {
-    dbHelper.initDb()
-      .then((knex) => {
-        knex(TABLE_NAME).insert(testUser).then(() => done());
-      })
+  before(() => {
+    return dbHelper.insert(USERS_TABLE, randomUser)
+      .then((response) => {
+        userId = response[0];
+      });
+  });
+  
+  after(() => {
+    return dbHelper.remove(USERS_TABLE, userId);
   });
   
   it('should find a user by username', (done) => {
-    restHelper.searchUsers(testUser.username)
+    restHelper.searchUsers(randomUser.username)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
         
         let users = JSON.parse(response.body);
         users.should.have.length(1);
-        users[0].username.should.equal(testUser.username);
+        users[0].username.should.equal(randomUser.username);
         done();
       });
   });
 
   it('should find a user by firstname', (done) => {
-    restHelper.searchUsers(testUser.firstname)
+    restHelper.searchUsers(randomUser.firstname)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
         
         let users = JSON.parse(response.body);
         users.should.have.length(1);
-        users[0].username.should.equal(testUser.username);
+        users[0].username.should.equal(randomUser.username);
         
         done();
     });
   });
 
-  it('should find a user by name', (done) => {
-    restHelper.searchUsers(testUser.lastname)
+  it('should find a user by lastname', (done) => {
+    restHelper.searchUsers(randomUser.lastname)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
         
         let users = JSON.parse(response.body);
         users.should.have.length(1);
-        users[0].username.should.equal(testUser.username);
+        users[0].username.should.equal(randomUser.username);
         
         done();
       });
@@ -72,7 +72,7 @@ describe('GET /users', () => {
         
         let users = JSON.parse(response.body);
         users.should.have.length(1);
-        users[0].username.should.equal(testUser.username);
+        users[0].username.should.equal(randomUser.username);
         
         done();
       });
@@ -87,7 +87,7 @@ describe('GET /users', () => {
         
         let users = JSON.parse(response.body);
         users.should.have.length(1);
-        users[0].username.should.equal(testUser.username);
+        users[0].username.should.equal(randomUser.username);
         
         done();
       });
@@ -106,11 +106,11 @@ describe('GET /users', () => {
   });
   
   it('should return an additional field named displayname', (done) => {
-    restHelper.searchUsers(testUser.username)
+    restHelper.searchUsers(randomUser.username)
       .then((response) => {
         let users = JSON.parse(response.body);
         users.should.have.length(1);
-        users[0].displayname.should.equal(testUser.firstname + ' ' + testUser.lastname);
+        users[0].displayname.should.equal(randomUser.firstname + ' ' + randomUser.lastname);
         
         done();
       });
@@ -120,22 +120,29 @@ describe('GET /users', () => {
 
 describe('GET /users/{id}', () => {
   
-  before((done) => {
-    dbHelper.initDb()
-      .then((knex) => {
-        knex(TABLE_NAME).insert(testUser).then(() => done());
-      })
+  let randomUser = testdataHelper.createRandomUser(7);
+  let userId = null;
+  
+  before(() => {
+    return dbHelper.insert(USERS_TABLE, randomUser)
+      .then((response) => {
+        userId = response[0];
+      });
+  });
+  
+  after(() => {
+    return dbHelper.remove(USERS_TABLE, userId);
   });
   
   it('should return a user by id', (done) => {
-    restHelper.getUserId(testUser.userid)
+    restHelper.getUserId(randomUser.userid)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
         
         let users = JSON.parse(response.body);
         users.should.have.length(1);
-        users[0].username.should.equal(testUser.username);
+        users[0].username.should.equal(randomUser.username);
         
         done();
       });

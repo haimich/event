@@ -1,14 +1,26 @@
 'use strict';
 
 let should = require('chai').should(),
-    knexOptions = require('../../knexfile').testing,
+    knexOptions = require('../../knexfile').development,
     knexDb   = require('knex');
 
-/**
- * Create a fresh db instance migrated to the latest db scheme
- */
-module.exports.initDb = () => {
-  let knex = knexDb(knexOptions);
-  return knex.migrate.latest()
-    .then(() => knex);
+function initDb() {
+  return knexDb(knexOptions);
+}
+
+function insert(tableName, user) {
+  let knex = initDb();
+  
+  return knex(tableName).insert(user);
+}
+
+function remove(tableName, id) {
+  let knex = initDb();
+  
+  return knex(tableName).where('id', id).delete();
+}
+
+module.exports = {
+  insert,
+  remove
 }
