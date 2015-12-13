@@ -1,19 +1,11 @@
 'use strict';
 
-let args = require('minimist')(process.argv.slice(2)),
-    path = require('path'),
-    configHelper = require('./helper/config');
+let configHelper = require('./helpers/config');
 
-let configLocation = args.config || path.join(__dirname, '../config/config.yml');
-let config = configHelper.loadConfig(configLocation);
+let args = require('./helpers/arguments').parse();
+let config = configHelper.loadConfig(args.config);
+let ports = configHelper.loadConfig(args.ports);
 let hostname = config.hostname;
-
-let ports = null;
-try {
-  ports = configHelper.loadConfig(args.ports);  
-} catch (err) {
-  throw new Error('No ports config given');
-}
 
 let proxy = require('redbird')({
   port: ports['proxy'],

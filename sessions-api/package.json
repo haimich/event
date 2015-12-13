@@ -9,7 +9,7 @@
   "scripts": {
     "start": "echo '>> Use pm2 to start this service!'",
     "test": "mocha",
-    "watch:test": "chokidar *.js src/**/*.js test/**/*.js test/*.js -c mocha"
+    "watch:test": "chokidar *.js src/*.js src/**/*.js test/**/*.js test/*.js -c mocha"
   },
   "repository": {
     "type": "git",
