@@ -1,9 +1,11 @@
 'use strict';
 
-let args = require('minimist')(process.argv.slice(2));
-let configLocation = args.config || path.join(__dirname, '../config/config.yml');
+let userService = require('./services/userService'),
+    configHelper = require('./helper/config');
 
-let userService = require('./services/userService');
+let args = require('./helper/arguments').parse();
+let config = configHelper.loadConfig(args.config);
+let port = configHelper.loadKeyFromConfig(args.ports, 'users-api');
 
 let express = require('express');
 let status = require('http-status');
@@ -50,4 +52,6 @@ app.get('/users/:id', (request, response) => {
     });
 });
 
-app.listen(port);
+app.listen(port, () => {
+  console.log('Server listening on port ' + port);
+});

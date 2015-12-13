@@ -4,7 +4,7 @@ let path = require('path'),
     yml = require('js-yaml'),
     fs = require('fs');
 
-module.exports.loadConfig = (configLocation) => {
+function loadConfig(configLocation) {
 	try {
 		return yml.safeLoad(fs.readFileSync(configLocation, 'utf8'));
 	} catch (e){
@@ -12,13 +12,15 @@ module.exports.loadConfig = (configLocation) => {
 	}
 }
 
-let config = configHelper.loadConfig(configLocation);
+function loadKeyFromConfig(configLocation, key) {
+  try {
+    let config = yml.safeLoad(fs.readFileSync(configLocation, 'utf8'));
+    return config[key];
+  } catch (err) {
+    throw new Error('Config could not be loaded from ' + configLocation);
+  }
+}
 
-let port = null;
-try {
-  let portsParam = args.ports || args.p;
-  let ports = configHelper.loadConfig(portsParam);
-  port = ports['users-api'];  
-} catch (err) {
-  throw new Error('No ports config given');
+module.exports = {
+  loadConfig, loadKeyFromConfig
 }

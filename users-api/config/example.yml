@@ -1,8 +1,0 @@
-database:
-  host: localhost
-  user: 
-  port: 3306
-  password: 
-  database: event
-  connectionLimit: 30
-  debug: false
