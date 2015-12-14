@@ -12,7 +12,7 @@ dbHelper.initialize(config.knex);
 let Session = require('./models/sessionModel');
 let sessionService = require('./services/sessionService');
 let convertMessageConsumer = require('./services/convertMessageConsumer');
-let request = require('request');
+let request = require('request-promise');
 
 let express = require('express');
 let status = require('http-status');
@@ -83,11 +83,12 @@ app.put('/sessions', (request, response) => {
             // start converting
             console.log('TODO: startConvertProcess');
             return response.status(status.CREATED).json({ id: sessionId });
-            // startConvertProcess(sessionModel.files, function(err) {
-            //   if (err) {
+            // startConvertProcess(sessionModel.files)
+            //   .then(() => {
+            //     return response.status(status.CREATED).json({ id: sessionId });
+            //   })
+            //   .catch((err) => {
             //     return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
-            //   }
-            //   response.status(status.CREATED).json({ id: sessionId });
             // });
           })
           .catch((err) => {
@@ -96,31 +97,21 @@ app.put('/sessions', (request, response) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     })
 });
 
-function startConvertProcess(files, callback) {
-  let gotError = false;
-
-  files.forEach(function(file) {
-    console.log(file);
-    request({
+function startConvertProcess(files) {
+  let promises = [];
+  
+  for (let file in files) {
+    promises.push(request({
       url: baseUrl + '/files/' + file.id + '/convert',
       method: 'PATCH'
-    }, function (error, response) {
-      if (error) {
-        gotError = true;
-        callback(error);
-        return;
-      }
-    });
-  });
-
-  if (! gotError) {
-    callback();
+    }));
   }
+  
+  return Promise.all(promises);
 }
 
 app.listen(port, () => {
