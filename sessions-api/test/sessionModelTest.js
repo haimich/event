@@ -3,7 +3,7 @@
 let should = require('chai').should();
 let Session = require('../src/models/sessionModel');
 
-describe.only('Session', function() {
+describe('Session', function() {
   it('should create a Session object', function() {
 
   	let options = {
