@@ -57,7 +57,11 @@ app.get('/sessions/:id', (request, response) => {
 
   sessionService.getSessionById(sessionId)
     .then((session) => {
-      response.json(session);
+      if (session === undefined) {
+        response.status(status.NOT_FOUND).json({ error: `Session with id ${sessionId} not found` });
+      } else {
+        response.json(session);
+      }
     })
     .catch((err) => {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
