@@ -26,15 +26,14 @@ describe('PUT /sessions', () => {
     .then((ids) => fileIds = ids);
   });
   
-  it('should require a body', (done) => {
-    restHelper.createSession({})
+  it('should require a body', () => {
+    return restHelper.createSession({})
       .catch((response) => {
         response.statusCode.should.equal(status.PRECONDITION_FAILED);
-        done();
       });
   });
   
-  it('should create a session', (done) => {
+  it('should create a session', () => {
     let session = {
       title: 'Test title',
       description: 'Test description',
@@ -46,15 +45,14 @@ describe('PUT /sessions', () => {
       session_state_id: 1
     };
     
-    restHelper.createSession(session)
+    return restHelper.createSession(session)
       .then((response) => {
         response.statusCode.should.equal(status.CREATED);
         response.body.id.should.exist;
-        done();
       });
   });
   
-  it('should create a session with files', (done) => {
+  it('should create a session with files', () => {
     let session = {
       title: 'Test title',
       description: 'Test description',
@@ -76,11 +74,10 @@ describe('PUT /sessions', () => {
       }]
     };
     
-    restHelper.createSession(session)
+    return restHelper.createSession(session)
       .then((response) => {
         response.statusCode.should.equal(status.CREATED);
         response.body.id.should.exist;
-        done();
       });
   });
   
@@ -89,8 +86,8 @@ describe('PUT /sessions', () => {
 
 describe('GET /sessions', () => {
   
-  it('should return all sessions', (done) => {
-    restHelper.getSessions()
+  it('should return all sessions', () => {
+    return restHelper.getSessions()
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
@@ -98,7 +95,6 @@ describe('GET /sessions', () => {
         let sessions = JSON.parse(response.body);
         sessions.should.be.a('array');
         sessions.should.not.be.empty;
-        done();
      });
   });
   
@@ -128,25 +124,23 @@ describe('GET /sessions/{id}', () => {
     return dbHelper.delete(SESSIONS_TABLE, sessionId);
   });
   
-  it('should return a session by id', (done) => {
-    restHelper.getSessionId(sessionId)
+  it('should return a session by id', () => {
+    return restHelper.getSessionId(sessionId)
       .then((response) => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
         response.body.should.contain(sessionId);
-        done();
       });
   });
 
-  it('should return an error when no id is given', (done) => {
+  it('should return an error when no id is given', () => {
     let sessionId = null;
     
-    restHelper.getSessionId(sessionId)
+    return restHelper.getSessionId(sessionId)
       .catch((response) => {
         response.statusCode.should.equal(status.PRECONDITION_FAILED);
         let errorObj = JSON.parse(response.error);
         errorObj.error.should.exist;
-        done();
       });
   });
   
