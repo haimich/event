@@ -1,35 +1,42 @@
-var childProcess = require('child_process');
+'use strict';
 
-function getConverter (callback) {
-  var script = __dirname + '/bash/get-converter.sh';
-  childProcess.exec('bash ' + script, function(error, stdout, stderr) {
-    if (error === null) {
-      callback(stdout.replace('\n', ''));
-    } else {
-      throw new Error(stderr);
-    }
+let childProcess = require('child_process'),
+    path = require('path');
+
+function getConverter() {
+  return new Promise((resolve, reject) => { 
+    let script = path.join(__dirname, '/bash/get-converter.sh');
+    childProcess.exec('bash ' + script, (error, stdout, stderr) => {
+      if (error !== null) {
+        reject(stderr);
+      } else {
+        resolve(stdout.replace('\n', ''));
+      }
+    });
   });
 }
 
-function startConverting(converter, filename, outputPath, callback) {
-  var script  = __dirname + '/bash/convert-video.sh',
-      command = 'bash ' + script + ' ' + filename + ' ' + converter + ' ' + outputPath;
+function startConverting(converter, filename, outputPath) {
+  let script  = path.join(__dirname, '/bash/convert-video.sh'),
+      command = `bash ${script} ${filename} ${converter} ${outputPath}`;
   
-  childProcess.exec(command, function(error, stdout, stderr) {
-    if (error !== null) {
-      callback('Converting failed: ' + stderr);
-    } else {
-      callback(null, getOutputFiles(stdout));
-    }
+  return new Promise((resolve, reject) => { 
+    childProcess.exec(command, function(error, stdout, stderr) {
+      if (error !== null) {
+        reject(getOutputFiles(stdout));
+      } else {
+        resolve('Converting failed: ' + stderr);
+      }
+    });
   });
 }
 
 function getOutputFiles(stdout) {
-  var outputFiles = [];
+  let outputFiles = [];
   //remove empty lines
-  stdout.split('\n').forEach(function(element) {
+  stdout.split('\n').forEach((element) => {
     if (element !== '') {
-      var split = element.split('=');
+      let split = element.split('=');
       outputFiles.push({
         mimetype: split[0],
         filesystemLocation: split[1]
@@ -39,8 +46,9 @@ function getOutputFiles(stdout) {
   return outputFiles;
 }
 
-exports.start = function(filename, outputPath, callback) {
-  getConverter(function(converter) {
-    startConverting(converter, filename, outputPath, callback);
-  });
+module.exports.start = (filename, outputPath) => {
+  return getConverter()
+    .then((converter) => {
+      return startConverting(converter, filename, outputPath);
+    });
 }
