@@ -9,8 +9,8 @@ exports.up = (knex, Promise) => {
       table.string('filesystem_location');
       table.string('url');
       
-      table.dateTime('created_at');
-      table.dateTime('modified_at');
+      table.timestamp('created_at').defaultTo(knex.fn.now());;
+      table.timestamp('modified_at').defaultTo(knex.fn.now());;
       
       table.index(['id'], 'index_id');
     })

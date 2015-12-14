@@ -10,7 +10,7 @@ dbHelper.initialize(config.knex);
 
 let fileService = require('./services/fileService');
 let convertService = require('./services/convertService');
-let File = require('./models/fileModel');
+let FileModel = require('./models/fileModel');
 
 let express = require('express');
 let status = require('http-status');
@@ -30,8 +30,7 @@ let baseSystemPath = __dirname + '/';
 app.put('/files', upload.single('file'), (request, response) => {
   let uploadedFile = request.file;
 
-  let file = new File({
-    name: uploadedFile.originalname,
+  let file = new FileModel({
     filesystem_location: baseSystemPath + uploadedFile.path,
     mime_type: uploadedFile.mimetype
   });
@@ -42,6 +41,22 @@ app.put('/files', upload.single('file'), (request, response) => {
     })
     .catch((err) => {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    });
+});
+
+app.get('/files/test123', (request, response) => {
+  let file = new FileModel({
+    filesystem_location: baseSystemPath,
+    mime_type: 'mimetype3'
+  });
+  fileService.createFile(file)
+    .then((id) => {
+      let file2 = new FileModel({
+        id: id,
+        filesystem_location: baseSystemPath,
+        mime_type: 'mimetype1'
+      });
+      fileService.updateFile(file2).then(() => response.sendStatus(200));
     });
 });
 

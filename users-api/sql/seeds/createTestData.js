@@ -24,16 +24,12 @@ function generateTestData(knex) {
 }
 
 function createRandomUser(knex) {
-  let datetime = chance.date();
-  
   let user = {
     external_id: chance.natural({ max: 100000 }),
     username: chance.word({ length: 7 }),
     firstname: chance.first(),
     lastname: chance.last(),
-    email: chance.email(),
-    created_at: datetime,
-    modified_at: datetime
+    email: chance.email()
   }
   
   return knex(TABLE_NAME).insert(user);

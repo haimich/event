@@ -8,8 +8,9 @@ exports.up = (knex, Promise) => {
       table.string('firstname');
       table.string('lastname');
       table.string('email');
-      table.dateTime('created_at');
-      table.dateTime('modified_at');
+      
+      table.timestamp('created_at').defaultTo(knex.fn.now());;
+      table.timestamp('modified_at').defaultTo(knex.fn.now());;
       
       table.index(['id'], 'index_id');
       table.index(['username', 'firstname', 'lastname'], 'index_namefields');
