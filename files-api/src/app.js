@@ -16,7 +16,7 @@ let express = require('express');
 let status = require('http-status');
 let morgan = require('morgan');
 let multer  = require('multer');
-let upload = multer({ dest: '../', files: 5 });
+let upload = multer({ dest: '../uploads', files: 5 });
 
 let app = express();
 app.use('/files/download', express.static('../public')); //downloadable files
