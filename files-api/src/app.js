@@ -44,14 +44,6 @@ app.put('/files', upload.single('file'), (request, response) => {
     });
 });
 
-app.get('/files/test123', (request, response) => {
-  fileService.getFileById(1)
-    .then((file) => {
-      file.mime_type = 'mimetype_new';
-      fileService.updateFile(file).then(() => response.sendStatus(200));
-    });
-});
-
 /**
  * Converts a given file and sends a message to the session-api when done.
  */
