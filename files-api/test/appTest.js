@@ -42,7 +42,7 @@ describe('GET /file/{id}', () => {
     let fileId = null;
     
     return restHelper.getFileId(fileId)
-      .then((response) => {
+      .catch((response) => {
         response.statusCode.should.equal(status.PRECONDITION_FAILED);
       });
   });
