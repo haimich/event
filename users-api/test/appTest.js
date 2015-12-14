@@ -127,9 +127,8 @@ describe('GET /users/{id}', () => {
         response.statusCode.should.equal(status.OK);
         response.body.should.exist;
         
-        let users = JSON.parse(response.body);
-        users.should.have.length(1);
-        users[0].username.should.equal(randomUser.username);
+        let user = JSON.parse(response.body);
+        user.username.should.equal(randomUser.username);
       });
   });
   

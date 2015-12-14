@@ -45,11 +45,11 @@ app.get('/users/:id', (request, response) => {
   }
   
   userService.getUserById(userId)
-    .then((users) => {
-      if (users.length === 0) {
+    .then((user) => {
+      if (user === undefined) {
         response.status(status.NOT_FOUND).json({ error: `User with id ${userId} not found` });
       } else {
-        response.json(users);
+        response.json(user);
       }
     })
     .catch((err) => {
