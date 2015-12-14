@@ -4,24 +4,29 @@ let dbHelper = require('../helpers/db'),
     SessionStates = require('../models/sessionStatesModel'),
     _ = require('lodash');
 
+//TODO: "SELECT s.*, CONCAT(u.firstname, ' ', u.name) AS speaker_name FROM session s LEFT JOIN user u ON u.id = s.speaker_id WHERE s.id = :id LIMIT 1
 module.exports.getSessions = () => {
-  return dbHelper.getInstance()
-    .select('*')
-    .from('sessions');
+  let knex = dbHelper.getInstance();
+  return knex
+    .select('sessions.*', knex.raw('CONCAT(users.firstname, " ", users.lastname) AS speaker_name'))
+    .from('sessions')
+    .join('users', 'sessions.speaker_id', '=', 'users.id')
+    .whereNot('sessions.session_state_id', SessionStates.get('deleted').value);
 }
 
-//TODO: "SELECT s.*, CONCAT(u.firstname, ' ', u.name) AS speaker_name FROM session s LEFT JOIN user u ON u.id = s.speaker_id WHERE s.id = :id LIMIT 1
 module.exports.getSessionById = (id) => {
   let gotId = id;
   if (isNaN(gotId) === true) {
     throw new Error(id + ' is not a number');
   }
   
-  return dbHelper.getInstance()
-    .select('*')
+  let knex = dbHelper.getInstance();
+  return knex
+    .select('sessions.*', knex.raw('CONCAT(users.firstname, " ", users.lastname) AS speaker_name'))
     .from('sessions')
-    .where('id', id)
-    .limit(1);
+    .where('sessions.id', id)
+    .join('users', 'sessions.speaker_id', '=', 'users.id')
+    .first();
 }
 
 module.exports.createSession = (sessionModel) => {
@@ -48,7 +53,7 @@ module.exports.getSessionIdByFileId = (id) => {
     .select('*')
     .from('session_files')
     .where('id', id)
-    .limit(1);
+    .first();
 }
 
 /* Return session_files with some file infos */

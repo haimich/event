@@ -15,8 +15,12 @@ module.exports.createSession = (sessionModel) => {
 	return sessionRepo.createSession(sessionModel);
 }
 
+/**
+ * Create one or more session file entries at once.
+ */
 module.exports.createSessionFiles = (sessionId, files) => {
   let promises = [];
+  files = [].concat(files);
   
   for (let file of files) {
     let sessionFile = new SessionFile(sessionId, file.id, file.type);
@@ -45,7 +49,3 @@ module.exports.updateSessionState = (sessionId, newState) => {
 module.exports.deleteSessionFileByFileId = (sessionFileId) => {
   return sessionRepo.deleteSessionFileByFileId(sessionFileId);
 }
-
-// module.exports.createSessionFile = (sessionFile, callback) => {
-//   sessionRepo.createSessionFile(sessionFile, callback);
-// }
