@@ -75,14 +75,15 @@ exports.updateSessionFileState = (sessionId, fileId, newState) => {
     .where('file_id', fileId);
 }
 
-// exports.updateSessionState = function(sessionId, newState, callback) {
-//   dbPool.query("UPDATE session SET session_state_id = :state WHERE id = :id",
-//     { id: sessionId, state: newState },
-//     function(err) {
-//       callback(err);
-//     }
-//   );
-// }
+exports.updateSessionState = (sessionId, newState) => {
+  if (isNaN(sessionId) === true || isNaN(newState) === true) {
+    throw new Error('Not a number');
+  }
+  
+  return dbHelper.getInstance()('sessions')
+    .update('session_state_id', newState)
+    .where('id', sessionId);
+}
 
 // exports.getSessions = function(callback) {
 //   dbPool.query(

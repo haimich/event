@@ -42,7 +42,7 @@ app.get('/sessions', (request, response) => {
 });
 
 app.get('/sessions/foobla', (request, response) => {
-  sessionService.getSessionFilesBySessionId(36).then((sf) => response.status(200).json(sf));
+  sessionService.updateSessionState(36, 2).then((sf) => response.status(200).json(sf));
 });
 
 /**

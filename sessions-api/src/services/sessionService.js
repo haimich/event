@@ -38,14 +38,15 @@ module.exports.getSessionFilesBySessionId = (sessionId) => {
   return sessionRepo.getSessionFilesBySessionId(sessionId);
 }
 
+module.exports.updateSessionState = (sessionId, newState) => {
+  return sessionRepo.updateSessionState(sessionId, newState);
+}
+
 // module.exports.createSessionFile = (sessionFile, callback) => {
 //   sessionRepo.createSessionFile(sessionFile, callback);
 // }
 
 
-// module.exports.updateSessionState = (sessionId, newState, callback) => {
-//   sessionRepo.updateSessionState(sessionId, newState, callback);
-// }
 
 // module.exports.deleteSessionFileByFileId = (sessionFileId, callback) => {
 //   sessionRepo.deleteSessionFileByFileId(sessionFileId, callback);
