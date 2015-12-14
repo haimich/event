@@ -7,10 +7,7 @@ let config = configHelper.loadConfig(args.config);
 let ports = configHelper.loadConfig(args.ports);
 let hostname = config.hostname;
 
-let proxy = require('redbird')({
-  port: ports['proxy'],
-  xfwd: false
-});
+let proxy = require('redbird')({ port: ports['proxy'] });
 
 proxy.register(hostname + '/',                   `http://${hostname}:${ports['proxy']}/event`);
 proxy.register(hostname + '/event',              `http://${hostname}:${ports['frontend']}`);
