@@ -27,7 +27,7 @@ let baseSystemPath = __dirname + '/';
 /**
  *  Uploads a file to the server and creates a db entry.
  */
-app.put('/file', upload.single('file'), (request, response) => {
+app.put('/files', upload.single('file'), (request, response) => {
   let uploadedFile = request.file;
 
   let file = new File({
@@ -48,7 +48,7 @@ app.put('/file', upload.single('file'), (request, response) => {
 /**
  * Converts a given file and sends a message to the session-api when done.
  */
-app.patch('/file/:id/convert', (request, response) => {
+app.patch('/files/:id/convert', (request, response) => {
   let fileId = request.params.id;
   
   if (isNaN(fileId) == true) {
@@ -63,19 +63,20 @@ app.patch('/file/:id/convert', (request, response) => {
 /**
  * Returns a file by id.
  */
-app.get('/file/:id', (request, response) => {
+app.get('/files/:id', (request, response) => {
   let fileId = request.params.id;
     
   if (isNaN(fileId) == true) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No file id given' });
   }
   
-  fileService.getFileById(fileId, dbPool, function(err, result){
-    if (err) {
+  fileService.getFileById(fileId)
+    .then((result) => {
+      return response.json(result);
+    })
+    .catch((err) => {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
-    }
-    response.json(result);
-  });
+    });
 });
 
 app.listen(port, () => {
