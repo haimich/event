@@ -1,6 +1,7 @@
 'use strict';
 
-let dbHelper = require('../helpers/db');
+let dbHelper = require('../helpers/db'),
+    dateHelper = require('../helpers/date');
 
 module.exports.createFile = (fileModel) => {
   return dbHelper.getInstance()
@@ -24,12 +25,12 @@ module.exports.getFileById = (id) => {
 }
 
 exports.updateFile = (fileModel) => {
-  //TODO check modified_at
   return dbHelper.getInstance()('files')
     .update({
       url: fileModel.url,
       mime_type: fileModel.mime_type,
-      filesystem_location: fileModel.filesystem_location
+      filesystem_location: fileModel.filesystem_location,
+      modified_at: dateHelper.getTimestamp()
     })
     .where('id', fileModel.id);
 }

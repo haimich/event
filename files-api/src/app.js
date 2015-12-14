@@ -45,18 +45,10 @@ app.put('/files', upload.single('file'), (request, response) => {
 });
 
 app.get('/files/test123', (request, response) => {
-  let file = new FileModel({
-    filesystem_location: baseSystemPath,
-    mime_type: 'mimetype3'
-  });
-  fileService.createFile(file)
-    .then((id) => {
-      let file2 = new FileModel({
-        id: id,
-        filesystem_location: baseSystemPath,
-        mime_type: 'mimetype1'
-      });
-      fileService.updateFile(file2).then(() => response.sendStatus(200));
+  fileService.getFileById(1)
+    .then((file) => {
+      file.mime_type = 'mimetype_new';
+      fileService.updateFile(file).then(() => response.sendStatus(200));
     });
 });
 
