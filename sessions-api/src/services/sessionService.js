@@ -42,12 +42,10 @@ module.exports.updateSessionState = (sessionId, newState) => {
   return sessionRepo.updateSessionState(sessionId, newState);
 }
 
+module.exports.deleteSessionFileByFileId = (sessionFileId) => {
+  return sessionRepo.deleteSessionFileByFileId(sessionFileId);
+}
+
 // module.exports.createSessionFile = (sessionFile, callback) => {
 //   sessionRepo.createSessionFile(sessionFile, callback);
-// }
-
-
-
-// module.exports.deleteSessionFileByFileId = (sessionFileId, callback) => {
-//   sessionRepo.deleteSessionFileByFileId(sessionFileId, callback);
 // }

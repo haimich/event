@@ -85,6 +85,17 @@ exports.updateSessionState = (sessionId, newState) => {
     .where('id', sessionId);
 }
 
+exports.deleteSessionFileByFileId = (id) => {
+  if (isNaN(id) === true) {
+    throw new Error(id + ' is not a number');
+  }
+  
+  return dbHelper.getInstance()
+    .delete()
+    .from('session_files')
+    .where('file_id', id);
+}
+
 // exports.getSessions = function(callback) {
 //   dbPool.query(
 //     "SELECT session.*, CONCAT(user.firstname, ' ', user.name) AS speaker_name FROM session LEFT JOIN user ON user.id = session.speaker_id WHERE session_state_id != :deleted",
@@ -119,15 +130,6 @@ exports.updateSessionState = (sessionId, newState) => {
 //           }
 //         );
 //       }
-//     }
-//   );
-// }
-
-// exports.deleteSessionFileByFileId = function(fileId, callback) {
-//   dbPool.query("DELETE FROM session_file WHERE file_id = :id",
-//     { id: fileId },
-//     function(err) {
-//       callback(err);
 //     }
 //   );
 // }
