@@ -30,7 +30,7 @@ exports.updateFile = (fileModel) => {
       url: fileModel.url,
       mime_type: fileModel.mime_type,
       filesystem_location: fileModel.filesystem_location,
-      modified_at: dateHelper.getTimestamp()
+      modified_at: dateHelper.getCurrentDatetime()
     })
     .where('id', fileModel.id);
 }

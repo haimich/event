@@ -24,7 +24,6 @@
   "dependencies": {
     "amqplib": "^0.4.0",
     "body-parser": "^1.14.1",
-    "dateformat": "^1.0.11",
     "enum": "^2.2.0",
     "express": "^4.13.3",
     "http-status": "^0.2.0",

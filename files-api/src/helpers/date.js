@@ -2,6 +2,6 @@
 
 let moment = require('moment');
 
-module.exports.getTimestamp = () => {
+module.exports.getCurrentTimestamp = () => {
   return moment().format('YYYY-MM-DD HH:mm:ss');
 }

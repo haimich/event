@@ -4,7 +4,6 @@ let dbHelper = require('../helpers/db'),
     SessionStates = require('../models/sessionStatesModel'),
     _ = require('lodash');
 
-//TODO: "SELECT s.*, CONCAT(u.firstname, ' ', u.name) AS speaker_name FROM session s LEFT JOIN user u ON u.id = s.speaker_id WHERE s.id = :id LIMIT 1
 module.exports.getSessions = () => {
   let knex = dbHelper.getInstance();
   return knex
