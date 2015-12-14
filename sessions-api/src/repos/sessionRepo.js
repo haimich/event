@@ -39,6 +39,51 @@ module.exports.createSessionFile = (sessionFileModel) => {
     .then((idArray) => idArray[0]);
 }
 
+module.exports.getSessionIdByFileId = (id) => {
+  if (isNaN(id) === true) {
+    throw new Error(id + ' is not a number');
+  }
+  
+  return dbHelper.getInstance()
+    .select('*')
+    .from('session_files')
+    .where('id', id)
+    .limit(1);
+}
+
+/* Return session_files with some file infos */
+exports.getSessionFilesBySessionId = (id) => {
+  if (isNaN(id) === true) {
+    throw new Error(id + ' is not a number');
+  }
+  
+  return dbHelper.getInstance()
+    .select('session_files.*', 'files.mime_type', 'files.url')
+    .from('session_files')
+    .join('files', 'session_files.file_id', '=', 'files.id')
+    .where('session_id', id);
+}
+
+exports.updateSessionFileState = (sessionId, fileId, newState) => {
+  if (isNaN(sessionId) === true || isNaN(fileId) === true) {
+    throw new Error('Not a number');
+  }
+  
+  return dbHelper.getInstance()('session_files')
+    .update('state', newState )
+    .where('session_id', sessionId)
+    .where('file_id', fileId);
+}
+
+// exports.updateSessionState = function(sessionId, newState, callback) {
+//   dbPool.query("UPDATE session SET session_state_id = :state WHERE id = :id",
+//     { id: sessionId, state: newState },
+//     function(err) {
+//       callback(err);
+//     }
+//   );
+// }
+
 // exports.getSessions = function(callback) {
 //   dbPool.query(
 //     "SELECT session.*, CONCAT(user.firstname, ' ', user.name) AS speaker_name FROM session LEFT JOIN user ON user.id = session.speaker_id WHERE session_state_id != :deleted",
@@ -73,46 +118,6 @@ module.exports.createSessionFile = (sessionFileModel) => {
 //           }
 //         );
 //       }
-//     }
-//   );
-// }
-
-// exports.getSessionIdByFileId = function(fileId, callback) {  
-//   dbPool.query("SELECT sf.session_id FROM session_file sf WHERE sf.file_id = :id LIMIT 1", { id: fileId }, function(err, result) {
-//     if (err !== null) {
-//       callback(err);
-//       return;
-//     }
-//     callback(null, result[0].session_id);
-//   });
-// }
-
-// /* Return session_files with some file infos */
-// exports.getSessionFilesBySessionId = function(sessionId, callback) {
-//   dbPool.query("SELECT sf.*, f.mime_type, f.url FROM session_file sf, file f WHERE sf.session_id = :id AND sf.file_id = f.id", { id: sessionId }, function(err, results) {
-//     if (err !== null) {
-//       callback(err);
-//       return;
-//     }
-//     callback(null, results);
-//   });
-// }
-
-
-// exports.updateSessionFileState = function(sessionId, fileId, newState, callback) {
-//   dbPool.query("UPDATE session_file SET state = :state WHERE session_id = :sessionId AND file_id = :fileId",
-//     { sessionId: sessionId, fileId: fileId, state: newState },
-//     function(err) {
-//       callback(err);
-//     }
-//   );
-// }
-
-// exports.updateSessionState = function(sessionId, newState, callback) {
-//   dbPool.query("UPDATE session SET session_state_id = :state WHERE id = :id",
-//     { id: sessionId, state: newState },
-//     function(err) {
-//       callback(err);
 //     }
 //   );
 // }

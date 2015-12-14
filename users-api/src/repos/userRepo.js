@@ -20,6 +20,10 @@ module.exports.searchUsers = (term) => {
 }
 
 module.exports.getUserById = (id) => {
+  if (isNaN(id) === true) {
+    throw new Error(id + ' is not a number');
+  }
+  
   return dbHelper.getInstance()
     .select('*')
     .from('users')

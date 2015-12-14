@@ -26,25 +26,22 @@ module.exports.createSessionFiles = (sessionId, files) => {
   return Promise.all(promises);
 }
 
-// module.exports.searchSessionId = (id, callback) => {
-//   sessionRepo.searchSessionId(id, callback);
-// }
+module.exports.getSessionIdByFileId = (fileId) => {
+  return sessionRepo.getSessionIdByFileId(fileId);
+}
 
-// module.exports.getSessionIdByFileId = (fileId, callback) => {
-//   sessionRepo.getSessionIdByFileId(fileId, callback);
-// }
+module.exports.updateSessionFileState = (sessionId, fileId, newState) => {
+  return sessionRepo.updateSessionFileState(sessionId, fileId, newState);
+}
 
-// module.exports.getSessionFilesBySessionId = (sessionId, callback) => {
-//   sessionRepo.getSessionFilesBySessionId(sessionId, callback);
-// }
+module.exports.getSessionFilesBySessionId = (sessionId) => {
+  return sessionRepo.getSessionFilesBySessionId(sessionId);
+}
 
 // module.exports.createSessionFile = (sessionFile, callback) => {
 //   sessionRepo.createSessionFile(sessionFile, callback);
 // }
 
-// module.exports.updateSessionFileState = (sessionId, fileId, newState, callback) => {
-//   sessionRepo.updateSessionFileState(sessionId, fileId, newState, callback);
-// }
 
 // module.exports.updateSessionState = (sessionId, newState, callback) => {
 //   sessionRepo.updateSessionState(sessionId, newState, callback);
