@@ -1,34 +1,36 @@
-var dateHelper = require('./helper/date');
+'use strict';
 
-exports.createFile = function (fileModel, dbPool, callback) {
- 	dbPool.query(
-		"INSERT INTO file (mime_type, filesystem_location, url, created_at, modified_at) VALUES (:mime_type, :filesystem_location, :url, :created_at, :modified_at)",
-		fileModel
-	, function(err, rows) {
-    callback(err, rows.insertId);
-	});
-}
+let dbHelper = require('../helpers/db'),
+    dateHelper = require('../helpers/date');
 
-exports.getFileById = function (id, dbPool, callback) {
-  if (isNaN(id)) {
-    callback('The given id field ' + id + ' is not a number');
-    return;
+module.exports.createFile = (fileModel) => {
+  return dbHelper.getInstance()
+    .insert(fileModel)
+    .into('files')
+    .then((idArray) => idArray[0]);
+};
+
+module.exports.getFileById = (id) => {
+  let gotId = id;
+  if (isNaN(gotId) === true) {
+    throw new Error(id + ' is not a number');
   }
-  id = Number(id);
   
-  dbPool.query("SELECT * FROM file WHERE id = :id", { id: id }, function(err, rows) {
-    if (err !== null) {
-      callback(err);
-    } else if (rows.length !== 1) {
-      callback('Select by id returned more than one result');
-    } else {
-      callback(err, rows[0]);
-    }
-  });
+  let knex = dbHelper.getInstance();
+  return knex
+    .select('*')
+    .from('files')
+    .where('id', id)
+    .first();
 }
 
-exports.updateFile = function(fileModel, dbPool, callback) {
-  fileModel.modified_at = dateHelper.getCurrentDatetime();
-  dbPool.query("UPDATE file SET url = :url, mime_type = :mime_type, filesystem_location = :filesystem_location, modified_at = :modified_at WHERE id = :id",
-    fileModel, callback);
+exports.updateFile = (fileModel) => {
+  //TODO check modified_at
+  return dbHelper.getInstance()('files')
+    .update({
+      url: fileModel.url,
+      mime_type: fileModel.mime_type,
+      filesystem_location: fileModel.filesystem_location
+    })
+    .where('id', fileModel.id);
 }

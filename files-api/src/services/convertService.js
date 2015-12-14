@@ -109,9 +109,9 @@ module.exports.convertFile = (fileId, config) => {
   return fileService.getFileById(fileId)
     .then((fileModel) => {
       if (! isVideo(fileModel)) {
-        handleNonVideoFile(fileModel, dbPool, config);
+        handleNonVideoFile(fileModel, config);
       } else {
-        handleVideoFile(fileModel, dbPool, config);
+        handleVideoFile(fileModel, config);
       }
     })
     .catch((err) => {
