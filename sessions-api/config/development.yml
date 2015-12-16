@@ -1,5 +1,5 @@
 knex: # knex options get imported to knexfile.js to be able to use knex command line client
-  client: mysql
+  client: mysql2
   debug: false
   connection:
     host: localhost
