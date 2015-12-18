@@ -10,8 +10,7 @@ let convertService = require('../services/convertService');
 let FileModel = require('../models/fileModel');
 
 let multer  = require('multer');
-let upload = multer({ dest: '../../uploads', files: 5 });
-let baseSystemPath = path.join(__dirname, '../../');
+let upload = multer({ dest: '../uploads', files: 5 });
 
 let config = null;
 
@@ -24,9 +23,10 @@ function initialize(conf) {
  */
 router.put('/files', upload.single('file'), (request, response) => {
   let uploadedFile = request.file;
+  console.log(request.file);
 
   let file = new FileModel({
-    filesystem_location: baseSystemPath + uploadedFile.path,
+    filesystem_location: path.join(__dirname, '../' + uploadedFile.path),
     mime_type: uploadedFile.mimetype
   });
   
