@@ -9,7 +9,7 @@ let express = require('express');
 let morgan = require('morgan');
 
 let app = express();
-app.use(express.static('static'));
+app.use(express.static('../static'));
 app.use(morgan('combined'));
 
 app.listen(port, () => {
