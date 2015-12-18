@@ -1,7 +1,7 @@
 {
   "apps" : [{
     "name"        : "proxy",
-    "script"      : "app.js",
+    "script"      : "main.js",
     "args"        : ["--ports=../../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
@@ -10,7 +10,7 @@
     "env": { "NODE_ENV": "development" }
    },{
     "name"        : "frontend",
-    "script"      : "app.js",
+    "script"      : "main.js",
     "args"        : ["--ports=../../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
@@ -19,7 +19,7 @@
     "env": { "NODE_ENV": "development" }    
    },{
     "name"        : "users-api",
-    "script"      : "app.js",
+    "script"      : "main.js",
     "args"        : ["--ports=../../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
@@ -28,7 +28,7 @@
     "env": { "NODE_ENV": "development" }    
    },{
     "name"        : "sessions-api",
-    "script"      : "app.js",
+    "script"      : "main.js",
     "args"        : ["--ports=../../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
@@ -37,7 +37,7 @@
     "env": { "NODE_ENV": "development" }    
    },{
     "name"        : "files-api",
-    "script"      : "app.js",
+    "script"      : "main.js",
     "args"        : ["--ports=../../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
@@ -46,7 +46,7 @@
     "env": { "NODE_ENV": "development" }
    },{
     "name"        : "apidocs",
-    "script"      : "app.js",
+    "script"      : "main.js",
     "args"        : ["--ports=../../config/local/ports.yml"],
     "merge_logs"  : true,
     "watch"       : true,
