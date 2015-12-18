@@ -4,13 +4,18 @@ let amqp = require('amqplib');
 let when = require('when');
 
 module.exports.consumeMessage = (queue, host, callback) => {
-  amqp.connect(host).then(function(conn) {
-    process.once('SIGINT', function() { conn.close(); });
-    return conn.createChannel().then(function(ch) {
-      let ok = ch.assertQueue(queue);
-      ok = ok.then(function() {
-        return ch.consume(queue, callback, {noAck: true});
+  amqp.connect(host)
+    .then((conn) => {
+      process.once('SIGINT', () => {
+        conn.close();
       });
-     });
-  }).then(null, console.warn);
-}
+
+      return conn.createChannel().then((ch) => {
+        return ch.assertQueue(queue)
+          .then(() => {
+            return ch.consume(queue, callback, { noAck: true });
+          });
+      });
+    })
+    .then(null, console.warn);
+  }

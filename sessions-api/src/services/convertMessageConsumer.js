@@ -23,10 +23,10 @@ module.exports.listen = (config) => {
     let content = JSON.parse(msg.content);
     console.log('MESSAGE RECEIVED', content);
     
-    let originalFileId   = content.originalFileId,
-        convertStatus    = content.convertStatus,
-        convertedFileIds = content.convertedFileIds || null;
-        
+    let originalFileId   = content.originalFileId;
+    let convertStatus    = content.convertStatus;
+    let convertedFileIds = content.convertedFileIds || null;
+    
     sessionService.getSessionIdByFileId(originalFileId)
       .then((sessionId) => {
         

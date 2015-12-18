@@ -23,7 +23,6 @@ function initialize(conf) {
  */
 router.put('/files', upload.single('file'), (request, response) => {
   let uploadedFile = request.file;
-  console.log(request.file);
 
   let file = new FileModel({
     filesystem_location: path.join(__dirname, '../' + uploadedFile.path),
