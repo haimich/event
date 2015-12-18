@@ -48,8 +48,8 @@ router.get('/sessions/:id', (request, response) => {
         response.json(session);
       }
     })
-    .catch((err) => {
-      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    .catch((error) => {
+      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
     });
 });
 
@@ -69,35 +69,29 @@ router.put('/sessions', (request, response) => {
     .then((sessionId) => {
       if (sessionModel.files === null || sessionModel.files === undefined || sessionModel.files.length === 0) {
         return response.status(status.CREATED).json({ id: sessionId });
-      } else {
-        // create session files
-        sessionService.createSessionFiles(sessionId, sessionModel.files)
-          .then(() => {
-            // start converting
-            console.log('TODO: startConvertProcess');
-            return response.status(status.CREATED).json({ id: sessionId });
-            // startConvertProcess(sessionModel.files)
-            //   .then(() => {
-            //     return response.status(status.CREATED).json({ id: sessionId });
-            //   })
-            //   .catch((err) => {
-            //     return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
-            // });
-          })
-          .catch((err) => {
-            return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
-          })
       }
+      
+      // create session files
+      sessionService.createSessionFiles(sessionId, sessionModel.files)
+        .then(() => {
+          // start converting
+          console.log('Starting convert process');
+          
+          startConvertProcess(sessionModel.files)
+            .then(() => {
+              return response.status(status.CREATED).json({ id: sessionId });
+            });
+        });
     })
-    .catch((err) => {
-      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    .catch((error) => {
+      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
     })
 });
 
 function startConvertProcess(files) {
   let promises = [];
   
-  for (let file in files) {
+  for (let file of files) {
     promises.push(request({
       url: baseUrl + '/files/' + file.id + '/convert',
       method: 'PATCH'
