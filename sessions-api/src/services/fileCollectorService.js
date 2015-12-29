@@ -51,7 +51,7 @@ function handleConvertError(sessionId, originalFileId, error) {
 
 function handleSimpleFile(sessionId, originalFileId) {
   return updateState(sessionId, originalFileId, SessionFileStates.OK.value)
-    .then(() => checkCompletenessAndShare(sessionId));
+    .then(() => checkCompletenessAndShare(sessionId, originalFileId));
 }
 
 /* More complex case (eg. a video got uploaded and was converted into two videos) */
@@ -81,10 +81,10 @@ function handleSimpleFile(sessionId, originalFileId) {
 // }
 
 
-function checkCompletenessAndShare(sessionId) {
+function checkCompletenessAndShare(sessionId, originalFileId) {
   return sessionService.getSessionFilesBySessionId(sessionId)
     .then((sessionFiles) => {
-      if (areSessionfilesComplete(sessionFiles) && isNewest(sessionId, sessionFiles)) {
+      if (areSessionfilesComplete(sessionFiles) && isNewest(sessionId, originalFileId, sessionFiles)) {
         
       }
     });
@@ -119,8 +119,21 @@ module.exports.areSessionfilesComplete = (sessionFiles) => {
   return allComplete;
 }
 
-module.exports.isNewest = (sessionId, sessionFiles) => {
-  // sessionFiles.sort((a, b) => {
-  //   a.
-  // })
+module.exports.isNewestSessionFile = (sessionId, originalFileId, sessionFiles) => {
+  let timestamps = sessionFiles.map(element => element.unix_timestamp);
+  let maxTimestamp = Math.max.apply(null, timestamps);
+  let sessionTimestamp = null;
+  
+  for (let sf of sessionFiles) {
+    if (sf.session_id === sessionId && sf.file_id === originalFileId) {
+      sessionTimestamp = sf.unix_timestamp;
+      break;
+    }
+  }
+  
+  if (sessionTimestamp === maxTimestamp) {
+    return true;
+  } else {
+    return false;
+  }
 }
