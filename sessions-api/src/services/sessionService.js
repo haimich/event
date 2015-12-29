@@ -1,7 +1,7 @@
 'use strict';
 
 let sessionRepo = require('../repos/sessionRepo');
-let SessionFile = require('../models/sessionFileModel');
+let SessionFile = require('../models/SessionFile');
 
 module.exports.getSessions = () => {
   return sessionRepo.getSessions();

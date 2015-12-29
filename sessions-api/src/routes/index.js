@@ -1,6 +1,6 @@
 'use strict';
 
-let Session = require('../models/sessionModel');
+let Session = require('../models/Session');
 let sessionService = require('../services/sessionService');
 let fileService = require('../services/fileService');
 

@@ -3,22 +3,16 @@
 let sessionService = require('./sessionService');
 let shareService = require('./shareService');
 
-let SessionFileModel = require('../models/sessionFileModel');
-let SessionStates = require('../models/sessionStates')
+let SessionFile = require('../models/SessionFile');
+let SessionStates = require('../models/SessionStates');
+let SessionFileStates = require('../models/SessionFileStates');
+let SessionFileTypes = require('../models/SessionFileTypes');
 
 const CONVERT_STATUS = {
   FAILED: 'failed',
   FINISHED: 'finished'
-}
-const SESSION_FILE_STATE = {
-  ERROR: 'error',
-  OK: 'ok'
 };
-const SESSION_FILE_TYPE = {
-  SLIDES: 'slides',
-  VIDEO: 'video',
-  SCREENSHOT: 'screenshot'
-};
+
 
 module.exports.handleMessage = (content) => {
   let originalFileId   = content.originalFileId;
@@ -52,11 +46,11 @@ function updateState(sessionId, originalFileId, newState) {
 
 function handleConvertError(sessionId, originalFileId, error) {
   console.warn(`Converted file ${originalFileId} had an error: ${error}`);
-  return updateState(sessionId, originalFileId, SESSION_FILE_STATE.ERROR);
+  return updateState(sessionId, originalFileId, SessionFileStates.ERROR.value);
 }
 
 function handleSimpleFile(sessionId, originalFileId) {
-  return updateState(sessionId, originalFileId, SESSION_FILE_STATE.OK)
+  return updateState(sessionId, originalFileId, SessionFileStates.OK.value)
     .then(() => checkCompletenessAndShare(sessionId));
 }
 
@@ -64,7 +58,7 @@ function handleSimpleFile(sessionId, originalFileId) {
 // function handleConvertedFiles(sessionId, originalFileId, convertedFileIds) {
   
 //   convertedFileIds.forEach(function(convertedFileId) {
-//     let sessionFileModel = new SessionFileModel(sessionId, convertedFileId, 'video'); //TODO could be another type than video!
+//     let sessionFileModel = new SessionFile(sessionId, convertedFileId, 'video'); //TODO could be another type than video!
 //     sessionFileModel.state = 'ok';
     
 //     sessionService.createSessionFile(sessionFileModel, function(err) {
@@ -88,51 +82,45 @@ function handleSimpleFile(sessionId, originalFileId) {
 
 
 function checkCompletenessAndShare(sessionId) {
-  areSessionfilesComplete(sessionId)
-    .then((allComplete) => {
-      console.log('GOT', allComplete);
-      
-      if (allComplete) {
-        isSessionPublished(sessionId)
-          .then((isPublished) => {
-            if (isPublished) {
-              console.log('Already published! SessionId: ' + sessionId);
-            } else {
-              console.log('All files there, yayyy! SessionId: ' + sessionId);
-              
-              sessionService.updateSessionState(sessionId, SessionStates.get('published').value)
-                .then(() => shareService.shareSession(sessionId));
-            }
-          });
-      } else {
-        console.log('Not yet, young padawan! SessionId: ' + sessionId);            
-      }
-  });
-}
-
-function areSessionfilesComplete(sessionId) {
   return sessionService.getSessionFilesBySessionId(sessionId)
-    .then((results) => {
-      let allComplete = true;
-      
-      for (let sessionFile of results) {
-        if (sessionFile.state !== SESSION_FILE_STATE.OK) {
-          allComplete = false;
-          break;
-        }
+    .then((sessionFiles) => {
+      if (areSessionfilesComplete(sessionFiles) && isNewest(sessionId, sessionFiles)) {
+        
       }
-      
-      return allComplete;
     });
+  
+  // areSessionfilesComplete(sessionId)
+  //   .then((allComplete) => {
+  //     console.log('GOT', allComplete);
+      
+  //     if (allComplete) {
+  //             console.log('All files there, yayyy! SessionId: ' + sessionId);
+              
+  //             sessionService.updateSessionState(sessionId, SessionStates.published.value)
+  //               .then(() => shareService.shareSession(sessionId));
+  //           }
+  //         });
+  //     } else {
+  //       console.log('Not yet, young padawan! SessionId: ' + sessionId);            
+  //     }
+  // });
 }
 
-function isSessionPublished(sessionId) {
-  return sessionService.getSessionById(sessionId)
-    .then((session) => {
-      if (session.session_state_id === SessionStates.get('published').value) {
-        return true;
-      } else {
-        return false;
-      }
-    })
+module.exports.areSessionfilesComplete = (sessionFiles) => {
+  let allComplete = true;
+  
+  for (let sessionFile of sessionFiles) {
+    if (sessionFile.state !== SessionFileStates.OK.value) {
+      allComplete = false;
+      break;
+    }
+  }
+  
+  return allComplete;
+}
+
+module.exports.isNewest = (sessionId, sessionFiles) => {
+  // sessionFiles.sort((a, b) => {
+  //   a.
+  // })
 }

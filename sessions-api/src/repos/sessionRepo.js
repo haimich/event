@@ -1,7 +1,7 @@
 'use strict';
 
 let dbHelper = require('../helpers/db');
-let SessionStates = require('../models/sessionStates');
+let SessionStates = require('../models/SessionStates');
 let dateHelper = require('../helpers/date');
 let moment = require('moment');
 let _ = require('lodash');

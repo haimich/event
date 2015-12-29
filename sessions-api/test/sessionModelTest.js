@@ -1,11 +1,10 @@
 'use strict';
 
 let should = require('chai').should();
-let Session = require('../src/models/sessionModel');
+let Session = require('../src/models/Session');
 
 describe('Session', function() {
   it('should create a Session object', function() {
-
   	let options = {
   		id: 0,
       title: 'Title',
