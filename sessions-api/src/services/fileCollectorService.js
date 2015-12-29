@@ -88,33 +88,51 @@ function handleSimpleFile(sessionId, originalFileId) {
 
 
 function checkCompletenessAndShare(sessionId) {
-  checkIfSessionComplete(sessionId)
-    .then((isComplete) => {
-      if (isComplete) {
-        console.log('All files there, yayyy! SessionId: ' + sessionId);
-        
-        sessionService.updateSessionState(sessionId, SessionStates.get('published').value)
-          .then(() => shareService.shareSession(sessionId));
+  areSessionfilesComplete(sessionId)
+    .then((allComplete) => {
+      console.log('GOT', allComplete);
+      
+      if (allComplete) {
+        isSessionPublished(sessionId)
+          .then((isPublished) => {
+            if (isPublished) {
+              console.log('Already published! SessionId: ' + sessionId);
+            } else {
+              console.log('All files there, yayyy! SessionId: ' + sessionId);
+              
+              sessionService.updateSessionState(sessionId, SessionStates.get('published').value)
+                .then(() => shareService.shareSession(sessionId));
+            }
+          });
       } else {
         console.log('Not yet, young padawan! SessionId: ' + sessionId);            
       }
   });
 }
 
-function checkIfSessionComplete(sessionId, callback) {
+function areSessionfilesComplete(sessionId) {
   return sessionService.getSessionFilesBySessionId(sessionId)
     .then((results) => {
-      let isComplete = true;
+      let allComplete = true;
+      
       for (let sessionFile of results) {
-        if (sessionFile.state === null || sessionFile.state === SESSION_FILE_STATE.ERROR) {
-          isComplete = false;
+        if (sessionFile.state !== SESSION_FILE_STATE.OK) {
+          allComplete = false;
           break;
         }
       }
       
-      return isComplete;
-    })
-    .catch((error) => {
-      console.warn('Could not get session file for sessionId', sessionId);
+      return allComplete;
     });
+}
+
+function isSessionPublished(sessionId) {
+  return sessionService.getSessionById(sessionId)
+    .then((session) => {
+      if (session.session_state_id === SessionStates.get('published').value) {
+        return true;
+      } else {
+        return false;
+      }
+    })
 }
