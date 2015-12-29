@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "echo '>> Use pm2 to start this service!'",
-    "test": "mocha",
-    "watch:test": "chokidar *.js src/*.js src/**/*.js test/**/*.js test/*.js -c mocha"
+    "test": "mocha test/**/*.js",
+    "watch:test": "chokidar *.js src/*.js src/**/*.js test/**/*.js test/*.js -c 'npm test'"
   },
   "repository": {
     "type": "git",

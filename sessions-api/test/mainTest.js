@@ -11,9 +11,9 @@ const SESSIONS_TABLE = 'sessions',
 describe('PUT /sessions', () => {
   
   let testFiles = [
-        { mime_type: 'image/png' },
-        { mime_type: 'presentation/keynote' },
-        { mime_type: 'video/mp4' }
+        { mime_type: 'image/png', filesystem_location: '/files-api/public/28544f058a95a67860afadd3477450eb' },
+        { mime_type: 'presentation/keynote', filesystem_location: '/files-api/public/9f6402d028b304fef790ba62f6a3e8cf' },
+        { mime_type: 'video/mp4', filesystem_location: '/files-api/public/2e0667c721b0378da915d0bd2628640f' }
       ];
   let fileIds = null;
   
