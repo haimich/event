@@ -7,15 +7,20 @@ let File = require('../models/fileModel');
 let fs = require('fs');
 
 let fileDownloadBasePath = 'http://localhost:8080/event/api/files/download';
+let publicFolderPath = 'public';
 
 function createFile(fileModel) {
   let f = new File({
-    url : fileDownloadBasePath + '/' + fileModel.id,
+    url : getDownloadPath(fileModel),
     filesystem_location: fileModel.filesystemLocation, 
     mime_type: fileModel.mimetype
   });
   
   return fileService.createFile(f);
+}
+
+function getDownloadPath(fileModel) {
+  return fileDownloadBasePath + '/' + fileModel.id;
 }
 
 function sendErrorMessage(err, config) {
@@ -69,14 +74,14 @@ function handleVideoFile(fileModel, config) {
  * folder and update the row in the database. Then a message is sent to the queue.
  */
 function handleNonVideoFile(fileModel, config) {
-  let currentLocation = fileModel.filesystem_location,                    //home/juicebox/Code/event/file-api/uploads/image.png
-      loc = currentLocation.lastIndexOf('/'),
-      filename = currentLocation.substr(loc + 1, currentLocation.length); //image.png
+  let currentLocation = fileModel.filesystem_location;                    //home/juicebox/Code/event/file-api/uploads/image.png
+  let loc = currentLocation.lastIndexOf('/');
+  let filename = currentLocation.substr(loc + 1, currentLocation.length); //image.png
   
-  let currentFolder = currentLocation.substr(0, loc - 1),                 //home/juicebox/Code/event/file-api/uploads
-      loc2 = currentFolder.lastIndexOf('/'),
-      basePath = currentFolder.substr(0, loc2),                           //home/juicebox/Code/event/file-api
-      newLocation = basePath + '/public/' + filename;                     //home/juicebox/Code/event/file-api/public/image.png
+  let currentFolder = currentLocation.substr(0, loc - 1);                 //home/juicebox/Code/event/file-api/uploads
+  let loc2 = currentFolder.lastIndexOf('/');
+  let basePath = currentFolder.substr(0, loc2);                           //home/juicebox/Code/event/file-api
+  let newLocation = `${basePath}/${publicFolderPath}/${filename}`;        //home/juicebox/Code/event/file-api/public/image.png
   
   //move file to public folder
   fs.rename(currentLocation, newLocation, (err) => {
@@ -86,7 +91,7 @@ function handleNonVideoFile(fileModel, config) {
     }
     
     fileModel.filesystem_location = newLocation;
-    fileModel.url = fileDownloadBasePath + '/' + fileModel.id;
+    fileModel.url = getDownloadPath(fileModel);
     
     fileService.updateFile(fileModel)
       .then(() => {
