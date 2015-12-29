@@ -1,3 +1,5 @@
+'use strict';
+
 let request = require('request-promise');
 let baseUrl = 'http://localhost:8080/event/api';
 

@@ -31,9 +31,9 @@ function sendErrorMessage(config, fileModelId, err) {
   };
   
   if (err.stack) {
-    console.log('Sending message', msg.stack);
+    console.log('Sending message with error', err.stack);
   } else {
-    console.log('Sending message', msg);
+    console.log('Sending message with error', err);
   }
   messageService.sendConvertFinishedMessage(msg, config);
 }
@@ -118,9 +118,9 @@ function handleVideoFile(fileModel, config) {
  */
 function handleNonVideoFile(fileModel, config) {
   let currentLocation = fileModel.filesystem_location;
-  let newLocation = getNewLocation();
+  let newLocation = getNewLocation(currentLocation);
   
-  moveFileToPublicFolder(currentLocation, newLocation)
+  moveFileToPublicFolder(fileModel, currentLocation, newLocation, config)
     .then(() => {
       fileModel.filesystem_location = newLocation;
       fileModel.url = getDownloadPath(fileModel);
