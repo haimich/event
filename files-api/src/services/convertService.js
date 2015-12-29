@@ -23,7 +23,7 @@ function getDownloadPath(fileModel) {
   return fileDownloadBasePath + '/' + fileModel.id;
 }
 
-function sendErrorMessage(err, config) {
+function sendErrorMessage(config, err) {
   let msg = {
     convertStatus: 'failed',
     error: err
@@ -68,12 +68,12 @@ function handleVideoFile(fileModel, config) {
             }
           })
           .catch((err) => {
-            return sendErrorMessage(err, config);
+            return sendErrorMessage(config, err);
           });
       }
     })
     .catch((err) => {
-      return sendErrorMessage(err, config);
+      return sendErrorMessage(config, err);
     });
 }
 
@@ -94,7 +94,7 @@ function handleNonVideoFile(fileModel, config) {
   //move file to public folder
   fs.rename(currentLocation, newLocation, (err) => {
     if (err) {
-      sendErrorMessage(err, config);
+      sendErrorMessage(config, err);
       return;
     }
     
@@ -107,7 +107,7 @@ function handleNonVideoFile(fileModel, config) {
         sendSuccessMessage(config, fileModel.id);
       })
       .catch((err) => {
-        return sendErrorMessage(err, config);
+        return sendErrorMessage(config, err);
       })
   });  
 }
@@ -122,6 +122,6 @@ module.exports.convertFile = (fileId, config) => {
       }
     })
     .catch((err) => {
-      return sendErrorMessage(err, config);
+      return sendErrorMessage(config, err);
     });
 }
