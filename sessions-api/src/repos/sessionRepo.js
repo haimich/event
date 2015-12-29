@@ -51,7 +51,7 @@ module.exports.getSessionIdByFileId = (id) => {
   return dbHelper.getInstance()
     .select('*')
     .from('session_files')
-    .where('id', id)
+    .where('file_id', id)
     .first();
 }
 
