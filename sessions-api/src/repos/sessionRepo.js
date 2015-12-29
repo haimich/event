@@ -1,8 +1,8 @@
 'use strict';
 
-let dbHelper = require('../helpers/db'),
-    SessionStates = require('../models/sessionStatesModel'),
-    _ = require('lodash');
+let dbHelper = require('../helpers/db');
+let SessionStates = require('../models/sessionStates');
+let _ = require('lodash');
 
 module.exports.getSessions = () => {
   let knex = dbHelper.getInstance();
@@ -43,16 +43,17 @@ module.exports.createSessionFile = (sessionFileModel) => {
     .then((idArray) => idArray[0]);
 }
 
-module.exports.getSessionIdByFileId = (id) => {
-  if (isNaN(id) === true) {
-    throw new Error(id + ' is not a number');
+module.exports.getSessionIdByFileId = (fileId) => {
+  if (isNaN(fileId) === true) {
+    throw new Error(fileId + ' is not a number');
   }
   
   return dbHelper.getInstance()
     .select('*')
     .from('session_files')
-    .where('file_id', id)
-    .first();
+    .where('file_id', fileId)
+    .first()
+    .then((session) => session.session_id);
 }
 
 /* Return session_files with some file infos */
@@ -76,7 +77,7 @@ exports.updateSessionFileState = (sessionId, fileId, newState) => {
   return dbHelper.getInstance()('session_files')
     .update('state', newState )
     .where('session_id', sessionId)
-    .where('file_id', fileId);
+    .andWhere('file_id', fileId);
 }
 
 exports.updateSessionState = (sessionId, newState) => {

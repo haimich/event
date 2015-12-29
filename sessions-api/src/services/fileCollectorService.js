@@ -2,6 +2,7 @@
 
 let sessionService = require('./sessionService');
 let SessionFileModel = require('../models/sessionFileModel');
+let SessionStates = require('../models/sessionStates')
 
 const CONVERT_STATUS = {
   FAILED: 'failed',
@@ -35,8 +36,8 @@ module.exports.handleMessage = (content) => {
         handleSimpleFile(sessionId, originalFileId);
       }
     })
-    .catch((err) => {
-      console.warn('Could not get session id for file id', originalFileId);
+    .catch((error) => {
+      console.warn('An error occured during handleMessage for fileId', originalFileId, error.stack);
     });
 }
 
@@ -93,21 +94,16 @@ function checkCompletenessAndShare(sessionId) {
       if (isComplete) {
         console.log('All files there, yayyy! SessionId: ' + sessionId);
         
-        sessionService.updateSessionState(sessionId, 2, function(err3) { //TODO 2 should be an enum
-          shareSession(sessionId);
-        });
+        sessionService.updateSessionState(sessionId, SessionStates.get('published').value)
+          .then(() => shareSession(sessionId));
       } else {
         console.log('Not yet, young padawan! SessionId: ' + sessionId);            
       }
   });
 }
 
-// function setSessionFileState(sessionId, fileId, newState, callback) {
-//   sessionService.updateSessionFileState(sessionId, fileId, newState, callback);
-// }
-
 function checkIfSessionComplete(sessionId, callback) {
-  sessionService.getSessionFilesBySessionId(sessionId)
+  return sessionService.getSessionFilesBySessionId(sessionId)
     .then((results) => {
       let isComplete = true;
       for (let sessionFile of results) {
@@ -122,6 +118,10 @@ function checkIfSessionComplete(sessionId, callback) {
     .catch((error) => {
       console.warn('Could not get session file for sessionId', sessionId);
     });
+}
+
+function shareSession(sessionId) {
+  console.log('ALL DONE! CHEERS', sessionId);
 }
 
 // function shareSession(sessionId) {
