@@ -8,13 +8,11 @@ let fs = require('fs');
 
 let fileDownloadBasePath = 'http://localhost:8080/event/api/files/download';
 
-function createFile(file) {
-  let loc = file.filesystemLocation.lastIndexOf('/');
-  let filename = file.filesystemLocation.substr(loc + 1, loc.length);
+function createFile(fileModel) {
   let f = new File({
-    url : fileDownloadBasePath + '/' + filename,
-    filesystem_location: file.filesystemLocation, 
-    mime_type: file.mimetype
+    url : fileDownloadBasePath + '/' + fileModel.id,
+    filesystem_location: fileModel.filesystemLocation, 
+    mime_type: fileModel.mimetype
   });
   
   return fileService.createFile(f);
@@ -88,7 +86,7 @@ function handleNonVideoFile(fileModel, config) {
     }
     
     fileModel.filesystem_location = newLocation;
-    fileModel.url = fileDownloadBasePath + '/' + filename;
+    fileModel.url = fileDownloadBasePath + '/' + fileModel.id;
     
     fileService.updateFile(fileModel)
       .then(() => {

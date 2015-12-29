@@ -58,7 +58,7 @@ router.patch('/files/:id/convert', (request, response) => {
  */
 router.get('/files/:id', (request, response) => {
   let fileId = request.params.id;
-    
+  
   if (isNaN(fileId) == true) {
     return response.status(status.PRECONDITION_FAILED).json({ error: 'No file id given' });
   }
@@ -66,6 +66,31 @@ router.get('/files/:id', (request, response) => {
   fileService.getFileById(fileId)
     .then((result) => {
       return response.json(result);
+    })
+    .catch((err) => {
+      return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    });
+});
+
+/**
+ * Returns a file.
+ */
+router.get('/files/download/:id/', (request, response) => {
+  let fileId = request.params.id;
+    
+  if (isNaN(fileId) == true) {
+    return response.status(status.PRECONDITION_FAILED).json({ error: 'No file id given' });
+  }
+  
+  fileService.getFileById(fileId)
+    .then((result) => {
+      let options = {
+        headers: {
+          'Content-Type': result.mime_type
+        }
+      };
+      
+      return response.sendFile(result.filesystem_location, options);
     })
     .catch((err) => {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
