@@ -82,7 +82,11 @@ router.put('/sessions', (request, response) => {
             .catch((error) => {
               return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
             });
-        });
+        })
+        .catch((error) => {
+          console.log(error.stack);
+          return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
+        })
     })
     .catch((error) => {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });

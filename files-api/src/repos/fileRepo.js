@@ -1,7 +1,7 @@
 'use strict';
 
-let dbHelper = require('../helpers/db'),
-    dateHelper = require('../helpers/date');
+let dbHelper = require('../helpers/db');
+let dateHelper = require('../helpers/date');
 
 module.exports.createFile = (fileModel) => {
   return dbHelper.getInstance()

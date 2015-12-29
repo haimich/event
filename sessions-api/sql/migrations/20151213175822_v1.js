@@ -63,8 +63,8 @@ function createSessionsTable(knex) {
     table.bigInteger('session_type_id').unsigned().defaultTo(0).references('id').inTable('session_type');
     table.bigInteger('session_state_id').unsigned().defaultTo(0).references('id').inTable('session_state');
     
-    table.timestamp('created_at').defaultTo(knex.fn.now());;
-    table.timestamp('modified_at').defaultTo(knex.fn.now());;
+    table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.timestamp('modified_at').defaultTo(knex.fn.now());
     
     table.index(['id'], 'index_id');
   });
@@ -77,6 +77,8 @@ function createSessionFilesTable(knex) {
     
     table.string('type');
     table.string('state');
+    
+    table.bigInteger('unix_timestamp');
     
     table.primary(['session_id', 'file_id']);
     table.index(['session_id'], 'index_session_id');
