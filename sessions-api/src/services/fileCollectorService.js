@@ -13,8 +13,7 @@ const CONVERT_STATUS = {
   FINISHED: 'finished'
 };
 
-
-module.exports.handleMessage = (content) => {
+function handleMessage(content) {
   let originalFileId   = content.originalFileId;
   let convertStatus    = content.convertStatus;
   let error            = content.error;
@@ -84,29 +83,19 @@ function handleSimpleFile(sessionId, originalFileId) {
 function checkCompletenessAndShare(sessionId, originalFileId) {
   return sessionService.getSessionFilesBySessionId(sessionId)
     .then((sessionFiles) => {
-      if (areSessionfilesComplete(sessionFiles) && isNewest(sessionId, originalFileId, sessionFiles)) {
+      if (areSessionfilesComplete(sessionFiles)
+          && isNewestSessionFile(sessionId, originalFileId, sessionFiles)) {
+        console.log('All files there, yayyy!');
         
+        sessionService.updateSessionState(sessionId, SessionStates.published.value)
+          .then(() => shareService.shareSession(sessionId));
+      } else {
+        console.log('Not yet, young padawan!');
       }
     });
-  
-  // areSessionfilesComplete(sessionId)
-  //   .then((allComplete) => {
-  //     console.log('GOT', allComplete);
-      
-  //     if (allComplete) {
-  //             console.log('All files there, yayyy! SessionId: ' + sessionId);
-              
-  //             sessionService.updateSessionState(sessionId, SessionStates.published.value)
-  //               .then(() => shareService.shareSession(sessionId));
-  //           }
-  //         });
-  //     } else {
-  //       console.log('Not yet, young padawan! SessionId: ' + sessionId);            
-  //     }
-  // });
 }
 
-module.exports.areSessionfilesComplete = (sessionFiles) => {
+function areSessionfilesComplete(sessionFiles) {
   let allComplete = true;
   
   for (let sessionFile of sessionFiles) {
@@ -119,7 +108,7 @@ module.exports.areSessionfilesComplete = (sessionFiles) => {
   return allComplete;
 }
 
-module.exports.isNewestSessionFile = (sessionId, originalFileId, sessionFiles) => {
+function isNewestSessionFile(sessionId, originalFileId, sessionFiles) {
   let timestamps = sessionFiles.map(element => element.unix_timestamp);
   let maxTimestamp = Math.max.apply(null, timestamps);
   let sessionTimestamp = null;
@@ -136,4 +125,8 @@ module.exports.isNewestSessionFile = (sessionId, originalFileId, sessionFiles) =
   } else {
     return false;
   }
+}
+
+module.exports = {
+  handleMessage, areSessionfilesComplete, isNewestSessionFile
 }
