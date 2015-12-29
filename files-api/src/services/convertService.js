@@ -23,11 +23,18 @@ function getDownloadPath(fileModel) {
   return fileDownloadBasePath + '/' + fileModel.id;
 }
 
-function sendErrorMessage(config, err) {
+function sendErrorMessage(config, fileModelId, err) {
   let msg = {
     convertStatus: 'failed',
+    originalFileId: fileModelId,
     error: err
   };
+  
+  if (err.stack) {
+    console.log('Sending message', msg.stack);
+  } else {
+    console.log('Sending message', msg);
+  }
   messageService.sendConvertFinishedMessage(msg, config);
 }
 
@@ -41,11 +48,39 @@ function sendSuccessMessage(config, fileModelId, convertedFileIds) {
     msg.convertedFileIds = convertedFileIds;
   }
   
+  console.log('Sending message', msg);  
   messageService.sendConvertFinishedMessage(msg, config);
 }
 
 function isVideo(fileModel) {
   return fileModel.mime_type.startsWith('application/octet-stream');
+}
+
+/**
+ * Input: eg. home/juicebox/Code/event/file-api/uploads/image.png
+ */
+function getNewLocation(currentLocation) {
+  let loc = currentLocation.lastIndexOf('/');
+  let filename = currentLocation.substr(loc + 1, currentLocation.length); //image.png
+  
+  let currentFolder = currentLocation.substr(0, loc - 1);                 //home/juicebox/Code/event/file-api/uploads
+  let loc2 = currentFolder.lastIndexOf('/');
+  let basePath = currentFolder.substr(0, loc2);                           //home/juicebox/Code/event/file-api
+  let newLocation = `${basePath}/${publicFolderPath}/${filename}`;        //home/juicebox/Code/event/file-api/public/image.png
+  
+  return newLocation;
+}
+
+function moveFileToPublicFolder(fileModel, currentLocation, newLocation, config) {
+  return new Promise((resolve, reject) => { 
+    fs.rename(currentLocation, newLocation, (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
 }
 
 /** 
@@ -68,12 +103,12 @@ function handleVideoFile(fileModel, config) {
             }
           })
           .catch((err) => {
-            return sendErrorMessage(config, err);
+            return sendErrorMessage(config, fileModel.id, err);
           });
       }
     })
     .catch((err) => {
-      return sendErrorMessage(config, err);
+      return sendErrorMessage(config, fileModel.id, err);
     });
 }
 
@@ -82,46 +117,30 @@ function handleVideoFile(fileModel, config) {
  * folder and update the row in the database. Then a message is sent to the queue.
  */
 function handleNonVideoFile(fileModel, config) {
-  let currentLocation = fileModel.filesystem_location;                    //home/juicebox/Code/event/file-api/uploads/image.png
-  let loc = currentLocation.lastIndexOf('/');
-  let filename = currentLocation.substr(loc + 1, currentLocation.length); //image.png
+  let currentLocation = fileModel.filesystem_location;
+  let newLocation = getNewLocation();
   
-  let currentFolder = currentLocation.substr(0, loc - 1);                 //home/juicebox/Code/event/file-api/uploads
-  let loc2 = currentFolder.lastIndexOf('/');
-  let basePath = currentFolder.substr(0, loc2);                           //home/juicebox/Code/event/file-api
-  let newLocation = `${basePath}/${publicFolderPath}/${filename}`;        //home/juicebox/Code/event/file-api/public/image.png
-  
-  //move file to public folder
-  fs.rename(currentLocation, newLocation, (err) => {
-    if (err) {
-      sendErrorMessage(config, err);
-      return;
-    }
-    
-    fileModel.filesystem_location = newLocation;
-    fileModel.url = getDownloadPath(fileModel);
-    
-    fileService.updateFile(fileModel)
-      .then(() => {
-        //Success!
-        sendSuccessMessage(config, fileModel.id);
-      })
-      .catch((err) => {
-        return sendErrorMessage(config, err);
-      })
-  });  
+  moveFileToPublicFolder(currentLocation, newLocation)
+    .then(() => {
+      fileModel.filesystem_location = newLocation;
+      fileModel.url = getDownloadPath(fileModel);
+      
+      return fileService.updateFile(fileModel);
+    })
+    .then(() => sendSuccessMessage(config, fileModel.id))
+    .catch((err) => sendErrorMessage(config, fileModel.id, err));
 }
 
 module.exports.convertFile = (fileId, config) => {
-  return fileService.getFileById(fileId)
+  fileService.getFileById(fileId)
     .then((fileModel) => {
-      if (! isVideo(fileModel)) {
-        handleNonVideoFile(fileModel, config);
-      } else {
+      if (isVideo(fileModel)) {
         handleVideoFile(fileModel, config);
+      } else {
+        handleNonVideoFile(fileModel, config);
       }
     })
     .catch((err) => {
-      return sendErrorMessage(config, err);
+      sendErrorMessage(config, fileId, err);
     });
 }

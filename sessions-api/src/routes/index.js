@@ -2,14 +2,13 @@
 
 let Session = require('../models/sessionModel');
 let sessionService = require('../services/sessionService');
+let fileCollectorService = require('../services/fileCollectorService');
 let request = require('request-promise');
 
 let path = require('path');
 let express = require('express');
 let router = express.Router();
 let status = require('http-status');
-
-let baseUrl = 'http://localhost:8080/event/api';
 
 let config = null;
 
@@ -77,9 +76,12 @@ router.put('/sessions', (request, response) => {
           // start converting
           console.log('Starting convert process');
           
-          startConvertProcess(sessionModel.files)
+          fileCollectorService.startConvertProcess(sessionModel.files)
             .then(() => {
               return response.status(status.CREATED).json({ id: sessionId });
+            })
+            .catch((error) => {
+              return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
             });
         });
     })
@@ -87,19 +89,6 @@ router.put('/sessions', (request, response) => {
       return response.status(status.INTERNAL_SERVER_ERROR).json({ error: error });
     })
 });
-
-function startConvertProcess(files) {
-  let promises = [];
-  
-  for (let file of files) {
-    promises.push(request({
-      url: baseUrl + '/files/' + file.id + '/convert',
-      method: 'PATCH'
-    }));
-  }
-  
-  return Promise.all(promises);
-}
 
 module.exports = {
   initialize, router
