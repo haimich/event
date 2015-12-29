@@ -20,16 +20,19 @@ const SESSION_FILE_TYPE = {
 module.exports.handleMessage = (content) => {
   let originalFileId   = content.originalFileId;
   let convertStatus    = content.convertStatus;
+  let error            = content.error;
   let convertedFileIds = content.convertedFileIds || null;
   
   sessionService.getSessionIdByFileId(originalFileId)
-    .then((sessionId) => {    
+    .then((sessionId) => {
       if (convertStatus === CONVERT_STATUS.FAILED) {
-        console.warn('Got converted file with error - id: ' + originalFileId);
-        sessionService.updateSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.ERROR)
-          .catch((error) => {
-            console.warn('Error updating status to ERROR of session_file with file_id  ' + originalFileId + ' in session ' + sessionId, error);
-          })
+        return handleConvertError(sessionId, originalFileId, error);
+      }
+      
+      if (convertedFileIds !== null && convertedFileIds.length >= 1) {
+        handleConvertedFiles(sessionId, originalFileId, convertedFileIds);
+      } else {
+        handleSimpleFile(sessionId, originalFileId);
       }
     })
     .catch((err) => {
@@ -37,14 +40,20 @@ module.exports.handleMessage = (content) => {
     });
 }
 
+function updateState(sessionId, originalFileId, newState) {
+  return sessionService.updateSessionFileState(sessionId, originalFileId, newState)
+    .catch((error) => {
+      console.warn('Error updating status to ERROR for file_id ' + originalFileId, error);
+    })
+}
 
+function handleConvertError(sessionId, originalFileId, error) {
+  console.warn(`Converted file ${originalFileId} had an error: ${error}`);
+  return updateState(sessionId, originalFileId, SESSION_FILE_STATE.ERROR);
+}
 
       
-      // if (convertedFileIds !== null && convertedFileIds.length >= 1) {
-      //   handleConvertedFiles(sessionId, originalFileId, convertedFileIds);
-      // } else {
-      //   handleSimpleFile(sessionId, originalFileId);
-      // }
+      
 
 
 /* More complex case (eg. a video got uploaded and was converted into two videos) */
@@ -73,55 +82,47 @@ module.exports.handleMessage = (content) => {
 //   });
 // }
 
-// function handleSimpleFile(sessionId, originalFileId) {
-//   setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.OK, function(error) {
-//     if (error !== null) {
-//       console.warn('Error updating status to OK of session_file with file_id ' + originalFileId + ' in session ' + sessionId, error);
-//       return;          
-//     }
-//     checkCompletenessAndShare(sessionId);
-//   });
-// }
+function handleSimpleFile(sessionId, originalFileId) {
+  return updateState(sessionId, originalFileId, SESSION_FILE_STATE.OK)
+    .then(() => checkCompletenessAndShare(sessionId));
+}
 
-// function checkCompletenessAndShare(sessionId) {
-//   checkIfSessionComplete(sessionId, function(err, isComplete) {
-//     if (err !== null) {
-//       console.warn('CheckIfSessionComplete failed for sessionId ' + sessionId, err);
-//       return;
-//     }
-//     if (isComplete) {
-//       console.log('All files there, yayyy! SessionId: ' + sessionId);
-      
-//       sessionService.updateSessionState(sessionId, 2, function(err3) { //TODO 2 should be an enum
-//         shareSession(sessionId);
-//       });
-//     } else {
-//       console.log('Not yet, boooh! SessionId: ' + sessionId);            
-//     }
-//   });
-// }
+function checkCompletenessAndShare(sessionId) {
+  checkIfSessionComplete(sessionId)
+    .then((isComplete) => {
+      if (isComplete) {
+        console.log('All files there, yayyy! SessionId: ' + sessionId);
+        
+        sessionService.updateSessionState(sessionId, 2, function(err3) { //TODO 2 should be an enum
+          shareSession(sessionId);
+        });
+      } else {
+        console.log('Not yet, young padawan! SessionId: ' + sessionId);            
+      }
+  });
+}
 
 // function setSessionFileState(sessionId, fileId, newState, callback) {
 //   sessionService.updateSessionFileState(sessionId, fileId, newState, callback);
 // }
 
-// function checkIfSessionComplete(sessionId, callback) {
-//   sessionService.getSessionFilesBySessionId(sessionId, function(err, results) {
-//     if (err !== null) {
-//       callback(err, false);
-//       return;
-//     } else {
-//       let isComplete = true;
-//       results.forEach(function(sessionFile) {
-//         if (sessionFile.state === null || sessionFile.state === SESSION_FILE_STATE.ERROR) {
-//           isComplete = false;
-//         }
-//       });
+function checkIfSessionComplete(sessionId, callback) {
+  sessionService.getSessionFilesBySessionId(sessionId)
+    .then((results) => {
+      let isComplete = true;
+      for (let sessionFile of results) {
+        if (sessionFile.state === null || sessionFile.state === SESSION_FILE_STATE.ERROR) {
+          isComplete = false;
+          break;
+        }
+      }
       
-//       callback(null, isComplete);
-//     }
-//   })
-// }
+      return isComplete;
+    })
+    .catch((error) => {
+      console.warn('Could not get session file for sessionId', sessionId);
+    });
+}
 
 // function shareSession(sessionId) {
 //   sessionService.getSessionById(sessionId, function(err, session) {
