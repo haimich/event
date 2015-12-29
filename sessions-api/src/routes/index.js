@@ -2,8 +2,7 @@
 
 let Session = require('../models/sessionModel');
 let sessionService = require('../services/sessionService');
-let fileCollectorService = require('../services/fileCollectorService');
-let request = require('request-promise');
+let fileService = require('../services/fileService');
 
 let path = require('path');
 let express = require('express');
@@ -76,7 +75,7 @@ router.put('/sessions', (request, response) => {
           // start converting
           console.log('Starting convert process');
           
-          fileCollectorService.startConvertProcess(sessionModel.files)
+          fileService.startConvertProcess(sessionModel.files)
             .then(() => {
               return response.status(status.CREATED).json({ id: sessionId });
             })
