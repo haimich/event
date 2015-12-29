@@ -2,6 +2,7 @@
 
 let dbHelper = require('../helpers/db');
 let SessionStates = require('../models/sessionStates');
+let dateHelper = require('../helpers/date');
 let _ = require('lodash');
 
 module.exports.getSessions = () => {
@@ -75,7 +76,10 @@ exports.updateSessionFileState = (sessionId, fileId, newState) => {
   }
   
   return dbHelper.getInstance()('session_files')
-    .update('state', newState )
+    .update({
+      state: newState,
+      modified_at: dateHelper.getCurrentTimestamp()
+    })
     .where('session_id', sessionId)
     .andWhere('file_id', fileId);
 }
