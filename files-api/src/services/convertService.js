@@ -31,6 +31,19 @@ function sendErrorMessage(err, config) {
   messageService.sendConvertFinishedMessage(msg, config);
 }
 
+function sendSuccessMessage(config, fileModelId, convertedFileIds) {
+  let msg = {
+    convertStatus: 'finished',
+    originalFileId: fileModelId
+  };
+  
+  if (convertedFileIds) {
+    msg.convertedFileIds = convertedFileIds;
+  }
+  
+  messageService.sendConvertFinishedMessage(msg, config);
+}
+
 function isVideo(fileModel) {
   return fileModel.mime_type.startsWith('application/octet-stream');
 }
@@ -41,7 +54,7 @@ function isVideo(fileModel) {
  * - sends a message to the queue when done (or when an error occurs)
  */
 function handleVideoFile(fileModel, config) {
-  return converter.start(fileModel.filesystem_location, 'public')
+  return converter.start(fileModel.filesystem_location, publicFolderPath)
     .then((convertedFiles) => {
       let convertedFileIds = [];
       
@@ -51,12 +64,7 @@ function handleVideoFile(fileModel, config) {
             convertedFileIds.push(fileId);
             
             if (convertedFileIds.length == convertedFiles.length) {
-              let msg = {
-                originalFileId: fileModel.id,
-                convertedFileIds: convertedFileIds,
-                convertStatus: 'finished'
-              }
-              messageService.sendConvertFinishedMessage(msg, config);
+              sendSuccessMessage(config, fileModel.id, convertedFileIds);
             }
           })
           .catch((err) => {
@@ -96,11 +104,7 @@ function handleNonVideoFile(fileModel, config) {
     fileService.updateFile(fileModel)
       .then(() => {
         //Success!
-        let msg = {
-          convertStatus: 'finished',
-          originalFileId: fileModel.id
-        };
-        messageService.sendConvertFinishedMessage(msg, config);
+        sendSuccessMessage(config, fileModel.id);
       })
       .catch((err) => {
         return sendErrorMessage(err, config);
