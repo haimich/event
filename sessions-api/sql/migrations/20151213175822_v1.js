@@ -78,7 +78,7 @@ function createSessionFilesTable(knex) {
     table.string('type');
     table.string('state');
     
-    table.bigInteger('unix_timestamp');
+    table.bigInteger('modified_timestamp');
     
     table.primary(['session_id', 'file_id']);
     table.index(['session_id'], 'index_session_id');

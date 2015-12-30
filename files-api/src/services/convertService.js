@@ -1,13 +1,13 @@
 'use strict';
 
-let converter = require('../convert/convertVideo');
+let videoConverter = require('../convert/videoConverter');
 let messageService = require('../services/messageService');
 let fileService = require('../services/fileService');
 let File = require('../models/fileModel');
 let fs = require('fs');
 
-let fileDownloadBasePath = 'http://localhost:8080/event/api/files/download';
-let publicFolderPath = 'public';
+const fileDownloadBasePath = 'http://localhost:8080/event/api/files/download';
+const publicFolderPath = 'public';
 
 function createFile(fileModel) {
   let f = new File({
@@ -53,7 +53,8 @@ function sendSuccessMessage(config, fileModelId, convertedFileIds) {
 }
 
 function isVideo(fileModel) {
-  return fileModel.mime_type.startsWith('application/octet-stream');
+  return fileModel.mime_type.startsWith('application/octet-stream')
+    || fileModel.mime_type.startsWith('video/x-flv');
 }
 
 /**
@@ -89,26 +90,21 @@ function moveFileToPublicFolder(fileModel, currentLocation, newLocation, config)
  * - sends a message to the queue when done (or when an error occurs)
  */
 function handleVideoFile(fileModel, config) {
-  return converter.start(fileModel.filesystem_location, publicFolderPath)
-    .then((convertedFiles) => {
-      let convertedFileIds = [];
+  return videoConverter.convert(fileModel.filesystem_location, publicFolderPath)
+    .then(convertedFiles => {
+      let promises = null;
       
       for (let file of convertedFiles) {
-        createFile(file)
-          .then((fileId) => {
-            convertedFileIds.push(fileId);
-            
-            if (convertedFileIds.length == convertedFiles.length) {
-              sendSuccessMessage(config, fileModel.id, convertedFileIds);
-            }
-          })
-          .catch((err) => {
-            return sendErrorMessage(config, fileModel.id, err);
-          });
+        promises.push(createFile(file));
       }
+      
+      return Promise.all(promises);
     })
-    .catch((err) => {
-      return sendErrorMessage(config, fileModel.id, err);
+    .then(convertedFileIds => {
+      sendSuccessMessage(config, fileModel.id, convertedFileIds);
+    })
+    .catch(error => {
+      sendErrorMessage(config, fileModel.id, error);
     });
 }
 

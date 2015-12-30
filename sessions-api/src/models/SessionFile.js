@@ -6,6 +6,6 @@ module.exports = function SessionFile(session_id, file_id, type) {
   this.session_id = session_id;
   this.file_id = file_id;
   this.type = type;
-  this.unix_timestamp = moment().valueOf();
+  this.modified_timestamp = moment().valueOf();
   this.state = null; //DEFAULT value
 }

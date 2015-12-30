@@ -88,7 +88,8 @@ function checkCompletenessAndShare(sessionId, originalFileId) {
         console.log('All files there, yayyy!');
         
         sessionService.updateSessionState(sessionId, SessionStates.published.value)
-          .then(() => shareService.shareSession(sessionId));
+          .then(() => shareService.shareSession(sessionId))
+          .catch((error) => console.warn('Error in checkCompletenessAndShare', error.stack));
       } else {
         console.log('Not yet, young padawan!');
       }
@@ -109,13 +110,13 @@ function areSessionfilesComplete(sessionFiles) {
 }
 
 function isNewestSessionFile(sessionId, originalFileId, sessionFiles) {
-  let timestamps = sessionFiles.map(element => element.unix_timestamp);
+  let timestamps = sessionFiles.map(element => element.modified_timestamp);
   let maxTimestamp = Math.max.apply(null, timestamps);
   let sessionTimestamp = null;
   
   for (let sf of sessionFiles) {
     if (sf.session_id === sessionId && sf.file_id === originalFileId) {
-      sessionTimestamp = sf.unix_timestamp;
+      sessionTimestamp = sf.modified_timestamp;
       break;
     }
   }

@@ -8,3 +8,5 @@
 
 # ffmpeg
 sudo apt-get install ffmpeg
+
+# MAC: brew install ffmpeg --with-libvpx --with-libvorbis

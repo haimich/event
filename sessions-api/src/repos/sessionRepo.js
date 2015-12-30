@@ -79,7 +79,7 @@ exports.updateSessionFileState = (sessionId, fileId, newState) => {
   return dbHelper.getInstance()('session_files')
     .update({
       state: newState,
-      unix_timestamp: moment().valueOf()
+      modified_timestamp: moment().valueOf()
     })
     .where('session_id', sessionId)
     .andWhere('file_id', fileId);

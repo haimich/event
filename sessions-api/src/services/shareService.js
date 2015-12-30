@@ -1,78 +1,82 @@
+'use strict';
 
+let request = require('request-promise');
 
-module.exports.shareSession = (sessionId) => {
-  console.log('ALL DONE! CHEERS', sessionId);
+let sessionService = require('./sessionService');
+let SessionFileTypes = require('../models/SessionFileTypes');
+const SHARE_URL = 'http://localhost:4040/share';
+
+function shareSession(sessionId) {
+  sessionService.getSessionById(sessionId)
+    .then((session) => {
+      return Promise.all([session, sessionService.getSessionFilesBySessionId(sessionId)]);
+    })
+    .then((result) => {
+      let session = result[0];
+      let sessionFiles = result[1];
+      
+      let links = getFileLinks(sessionFiles);
+      console.log('Sharing session', session);
+      share(session, links);
+    })
+    .catch((error) => {
+      console.warn('Error during shareSession for session' + sessionId, error.stack);  
+    })
 }
 
-// function shareSession(sessionId) {
-//   sessionService.getSessionById(sessionId, function(err, session) {
-//     if (err !== null) {
-//       console.warn('Error loading session with id ' + sessionId);
-//       return;
-//     }
-    
-//     sessionService.getSessionFilesBySessionId(sessionId, function(error, results) {
-//       if (err !== null) {
-//         console.warn('Error loading session_files with session id ' + sessionId);
-//         return;
-//       }
-      
-//       getFileLinks(results, function(links) {
-//         share(session, links);
-//       });
-//     });
-//   });
-// }
-
-// function getFileLinks (sessionFiles, callback) {
-//   let result = {
-//     screenshot_link: null,
-//     slides_link: null,
-//     mp4_link: null,
-//     webm_link: null
-//   };
+function getFileLinks (sessionFiles) {
+  let result = {
+    screenshot_link: null,
+    slides_link: null,
+    mp4_link: null,
+    webm_link: null
+  };
           
-//   sessionFiles.forEach(function(sessionFile) {
-//     let url = sessionFile.url;
+  for (let sessionFile of sessionFiles) {
+    let url = sessionFile.url;
     
-//     if (sessionFile.type === SESSION_FILE_TYPE.SLIDES) {
-//       result.slides_link = url;
-//     } else if (sessionFile.type === SESSION_FILE_TYPE.VIDEO) {
-//       if (sessionFile.mime_type === 'video/webm') {
-//         result.webm_link = url;        
-//       } else if (sessionFile.mime_type === 'video/mp4') {
-//         result.mp4_link = url;        
-//       }
-//     } else if (sessionFile.type === SESSION_FILE_TYPE.SCREENSHOT) {
-//       result.screenshot_link = url;
-//     }
-//   });
+    if (sessionFile.type === SessionFileTypes.SLIDES.value) {
+      result.slides_link = url;
+    } else if (sessionFile.type === SessionFileTypes.VIDEO.value) {
+      if (sessionFile.mime_type === 'video/webm') {
+        result.webm_link = url;        
+      } else if (sessionFile.mime_type === 'video/mp4') {
+        result.mp4_link = url;        
+      }
+    } else if (sessionFile.type === SessionFileTypes.SCREENSHOT.value) {
+      result.screenshot_link = url;
+    }
+  };
   
-//   callback(result);
-// }
+  return result;
+}
 
-// function share(session, fileLinks) {
-//   //POST share   
-//   let shareModel = {
-//     title: session.title,
-//     description: session.description,
-//     speaker: session.speaker_name,
-//     date: session.date, //TODO nicer format
-//     screenshot_link: fileLinks.screenshot_link,
-//     slides_link: fileLinks.slides_link,
-//     mp4_link: fileLinks.mp4_link,
-//     webm_link: fileLinks.webm_link
-//   };
+function share(session, fileLinks) {
+  let shareModel = {
+    title: session.title,
+    description: session.description,
+    speaker: session.speaker_name,
+    date: session.date, //TODO nicer format
+    screenshot_link: fileLinks.screenshot_link,
+    slides_link: fileLinks.slides_link,
+    mp4_link: fileLinks.mp4_link,
+    webm_link: fileLinks.webm_link
+  };
   
-//   request({
-//     url: 'http://localhost:8080/event/api/share',
-//     method: 'POST',
-//     body: shareModel,
-//     json: true
-//   }).then(((response) => {
-//      console.log('Share done!', response);
-//   })
-//   .catch((err) => {
-//     console.log('Error during share', error)
-//   });
-// }
+  request({
+    url: SHARE_URL,
+    method: 'POST',
+    body: shareModel,
+    json: true
+  })
+  .then((response) => {
+    console.log('Share done!', response);
+  })
+  .catch((error) => {
+    console.log('Error during share', error);
+  });
+}
+
+module.exports = {
+  shareSession
+}

@@ -22,10 +22,11 @@ function startConverting(converter, filename, outputPath) {
   
   return new Promise((resolve, reject) => { 
     childProcess.exec(command, function(error, stdout, stderr) {
-      if (error !== null) {
-        reject(getOutputFiles(stdout));
+      if (error) {
+        reject('Converting failed: ' + stderr);
       } else {
-        resolve('Converting failed: ' + stderr);
+        console.log(getOutputFiles(stdout));
+        resolve(getOutputFiles(stdout));
       }
     });
   });
@@ -46,7 +47,7 @@ function getOutputFiles(stdout) {
   return outputFiles;
 }
 
-module.exports.start = (filename, outputPath) => {
+module.exports.convert = (filename, outputPath) => {
   return getConverter()
     .then((converter) => {
       return startConverting(converter, filename, outputPath);
