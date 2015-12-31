@@ -3,7 +3,7 @@
 let videoConverter = require('../converters/videoConverter');
 let messageService = require('../services/messageService');
 let fileService = require('../services/fileService');
-let File = require('../models/fileModel');
+let File = require('../models/File');
 let fs = require('fs');
 let path = require('path');
 

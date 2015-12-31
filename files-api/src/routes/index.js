@@ -7,7 +7,7 @@ let status = require('http-status');
 
 let fileService = require('../services/fileService');
 let convertService = require('../services/convertService');
-let FileModel = require('../models/fileModel');
+let File = require('../models/File');
 
 let multer  = require('multer');
 let upload = multer({ dest: 'uploads', files: 5 });
@@ -24,7 +24,7 @@ function initialize(conf) {
 router.put('/files', upload.single('file'), (request, response) => {
   let uploadedFile = request.file;
 
-  let file = new FileModel({
+  let file = new File({
     filesystem_location: path.join(__dirname, '../../' + uploadedFile.path),
     mime_type: uploadedFile.mimetype
   });
