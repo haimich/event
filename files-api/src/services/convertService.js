@@ -1,46 +1,39 @@
 'use strict';
 
-let videoConverter = require('../convert/videoConverter');
+let videoConverter = require('../converters/videoConverter');
 let messageService = require('../services/messageService');
 let fileService = require('../services/fileService');
 let File = require('../models/fileModel');
 let fs = require('fs');
+let path = require('path');
+
+const CONVERT_STATUS = {
+  FAILED: 'failed',
+  FINISHED: 'finished'
+};
 
 const fileDownloadBasePath = 'http://localhost:8080/event/api/files/download';
-const publicFolderPath = 'public';
-
-function createFile(fileModel) {
-  let f = new File({
-    url : getDownloadPath(fileModel),
-    filesystem_location: fileModel.filesystemLocation, 
-    mime_type: fileModel.mimetype
-  });
-  
-  return fileService.createFile(f);
-}
+const publicFolderPath = path.join(__dirname, '../../public');
 
 function getDownloadPath(fileModel) {
   return fileDownloadBasePath + '/' + fileModel.id;
 }
 
-function sendErrorMessage(config, fileModelId, err) {
+function sendErrorMessage(config, fileModelId, error) {
   let msg = {
-    convertStatus: 'failed',
+    convertStatus: CONVERT_STATUS.FAILED,
     originalFileId: fileModelId,
-    error: err
+    error: error
   };
   
-  if (err.stack) {
-    console.log('Sending message with error', err.stack);
-  } else {
-    console.log('Sending message with error', err);
-  }
+  console.log('Sending message with error', error, error.stack);
+  
   messageService.sendConvertFinishedMessage(msg, config);
 }
 
 function sendSuccessMessage(config, fileModelId, convertedFileIds) {
   let msg = {
-    convertStatus: 'finished',
+    convertStatus: CONVERT_STATUS.FINISHED,
     originalFileId: fileModelId
   };
   
@@ -58,6 +51,7 @@ function isVideo(fileModel) {
 }
 
 /**
+ * 
  * Input: eg. home/juicebox/Code/event/file-api/uploads/image.png
  */
 function getNewLocation(currentLocation) {
@@ -72,16 +66,26 @@ function getNewLocation(currentLocation) {
   return newLocation;
 }
 
-function moveFileToPublicFolder(fileModel, currentLocation, newLocation, config) {
+function moveFileToPublicFolder(fileModel, currentLocation, newLocation) {
   return new Promise((resolve, reject) => { 
-    fs.rename(currentLocation, newLocation, (err) => {
-      if (err) {
-        reject(err);
+    fs.rename(currentLocation, newLocation, (error) => {
+      if (error) {
+        reject(error);
       } else {
         resolve();
       }
     });
   });
+}
+
+function createFile(file) {
+  let f = new File({
+    url: getDownloadPath(file),
+    filesystem_location: file.filesystemLocation, 
+    mime_type: file.mimetype
+  });
+  
+  return fileService.createFile(f);
 }
 
 /** 
@@ -92,7 +96,7 @@ function moveFileToPublicFolder(fileModel, currentLocation, newLocation, config)
 function handleVideoFile(fileModel, config) {
   return videoConverter.convert(fileModel.filesystem_location, publicFolderPath)
     .then(convertedFiles => {
-      let promises = null;
+      let promises = [];
       
       for (let file of convertedFiles) {
         promises.push(createFile(file));
@@ -116,7 +120,7 @@ function handleNonVideoFile(fileModel, config) {
   let currentLocation = fileModel.filesystem_location;
   let newLocation = getNewLocation(currentLocation);
   
-  moveFileToPublicFolder(fileModel, currentLocation, newLocation, config)
+  moveFileToPublicFolder(fileModel, currentLocation, newLocation)
     .then(() => {
       fileModel.filesystem_location = newLocation;
       fileModel.url = getDownloadPath(fileModel);
@@ -124,10 +128,10 @@ function handleNonVideoFile(fileModel, config) {
       return fileService.updateFile(fileModel);
     })
     .then(() => sendSuccessMessage(config, fileModel.id))
-    .catch((err) => sendErrorMessage(config, fileModel.id, err));
+    .catch(error => sendErrorMessage(config, fileModel.id, error));
 }
 
-module.exports.convertFile = (fileId, config) => {
+function convertFile (fileId, config) {
   fileService.getFileById(fileId)
     .then((fileModel) => {
       if (isVideo(fileModel)) {
@@ -139,4 +143,8 @@ module.exports.convertFile = (fileId, config) => {
     .catch((err) => {
       sendErrorMessage(config, fileId, err);
     });
+}
+
+module.exports = {
+  convertFile
 }

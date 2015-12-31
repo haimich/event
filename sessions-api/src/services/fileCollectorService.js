@@ -54,30 +54,32 @@ function handleSimpleFile(sessionId, originalFileId) {
 }
 
 /* More complex case (eg. a video got uploaded and was converted into two videos) */
-// function handleConvertedFiles(sessionId, originalFileId, convertedFileIds) {
+function handleConvertedFiles(sessionId, originalFileId, convertedFileIds) {
+  let promises = [];
   
-//   convertedFileIds.forEach(function(convertedFileId) {
-//     let sessionFileModel = new SessionFile(sessionId, convertedFileId, 'video'); //TODO could be another type than video!
-//     sessionFileModel.state = 'ok';
+  for (let convertedFileId of convertedFileIds) {
+    let sessionFileModel = new SessionFile(sessionId, convertedFileId, SessionFileTypes.VIDEO.value); //TODO could be another type than video!
+    sessionFileModel.state = SessionFileStates.OK.value;
     
-//     sessionService.createSessionFile(sessionFileModel, function(err) {
-//       if (err !== null) {
-//         console.warn('SessionFile could not be created for file ' + convertedFileId);
-//         return;
-//       }
-//       console.log('Created');
-      
-//       sessionService.deleteSessionFileByFileId(originalFileId, function(err2) {
-//         if (err2 !== null) {
-//           console.log('Deleting original file failed for fileId ' + originalFileId, err2);
-//           return;
-//         }
-        
-//         checkCompletenessAndShare(sessionId);
-//       })
-//     });
-//   });
-// }
+    promises.push(handleConvertedSessionFile(sessionFileModel, originalFileId, sessionId));
+  }
+  
+  Promise.all(promises)
+    .catch(error => {
+      console.error('Error in handleConvertedFiles for sessionId', sessionId, error.stack);
+    });
+}
+
+function handleConvertedSessionFile(sessionFileModel, originalFileId, sessionId) {
+  let newSessionFile = null;
+  
+  return sessionService.createSessionFile(sessionFileModel)
+    .then((sessionFile) => {
+      newSessionFile = sessionFile;
+      return sessionService.deleteSessionFileByFileId(originalFileId);
+    })
+    .then(() => checkCompletenessAndShare(sessionId, newSessionFile));
+}
 
 
 function checkCompletenessAndShare(sessionId, originalFileId) {

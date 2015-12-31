@@ -15,6 +15,10 @@ module.exports.createSession = (sessionModel) => {
 	return sessionRepo.createSession(sessionModel);
 }
 
+module.exports.createSessionFile = (sessionFileModel) => {
+  return sessionRepo.createSessionFile(sessionFileModel);
+}
+
 /**
  * Create one or more session file entries at once.
  */

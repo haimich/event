@@ -1,13 +1,13 @@
 'use strict';
 
-let childProcess = require('child_process'),
-    path = require('path');
+let childProcess = require('child_process');
+let path = require('path');
 
 function getConverter() {
   return new Promise((resolve, reject) => { 
     let script = path.join(__dirname, '/bash/get-converter.sh');
     childProcess.exec('bash ' + script, (error, stdout, stderr) => {
-      if (error !== null) {
+      if (error) {
         reject(stderr);
       } else {
         resolve(stdout.replace('\n', ''));
@@ -17,15 +17,14 @@ function getConverter() {
 }
 
 function startConverting(converter, filename, outputPath) {
-  let script  = path.join(__dirname, '/bash/convert-video.sh'),
-      command = `bash ${script} ${filename} ${converter} ${outputPath}`;
+  return new Promise((resolve, reject) => {
+    let script  = path.join(__dirname, '/bash/convert-video.sh');
+    let command = `bash ${script} ${filename} ${converter} ${outputPath}`;
   
-  return new Promise((resolve, reject) => { 
-    childProcess.exec(command, function(error, stdout, stderr) {
+    childProcess.exec(command, (error, stdout, stderr) => {
       if (error) {
         reject('Converting failed: ' + stderr);
       } else {
-        console.log(getOutputFiles(stdout));
         resolve(getOutputFiles(stdout));
       }
     });
@@ -47,9 +46,11 @@ function getOutputFiles(stdout) {
   return outputFiles;
 }
 
-module.exports.convert = (filename, outputPath) => {
+function convert(filename, outputPath) {
   return getConverter()
-    .then((converter) => {
-      return startConverting(converter, filename, outputPath);
-    });
+    .then(converter => startConverting(converter, filename, outputPath));
+}
+
+module.exports = {
+  convert
 }
