@@ -16,6 +16,14 @@ function getConverter() {
   });
 }
 
+/**
+ * Starts the convert process.
+ * 
+ * @param converter the video converter to use
+ * @param filename input file
+ * @param outputPath where to store the converted files
+ * @return the location and mimetypes of the output files
+ */
 function startConverting(converter, filename, outputPath) {
   return new Promise((resolve, reject) => {
     let script  = path.join(__dirname, '/bash/convert-video.sh');
@@ -31,6 +39,14 @@ function startConverting(converter, filename, outputPath) {
   });
 }
 
+/**
+ * Extracts the names of the output files from a stdout string.
+ * 
+ * Example output: [{ mimetype: 'webm', filesystemLocation: 'upload/abc.webm' }]
+ * 
+ * @param stdout Output from convert process 
+ * @return array
+ */
 function getOutputFiles(stdout) {
   let outputFiles = [];
   //remove empty lines
@@ -46,11 +62,19 @@ function getOutputFiles(stdout) {
   return outputFiles;
 }
 
+/**
+ * Convert a video file into webm and mp4.
+ * 
+ * @param filename
+ * @param outputPath
+ * 
+ * @return the location of the output files 
+ */
 function convert(filename, outputPath) {
   return getConverter()
     .then(converter => startConverting(converter, filename, outputPath));
 }
 
 module.exports = {
-  convert
+  convert, getOutputFiles
 }
