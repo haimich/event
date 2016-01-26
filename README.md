@@ -12,6 +12,7 @@
 * Projektstruktur umstellen -> übersichtlicher machen
 * change rest resources and projects to plural from
 * user.name => lastname
+* adapt knex style from: https://github.com/Vincit/objection.js/blob/master/examples/express-es6/migrations/20150613161239_initial_schema.js
 
 ## Feature Ideas
 ### MUST
