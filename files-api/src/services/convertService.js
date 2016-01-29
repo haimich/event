@@ -4,13 +4,10 @@ let videoConverter = require('../converters/videoConverter');
 let messageService = require('../services/messageService');
 let fileService = require('../services/fileService');
 let File = require('../models/File');
+let ConvertStatus = require('../models/ConvertStatus');
+
 let fs = require('fs');
 let path = require('path');
-
-const CONVERT_STATUS = {
-  FAILED: 'failed',
-  FINISHED: 'finished'
-};
 
 const fileDownloadBasePath = 'http://localhost:8080/event/api/files/download';
 const publicFolderPath = path.join(__dirname, '../../public');
@@ -21,7 +18,7 @@ function getDownloadPath(fileModel) {
 
 function sendErrorMessage(config, fileModelId, error) {
   let msg = {
-    convertStatus: CONVERT_STATUS.FAILED,
+    convertStatus: ConvertStatus.FAILED.value,
     originalFileId: fileModelId,
     error: error
   };
@@ -33,7 +30,7 @@ function sendErrorMessage(config, fileModelId, error) {
 
 function sendSuccessMessage(config, fileModelId, convertedFileIds) {
   let msg = {
-    convertStatus: CONVERT_STATUS.FINISHED,
+    convertStatus: ConvertStatus.FINISHED.value,
     originalFileId: fileModelId
   };
   
