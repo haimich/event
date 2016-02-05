@@ -25,3 +25,7 @@ npm-debug.log*
 # Microsoft Code files
 .vscode
 jsconfig.json
+
+# IntelliJ IDEA files
+.idea
+*.iml
