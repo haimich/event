@@ -1,0 +1,10 @@
+{
+  "name": "event-rabbitmq",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "dependencies": {
+    "dockerode": "^2.2.9"
+  }
+}
