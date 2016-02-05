@@ -57,7 +57,6 @@ docker.pull('rabbitmq:management', function (err, stream) {
                 ],
                 ExposedPorts: { '15672/tcp': {} },
                 Name: "event-rabbitmq",
-                Cmd: ['/bin/bash']
             }, function(err, container) {
                 if (err == null && container != null) {
 
