@@ -1,4 +1,4 @@
-proxy: 9090
+proxy: 9000
 frontend: 3000
 users-api: 3010
 sessions-api: 3020

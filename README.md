@@ -13,6 +13,9 @@ make setup
 make npm-install-all
 make start-docker
 make migrate-databases
+
+cd ..
+npm start
 ```
 
 ## Feature Ideas

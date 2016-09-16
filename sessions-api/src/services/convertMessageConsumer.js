@@ -4,7 +4,7 @@ let request = require('request-promise');
 
 let messageQueue = require('../helpers/message-queue');
 let sessionService = require('../services/sessionService');
-let SessionFileModel = require('../models/sessionFileModel');
+let SessionFile = require('../models/SessionFile');
 
 const SESSION_FILE_STATE = {
   ERROR: 'error',
@@ -18,21 +18,21 @@ const SESSION_FILE_TYPE = {
 
 module.exports.listen = (config) => {
   let host = config.messageQueue.url + ':' + config.messageQueue.port;
-  
+
   messageQueue.consumeMessage(config.messageQueue.name, host, (msg) => {
     let content = JSON.parse(msg.content);
     console.log('MESSAGE RECEIVED', content);
-    
+
     let originalFileId   = content.originalFileId;
     let convertStatus    = content.convertStatus;
     let convertedFileIds = content.convertedFileIds || null;
-    
+
     sessionService.getSessionIdByFileId(originalFileId)
       .then((sessionId) => {
-        
+
       })
       .catch((err) => {
-        
+
       });
   });
 }
@@ -55,7 +55,7 @@ module.exports.listen = (config) => {
       //   });
       //   return;
       // }
-      
+
       // if (convertedFileIds !== null && convertedFileIds.length >= 1) {
       //   handleConvertedFiles(sessionId, originalFileId, convertedFileIds);
       // } else {
@@ -65,24 +65,24 @@ module.exports.listen = (config) => {
 
 /* More complex case (eg. a video got uploaded and was converted into two videos) */
 // function handleConvertedFiles(sessionId, originalFileId, convertedFileIds) {
-  
+
 //   convertedFileIds.forEach(function(convertedFileId) {
-//     let sessionFileModel = new SessionFileModel(sessionId, convertedFileId, 'video'); //TODO could be another type than video!
-//     sessionFileModel.state = 'ok';
-    
-//     sessionService.createSessionFile(sessionFileModel, function(err) {
+//     let sessionFile = new SessionFile(sessionId, convertedFileId, 'video'); //TODO could be another type than vesdeo!
+//     sessionFile.state = 'oes';
+
+//     sessionService.createSessionFile(sessionFile, function(err)es{
 //       if (err !== null) {
 //         console.warn('SessionFile could not be created for file ' + convertedFileId);
 //         return;
 //       }
 //       console.log('Created');
-      
+
 //       sessionService.deleteSessionFileByFileId(originalFileId, function(err2) {
 //         if (err2 !== null) {
 //           console.log('Deleting original file failed for fileId ' + originalFileId, err2);
 //           return;
 //         }
-        
+
 //         checkCompletenessAndShare(sessionId);
 //       })
 //     });
@@ -93,7 +93,7 @@ module.exports.listen = (config) => {
 //   setSessionFileState(sessionId, originalFileId, SESSION_FILE_STATE.OK, function(error) {
 //     if (error !== null) {
 //       console.warn('Error updating status to OK of session_file with file_id ' + originalFileId + ' in session ' + sessionId, error);
-//       return;          
+//       return;
 //     }
 //     checkCompletenessAndShare(sessionId);
 //   });
@@ -107,12 +107,12 @@ module.exports.listen = (config) => {
 //     }
 //     if (isComplete) {
 //       console.log('All files there, yayyy! SessionId: ' + sessionId);
-      
+
 //       sessionService.updateSessionState(sessionId, 2, function(err3) { //TODO 2 should be an enum
 //         shareSession(sessionId);
 //       });
 //     } else {
-//       console.log('Not yet, boooh! SessionId: ' + sessionId);            
+//       console.log('Not yet, boooh! SessionId: ' + sessionId);
 //     }
 //   });
 // }
@@ -133,7 +133,7 @@ module.exports.listen = (config) => {
 //           isComplete = false;
 //         }
 //       });
-      
+
 //       callback(null, isComplete);
 //     }
 //   })
@@ -145,13 +145,13 @@ module.exports.listen = (config) => {
 //       console.warn('Error loading session with id ' + sessionId);
 //       return;
 //     }
-    
+
 //     sessionService.getSessionFilesBySessionId(sessionId, function(error, results) {
 //       if (err !== null) {
 //         console.warn('Error loading session_files with session id ' + sessionId);
 //         return;
 //       }
-      
+
 //       getFileLinks(results, function(links) {
 //         share(session, links);
 //       });
@@ -166,28 +166,28 @@ module.exports.listen = (config) => {
 //     mp4_link: null,
 //     webm_link: null
 //   };
-          
+
 //   sessionFiles.forEach(function(sessionFile) {
 //     let url = sessionFile.url;
-    
+
 //     if (sessionFile.type === SESSION_FILE_TYPE.SLIDES) {
 //       result.slides_link = url;
 //     } else if (sessionFile.type === SESSION_FILE_TYPE.VIDEO) {
 //       if (sessionFile.mime_type === 'video/webm') {
-//         result.webm_link = url;        
+//         result.webm_link = url;
 //       } else if (sessionFile.mime_type === 'video/mp4') {
-//         result.mp4_link = url;        
+//         result.mp4_link = url;
 //       }
 //     } else if (sessionFile.type === SESSION_FILE_TYPE.SCREENSHOT) {
 //       result.screenshot_link = url;
 //     }
 //   });
-  
+
 //   callback(result);
 // }
 
 // function share(session, fileLinks) {
-//   //POST share   
+//   //POST share
 //   let shareModel = {
 //     title: session.title,
 //     description: session.description,
@@ -198,7 +198,7 @@ module.exports.listen = (config) => {
 //     mp4_link: fileLinks.mp4_link,
 //     webm_link: fileLinks.webm_link
 //   };
-  
+
 //   request({
 //     url: 'http://localhost:8080/event/api/share',
 //     method: 'POST',
