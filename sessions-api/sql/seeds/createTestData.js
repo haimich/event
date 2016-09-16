@@ -1,14 +1,12 @@
 'use strict';
 
-const SESSIONS = 'sessions';
-
 exports.seed = (knex, Promise) => {
   return Promise.join(
     // Delete ALL existing entries
-    knex(SESSIONS).del(),
+    knex('sessions').del(),
 
     // Insert seed entries
-    knex(SESSIONS).insert({
+    knex('sessions').insert({
       title: 'Test presentation',
       description: 'My test presentation',
       date: '2015-10-23',

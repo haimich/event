@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  database:
+    image: mysql:latest
+    container_name: event-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=event
+      - MYSQL_USER=event
+      - MYSQL_PASSWORD=event
+    ports:
+      - 33006:3306
+
+  queue:
+    image: rabbitmq:management
+    container_name: event-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=jack
+      - RABBITMQ_DEFAULT_PASS=rabbit
+    ports:
+      - 15672:15672
+      - 5672:5672

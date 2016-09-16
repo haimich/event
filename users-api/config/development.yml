@@ -3,6 +3,7 @@ knex: # knex options get imported to knexfile.js to be able to use knex command 
   debug: false
   connection:
     host: localhost
+    port: 33006
     database: event
     user: event
     password: event

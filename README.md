@@ -2,9 +2,18 @@
 
 [![Join the chat at https://gitter.im/haimich/event](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/haimich/event)
 
-## TODOs 4.12.2015
-* db initialization überdenken
-* adapt knex style from: https://github.com/Vincit/objection.js/blob/master/examples/express-es6/migrations/20150613161239_initial_schema.js
+## Setup
+**Prerequisites:**
+* NodeJS
+* Docker
+
+```bash
+cd setup
+make setup
+make npm-install-all
+make start-docker
+make migrate-databases
+```
 
 ## Feature Ideas
 ### MUST
@@ -31,7 +40,7 @@
 * connect to reservation tool
 * Hashtags for events/sessions
 * campus lists: who takes part, who is next, topic ideas
- 
+
 ### NICE TO HAVE
 * Upload photos for event
 * Todo list for events
