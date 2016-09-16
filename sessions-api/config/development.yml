@@ -15,6 +15,6 @@ knex: # knex options get imported to knexfile.js to be able to use knex command 
     directory: ./sql/seeds
 
 messageQueue:
-  url: amqp://localhost
+  url: amqp://jack:rabbit@localhost
   port: 5672
   name: converted_files

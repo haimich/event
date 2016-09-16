@@ -15,7 +15,7 @@ module.exports = (grunt) ->
   # Called by Jenkins.
   grunt.registerTask 'ci', ['generate-json', 'validate-swagger']
 
-  ONEJSON = 'static/event/event.json'
+  EVENT_JSON = 'static/event/event.json'
   grunt.registerTask 'generate-json', 'Generate all yaml file to one json', ->
     output_json =
       swagger: '2.0'
@@ -44,19 +44,19 @@ module.exports = (grunt) ->
       appendKeys('definitions')
       appendKeys('paths')
 
-    grunt.file.write(ONEJSON, JSON.stringify(output_json, null, " "))
+    grunt.file.write(EVENT_JSON, JSON.stringify(output_json, null, " "))
     console.log 'Generate swagger file successful'
 
-  grunt.registerTask 'validate-swagger', 'Validates the one.json swagger definition', ->
+  grunt.registerTask 'validate-swagger', 'Validates the event.json swagger definition', ->
     spec = require('swagger-tools').specs.v2
-    swaggerObject = grunt.file.readJSON(ONEJSON)
+    swaggerObject = grunt.file.readJSON(EVENT_JSON)
     spec.validate swaggerObject, (err, result) ->
       throw err if err
       if result?
         {errors, warnings} = result
         write = (error) ->
           grunt.log.writeln "#/#{error.path.join '/'}: #{error.message}"
-        
+
         errors.forEach(write)
         warnings.forEach(write)
 

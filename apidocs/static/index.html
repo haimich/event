@@ -2,35 +2,35 @@
 <html>
   <head>
     <title>EVENT API Doc</title>
-    <link href='apidocs/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
-    <link href='apidocs/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-    <link href='apidocs/css/reset.css' media='print' rel='stylesheet' type='text/css'/>
-    <link href='apidocs/css/screen.css' media='print' rel='stylesheet' type='text/css'/>
+    <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
+    <link href='css/screen.css' media='print' rel='stylesheet' type='text/css'/>
 
     <!-- Custom -->
-    <link href='apidocs/event/css/event.css' rel='stylesheet' type='text/css'/>
-    <link href='apidocs/event/css/foundation.min.css' rel='stylesheet' type='text/css'/>
-    <link href='apidocs/event/css/font-awesome.min.css' rel='stylesheet' type='text/css'/>
+    <link href='event/css/event.css' rel='stylesheet' type='text/css'/>
+    <link href='event/css/foundation.min.css' rel='stylesheet' type='text/css'/>
+    <link href='event/css/font-awesome.min.css' rel='stylesheet' type='text/css'/>
     <!-- Custom -->
 
-    <script type="text/javascript" src="apidocs/lib/shred.bundle.js"></script>
-    <script src='apidocs/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
-    <script src='apidocs/lib/jquery.slideto.min.js' type='text/javascript'></script>
-    <script src='apidocs/lib/jquery.wiggle.min.js' type='text/javascript'></script>
-    <script src='apidocs/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-    <script src='apidocs/lib/handlebars-2.0.0.js' type='text/javascript'></script>
-    <script src='apidocs/lib/underscore-min.js' type='text/javascript'></script>
-    <script src='apidocs/lib/backbone-min.js' type='text/javascript'></script>
-    <script src='apidocs/lib/swagger.js' type='text/javascript'></script>
-    <script src='apidocs/lib/swagger-client.js' type='text/javascript'></script>
-    <script src='apidocs/swagger-ui.js' type='text/javascript'></script>
-    <script src='apidocs/lib/highlight.7.3.pack.js' type='text/javascript'></script>
-    <script src='apidocs/lib/marked.js' type='text/javascript'></script>
+    <script type="text/javascript" src="lib/shred.bundle.js"></script>
+    <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+    <script src='lib/handlebars-2.0.0.js' type='text/javascript'></script>
+    <script src='lib/underscore-min.js' type='text/javascript'></script>
+    <script src='lib/backbone-min.js' type='text/javascript'></script>
+    <script src='lib/swagger.js' type='text/javascript'></script>
+    <script src='lib/swagger-client.js' type='text/javascript'></script>
+    <script src='swagger-ui.js' type='text/javascript'></script>
+    <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
+    <script src='lib/marked.js' type='text/javascript'></script>
 
     <!-- Custom -->
-    <script src='apidocs/event/js/foundation.min.js'></script>
-    <script src='apidocs/event/js/one.js' type='text/javascript'></script>
-    <!-- Custom -->    
+    <script src='event/js/foundation.min.js'></script>
+    <script src='event/js/one.js' type='text/javascript'></script>
+    <!-- Custom -->
 
   </head>
 
@@ -39,19 +39,19 @@
     <div class="one-container">
       <div class="one-main">
         <div class="one-header">
-          <a href="/event"><img class="apidoc-logo" src="apidocs/event/images/apidoc.png" title="Go to EVENT" /></a>
+          <a href="/event"><img class="apidoc-logo" src="event/images/apidoc.png" title="Go to EVENT" /></a>
 
           <hr class="one-header" />
         </div>
         <div class="one-body">
           <p>The REST API allows everyone to programmatically use the services provided by EVENT.</p>
-          
+
           <!-- Endpoint documentation -->
           <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
           <div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
           <!-- Endpoint documentation -->
         </div>
-      </div> 
+      </div>
     </div>
 
   <div id="oneModal" style="top: 50px;" class="reveal-modal one-description" data-reveal>
@@ -78,7 +78,7 @@
 
     <h2><i class="fa fa-code fa-fw"></i> Versioning</h2>
       <p>We decided that versioning our whole API would add too much operations overhead. Instead, we decided to follow this approach:</p>
-      
+
       <ul>
         <li>when we have to <i class="one-italic">add</i> resources we do this without providing versioning because clients should not be affected by this</li>
         <li>in case of a breaking change of an existing resource we duplicate the method and introduce a temporary <code>accept-header</code> that allows you to use the new version</li>
@@ -104,7 +104,7 @@
       <li>when someone joins a wall he gets added as a member to the group</li>
       <li>theoretically there could be more than one wall associated with a group</li>
       <li>posts, comments and votes belong to a wall</li>
-    </ul> <a class="close-reveal-modal">&#215;</a> 
+    </ul> <a class="close-reveal-modal">&#215;</a>
   </div>
 
 </body>

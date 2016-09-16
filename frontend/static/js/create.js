@@ -7,7 +7,7 @@ $(document).ready(function() {
   $('.autocomplete.speaker').autocomplete({
     serviceUrl: '/event/api/users',
     dataType: 'json',
-    paramName: 'find',
+    paramName: 'filter',
     transformResult: function(speakers) {
       var suggestions = [];
       for (var i in speakers) {
@@ -121,7 +121,7 @@ $(document).ready(function() {
       $('#errorMessage').slideDown();
       return;
     }
-    
+
     var files = [];
     if (formData.sessionSlidesId > 0) {
       files.push({ id: formData.sessionSlidesId, type: 'slides' });
@@ -132,7 +132,7 @@ $(document).ready(function() {
     if (formData.sessionVideoId > 0) {
       files.push({ id: formData.sessionVideoId, type: 'video' });
     }
-    
+
     var session = {
       title:       formData.title,
       speaker_id:  formData.speakerId,
@@ -154,4 +154,4 @@ $(document).ready(function() {
     });
   });
 
-}); 
+});

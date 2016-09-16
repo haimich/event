@@ -8,10 +8,10 @@ exports.up = (knex, Promise) => {
       table.string('mime_type');
       table.string('filesystem_location');
       table.string('url');
-      
+
       table.timestamp('created_at').defaultTo(knex.fn.now());;
       table.timestamp('modified_at').defaultTo(knex.fn.now());;
-      
+
       table.index(['id'], 'index_id');
     })
   ]);
@@ -22,6 +22,6 @@ exports.up = (knex, Promise) => {
  */
 exports.down = (knex, Promise) => {
   return Promise.all([
-    knex.schema.dropTable('files')
+    knex.schema.dropTableIfExists('files')
   ]);
 };
