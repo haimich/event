@@ -18,6 +18,10 @@ cd ..
 npm start
 ```
 
+## Screenshots
+![screenshot_1](documentation/screenshot_2.png)
+![screenshot_1](documentation/screenshot_1.png)
+
 ## Feature Ideas
 ### MUST
 * Create/View Session
